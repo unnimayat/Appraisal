@@ -134,19 +134,20 @@
   }
   
 .box{
-    width: 18vw;
-    height: 6vh;
+    width: 10vw;
+    height: 4vh;
     background-color:  #6e84a3;
-    border: 1px solid #394867; 
+    border: 0.1px solid #394867;
+    
 }
 .boxbig{
-    width: 55vw;
+    width: 30vw;
     height: 10vh;
-    background-color: #7989a2;
+    background-color: #6e84a3;
 }
 .ibox{
-  width: 18vw; 
-  height: 6vh;
+  width: 13vw; 
+  height: 5vh;
   border: 1px solid #394867; /* Border color for input fields */
   border-radius: 1px;
   outline: none;
@@ -155,4 +156,31 @@
 .score-subdivision{
     display: flex;
     flex-direction: row;
+}
+.smallbox{
+    width: 13vw;
+    height: 4vh;
+    background-color:  #212A3E;
+    border: .5px solid #eaedf1; 
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 25px;
+}
+.tbox{
+    background-color: #212A3E;
+    width: 100px;
+}
+.sbox{
+    width: 10vw;
+    height: 4vh;
+    background-color:   #6e84a3;
+     
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 25px;
 }

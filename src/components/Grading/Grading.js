@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import './SelfAppraisal.css';
+import './Grading.css';
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
-export default function SelfAppraisal() {
+export default function Grading() {
   const [name, setName] = useState('');
   const [position, setPosition] = useState('');
   const [date, setDate] = useState('');
@@ -41,7 +41,7 @@ export default function SelfAppraisal() {
         <div className="right">
           <div className="top">
             {/* Display the image */}
-            <h1 className='name' style={{marginRight:800,marginTop:30}}>Descriptive Assessment</h1>
+            <h1 className='name' style={{marginRight:600,marginTop:30}}>3. Grading against performance parameters</h1>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginRight: '100px' }}>
                 <img src={userImage} alt="Example" className='profileimage' />
 
@@ -58,18 +58,40 @@ export default function SelfAppraisal() {
              
               
             <div className="profile-page">
+            <table>
+                <thead>
+                <tr>
+                    <th className='smallbox'>Nature of performance assessment</th>
+                    <th className='smallbox'>Outstanding</th>
+                    <th className='smallbox'>Excellent</th>
+                    <th className='smallbox'>Good</th>
+                    <th className='smallbox'>Average</th>
+                    <th className='smallbox'>Poor</th>
+                    
+                </tr>
+                <tr>
+                    <th className='smallbox'>Points to be awarded</th>
+                    <th className='smallbox'>10</th>
+                    <th className='smallbox'>8</th>
+                    <th className='smallbox'>6</th>
+                    <th className='smallbox'>4</th>
+                    <th className='smallbox'>2</th>
+                    
+                </tr>
+                </thead>
+            </table>
             <div>
-      <h1 className='name' style={{ fontWeight: 300, fontSize: 16 ,marginTop:-15}}>Provide information in the following table, related to all responsibilities and tasks assigned to you during the period under review</h1>
+      <h1 className='name' style={{ fontWeight: 400, fontSize: 16 ,marginTop:15}}>3.1 Professional Integrity and Team Contribution parameters</h1>
       {/* <button onClick={addRow}>Add Row</button> */}
       {/* table */}
       <table>
         <thead>
           <tr>
-            <th className='box'>Deliverables as per approved JD</th>
-            <th className='boxbig'>Qualitative Assessment
-                <th className='box'>Self Appraisal</th>
+            <th className='boxbig'>Parameter</th>
+            <th className='boxbig'>Points Awarded
+                <th className='box'>Self</th>
                 <th className='box'>Evaluation</th>
-                <th className='box'>Comments</th>
+                <th className='box'>Review</th>
             </th>
           </tr>
         </thead>
@@ -77,7 +99,7 @@ export default function SelfAppraisal() {
         <tbody>
           {tableData.map((row, index) => (
             <tr key={index}>
-              <td className='ibox'><input className='ibox' type="text" value={row.subject} /></td>
+              <td className='ibox' style={{ width: "39vw"}}><input className='ibox' style={{ width: "39vw"}} type="text" value={row.subject} /></td>
               <td className='ibox'>
                 <div className="score-subdivision">
                   <input className='ibox' type="text" value={row.internalScore}   />
@@ -88,6 +110,15 @@ export default function SelfAppraisal() {
             </tr>
           ))}
         </tbody>
+
+         
+          <tr>
+            <th className='box' style={{width:10}}>Total</th>
+            <th className='tbox'>10</th>
+            <th className='tbox'>10</th>
+            <th className='tbox'>6</th> 
+          </tr>
+         
       </table>
     </div>
                
