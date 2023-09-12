@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import './Login.css';  
 
 function Login() {
@@ -6,18 +7,27 @@ function Login() {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
   
-    const handleLogin = (e) => {
-      e.preventDefault();
-  
-      // Implement your authentication logic here
-      if (userId === 'exampleuser' && password === 'password123') {
-        // Successful login, redirect or perform the desired action
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post('http://localhost:3005/login', {
+        userId,
+        password,
+      });
+
+      if (response.status === 200) {
+        // Successful login, save the JWT token to local storage
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('role',response.data.role);
+        // Redirect or perform the desired action
         alert('Login successful!');
-      } else {
-        // Failed login attempt, display an error message
-        setErrorMessage('Invalid user ID or password. Please try again.');
       }
-    };
+    } catch (error) {
+      // Failed login attempt, display an error message
+      setErrorMessage('Invalid user ID or password. Please try again.');
+    }
+  };
   
     return (
       <div className="login-page">
