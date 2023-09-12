@@ -6,6 +6,8 @@ import axios from 'axios';
 
 // Retrieve the token from local storage
 const token = localStorage.getItem('token');
+const role = localStorage.getItem('role');
+const ID = localStorage.getItem('ID');
 
 // Set the default Authorization header for Axios
 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -44,8 +46,8 @@ export default function Home() {
 
                 {/* Display the name and id */}
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <h3 className='name'>Your Name</h3>
-                    <p className='name' style={{ fontWeight: 300, fontSize: 16 ,marginTop:-15}}>12345</p>
+                    <h3 className='name'>{role} ID:</h3>
+                    <p className='name' style={{ fontWeight: 300, fontSize: 16 ,marginTop:-15}}>{ID}</p>
                 </div>
             </div>
 
