@@ -20,6 +20,7 @@ function Login() {
         // Successful login, save the JWT token to local storage
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('role',response.data.role);
+        localStorage.setItem('ID',userId);
         // Redirect or perform the desired action
         alert('Login successful!');
       }
