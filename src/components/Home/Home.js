@@ -2,6 +2,13 @@ import React, { useState } from 'react';
 import './Home.css';
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
+import axios from 'axios';
+
+// Retrieve the token from local storage
+const token = localStorage.getItem('token');
+
+// Set the default Authorization header for Axios
+axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 export default function Home() {
   const [name, setName] = useState('');
   const [position, setPosition] = useState('');
