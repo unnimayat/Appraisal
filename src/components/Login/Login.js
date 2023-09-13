@@ -26,7 +26,7 @@ function Login() {
       
         // Redirect based on the user's role
         if (userRole === 'evaluator') {
-          window.location.href = '/evaluation';
+          window.location.href = '/evaluationlist';
         } else if (userRole === 'reviewer') {
           window.location.href = '/reviewer';
         } else {

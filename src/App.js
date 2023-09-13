@@ -1,18 +1,4 @@
-// import React from 'react'
-
-//   return (
-//     <div>
-//       <Login/>
-//       {/* <Home /> */}
-//       {/* <SelfAppraisal/> */}
-//     </div>
-//   );
-// }
-
-// export default App;
-
-// App.js
-import React from 'react'; 
+ import React from 'react'; 
 import {Routes,Route, BrowserRouter} from 'react-router-dom';
 import Home from "./components/Home/Home"
 import SelfAppraisal from './components/SelfAppraisal/SelfAppraisal';
@@ -22,6 +8,7 @@ import Responsibility from './components/Grading/Responsibility'
 import Login from './components/Login/Login'
 import Reviewer from './components/Reviewer/Reviewer';
 import Evaluation from './components/Evaluation/Evaluation';
+import ListEval from './components/Evaluation/ListEval';
 
 function App() {
   return (
@@ -35,6 +22,7 @@ function App() {
       <Route path="/responsibility" element={<Responsibility/>} />
       <Route path="/evaluation" element={<Evaluation/>} />
       <Route path="/reviewer" element={<Reviewer/>} />
+      <Route path="/evaluationlist" element={<ListEval/>} />
     </Routes>
   </BrowserRouter>
   );
