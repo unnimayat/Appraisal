@@ -30,10 +30,9 @@ export default function ListEval() {
 
   useEffect(() => {
     // Make a GET request to your backend endpoint when the component mounts
-    fetch('/profiles/:ID')
-      .then(response => response.json())
-      .then(data => {
-        setProfiles(data);
+    axios.get('http://localhost:3005/evaluator/profiles')
+      .then(response => {
+        setProfiles(response.data);
       })
       .catch(error => {
         console.log(error);
@@ -86,7 +85,7 @@ export default function ListEval() {
               <div className="profile-section">
               <ul>
           {profiles.map(profile => (
-            <li key={profile._id}>{profile._id}</li>
+            <li key={profile.userId}>{profile.Name}</li>
           ))}
         </ul>
                 {/* <button type="submit" className='save' onClick={handleSave} >
