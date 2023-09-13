@@ -1,4 +1,6 @@
-import React, { useState ,useEffect} from 'react';
+import React, { useState ,useEffect} from 'react'; 
+import { Link } from 'react-router-dom';
+
 import './ListEval.css';
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
@@ -30,14 +32,16 @@ export default function ListEval() {
 
   useEffect(() => {
     // Make a GET request to your backend endpoint when the component mounts
-    axios.get('http://localhost:3005/evaluator/profiles')
+    axios.get(`https://appbackend-rala.onrender.com/evaluator/profiles/?id=${id}`)
+
       .then(response => {
         setProfiles(response.data);
+        console.log(response.data); // Check the response data in the console
       })
       .catch(error => {
         console.log(error);
       });
-  }, []);
+  }, [id]);
 
  
 
@@ -84,10 +88,14 @@ export default function ListEval() {
              
               <div className="profile-section">
               <ul>
-          {profiles.map(profile => (
-            <li key={profile.userId}>{profile.Name}</li>
-          ))}
-        </ul>
+  {profiles.map(profile => (
+    <li key={profile.userId}>
+      {/* <Link to={`/evaluation/${profile.userId}`}>{profile.Name}</Link> */}
+      <Link to={`/evaluation/${profile.userId}`}>{profile.Name}</Link>
+    </li>
+  ))}
+</ul>
+
                 {/* <button type="submit" className='save' onClick={handleSave} >
                   Save
                 </button> */}

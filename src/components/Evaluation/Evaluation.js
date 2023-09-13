@@ -2,12 +2,14 @@ import React, { useState ,useEffect} from 'react';
 import './Evaluation.css';
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
-import axios from 'axios';
+import axios from 'axios'; 
 
+import { Params,useParams } from 'react-router-dom';
 // Retrieve the token from local storage
 const token = localStorage.getItem('token');
 
-export default function Evaluation() {
+export default function Evaluation( ) {
+  const { match } = useParams();
   const[id,setId]=useState('');
   const [name, setName] = useState('');
   const [position, setPosition] = useState('');
@@ -20,7 +22,27 @@ export default function Evaluation() {
   const [evaluation,setEvaluation]=useState('');
   const [save,setSave]=useState(false);
   const isEvaluator= position === 'evaluator'; 
-  
+  // const profileId = match.params.id;
+  const params=useParams();
+    console.log(params.id);
+    useEffect(()=>{
+      getDetails();
+    })
+
+    async function getDetails(){
+      console.log("HAI");
+    // let result = await fetch(`http://localhost:5000/content/${params.id}`);
+    // console.log(result);
+    // result=await result.json();
+    // patients=result;
+    // console.log("P",patients.name);
+    // setPname(patients.name);
+    // setPdoc(patients.consulting_doc);
+    // setPdis(patients.desc);
+    // setPmed(patients.medicine);
+    
+    }
+
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
     const token = localStorage.getItem('token');

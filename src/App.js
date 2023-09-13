@@ -20,8 +20,9 @@ function App() {
       <Route path="/selfappraisal" element={<SelfAppraisal/>} />
       <Route path="/grading" element={<Grading/>} />
       <Route path="/knowledge" element={<Knowledge/>} />
-      <Route path="/responsibility" element={<Responsibility/>} />
-      <Route path="/evaluation" element={<Evaluation/>} />
+      <Route path="/responsibility" element={<Responsibility/>} /> 
+      <Route path="/evaluation/:id" element={<Evaluation />} />
+
       <Route path="/reviewer" element={<Reviewer/>} />
       <Route path="/evaluationlist" element={<ListEval/>} />
       <Route path="/reviewinglist" element={<ListRev/>} />
