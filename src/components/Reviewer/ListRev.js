@@ -32,7 +32,7 @@ export default function ListRev() {
 
   useEffect(() => {
     // Make a GET request to your backend endpoint when the component mounts
-    axios.get(`https://appbackend-rala.onrender.com/reviewer/profiles/?id=${id}`)
+    axios.get(`https://appbackend-rala.onrender.com/reviewer/profiles`)
 
       .then(response => {
         setProfiles(response.data);

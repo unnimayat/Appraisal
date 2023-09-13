@@ -24,6 +24,67 @@ export default function GradingR() {
   const [tableData, setTableData] = useState([
     { parameter: '', selfScore: '', evalScore: '', reviewScore: '' },
   ]);
+  useEffect(() => {
+    // Make a GET request to fetch questions and self-scores
+    axios
+      .post('http://localhost:3005/reviewer/get-professional-integrity', {
+        apprId: "64fd8e3b9a14a681cba43ad3"
+      }) // Replace with your API endpoint
+      .then((response) => {
+        const questions = response.data.professionalIntegrityQuestions;
+        // Map the questions to table data
+        const newTableData = questions.map((question) => ({
+          parameter: question.questionText,
+          selfScore: question.selfScore,
+          evalScore: question.evaluatorScore,
+          reviewScore: question.reviewerScore !== null ? question.reviewerScore : '',
+        }));
+
+        setTableData(newTableData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+
+  const handleSave = () => {
+    // Create the request body structure based on your requirements
+    const requestBody = {
+      userId: "64fd8e3b9a14a681cba43ad3",
+      responses: tableData.map((row) => ({
+        text: row.parameter,
+        score: row.reviewScore,
+      })),
+    };
+    console.log(requestBody)
+    // Make a POST request to your backend endpoint
+    axios
+      .post('http://localhost:3005/reviewer/evaluate-professional-integrity-parameter', requestBody)
+      .then((response) => {
+        // Handle the response as needed (e.g., show a success message)
+        alert('Data saved successfully!');
+      })
+      .catch((error) => {
+        // Handle any errors (e.g., display an error message)
+        console.error('Failed to save data:', error);
+      });
+  };
+  // Function to add a new row
+  //   const addRow = () => {
+  //     setTableData([...tableData, { subject: '', grade: '', internalScore: '', externalScore: '' }]);
+  //   };
+
+  const handleEvalScoreChange = (index, event) => {
+    const { value } = event.target;
+    console.log(value)
+    // Create a copy of the tableData array
+    const updatedTableData = [...tableData];
+    // Update the evalScore for the specified row
+    updatedTableData[index].reviewScore = value;
+    // Update the state with the new data
+    setTableData(updatedTableData);
+  };
 
   // Function to add a new row
 //   const addRow = () => {
@@ -114,7 +175,7 @@ export default function GradingR() {
                 <div className="score-subdivision">
                   <input className='ibox' type="text" value={row.selfScore}    disabled={isReviewer} />
                   <input className='ibox' type="text" value={row.evalScore} disabled={isReviewer}/>
-                  <input className='ibox' type="text" value={row.reviewScore}  />
+                  <input className='ibox' type="text" value={row.reviewScore} onChange={(e) => handleEvalScoreChange(index, e)} />
                 </div>
               </td>
             </tr>
@@ -134,10 +195,15 @@ export default function GradingR() {
                
 
               <div className="profile-section">
-              <button type="submit" onClick={() => (window.location.href = '/knowledgereviewing')}>
-                Save
-              </button>
-
+                <button
+                  type="submit"
+                  onClick={() => {
+                    handleSave(); // Call the handleSave function
+                    window.location.href = '/knowledgereviewing'; // Redirect to the desired page
+                  }}
+                >
+                  Save
+                </button>
               </div>
             </div>
           </div>
