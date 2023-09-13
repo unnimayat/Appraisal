@@ -10,7 +10,9 @@ import Reviewer from './components/Reviewer/Reviewer';
 import Evaluation from './components/Evaluation/Evaluation';
 import ListEval from './components/Evaluation/ListEval';
 import ListRev from './components/Reviewer/ListRev';
-
+import GradingE from './components/Evaluation/GradingE';
+import KnowledgeE from './components/Evaluation/KnowledgeE';
+import ResponsibilityE from './components/Evaluation/ResponsibilityE';
 function App() {
   return (
     <BrowserRouter>
@@ -22,7 +24,9 @@ function App() {
       <Route path="/knowledge" element={<Knowledge/>} />
       <Route path="/responsibility" element={<Responsibility/>} /> 
       <Route path="/evaluation/:id" element={<Evaluation />} />
-
+      <Route path="/gradingevaluation" element={<GradingE />} />
+      <Route path="/knowledgeevaluation" element={<KnowledgeE />} />
+      <Route path='/responsibilityevaluation' element={<ResponsibilityE/>}/>
       <Route path="/reviewer" element={<Reviewer/>} />
       <Route path="/evaluationlist" element={<ListEval/>} />
       <Route path="/reviewinglist" element={<ListRev/>} />

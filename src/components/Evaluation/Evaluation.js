@@ -52,7 +52,7 @@ export default function Evaluation() {
 
   useEffect(() => {
     // Make a GET request to your backend endpoint when the component mounts
-    axios.post(`http://localhost:3005/self/basic-info`, { apprId:"64fd8e3b9a14a681cba43ad3"})
+    axios.post(`https://appbackend-rala.onrender.com/self/basic-info`, { apprId:"64fd8e3b9a14a681cba43ad3"})
       .then(response => {
         setformData(response.data)
         console.log(formData); // Check the response data in the console
@@ -63,43 +63,9 @@ export default function Evaluation() {
       });
   }, [apprid]);
 
-  // const handleSave = async (e) => {
-  //   e.preventDefault();
-
-  //   if (
-  //     name.trim() === '' ||
-  //     position.trim() === '' ||
-  //     period.trim() === '' ||
-  //     date.trim() === '' ||
-  //     review.trim() === '' ||
-  //     evaluation.trim() === ''
-  //   ) {
-  //     alert('All fields are mandatory. Please enter values.');
-  //     return;
-  //   }
-  //   try {
-  //     const formData = {
-  //       Name: name,
-  //       position: position,
-  //       periodUnderReview: period,
-  //       dateOccupiedPosition: date,
-  //       anyotherposition: anyother,
-  //       // Add other form fields here
-  //     };
-
-  //     await axios.post('/self-appraise/basic-info', formData);
-
-  //     alert('Data saved successfully!');
-
-  //     setSave(true);
-  //   } catch (error) {
-  //     console.error(error);
-  //     alert('Failed to save data. Please try again.');
-  //   }
-  //   window.location.href = '/selfappraisal';
-  // };
-
-
+ const handleNext=()=>{
+  window.location.href = '/gradingevaluation';
+ }
   return (
     <div className="main-body">
       <div className="sidebar">
@@ -187,8 +153,8 @@ export default function Evaluation() {
                   onChange={(e) => setDate(e.target.value)}
                 />
               </div> */}
-            <div>
-              <label htmlFor="anyotherposition">
+            <div className="profile-section">
+              <label htmlFor="anyotherposition" className='labels'>
                 Any other position occupied during the review period:
               </label>
               <select
@@ -206,8 +172,8 @@ export default function Evaluation() {
 
             {anyotherposition === 'Yes' && (
               <div>
-                <div>
-                  <label htmlFor="otherPosition">What position:</label>
+                <div className="profile-section">
+                  <label htmlFor="otherPosition" className='labels'>What position:</label>
                   <input
                     type="text"
                     id="otherPosition"
@@ -254,7 +220,7 @@ export default function Evaluation() {
 
             <div className="profile-section">
               {/* Next to be handled */}
-              <button type="submit" className='save'>
+              <button type="submit" className='save' onClick={handleNext}>
                 Next
               </button>
             </div>
