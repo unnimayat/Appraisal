@@ -9,6 +9,7 @@ import Login from './components/Login/Login'
 import Reviewer from './components/Reviewer/Reviewer';
 import Evaluation from './components/Evaluation/Evaluation';
 import ListEval from './components/Evaluation/ListEval';
+import ListRev from './components/Reviewer/ListRev';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <Route path="/evaluation" element={<Evaluation/>} />
       <Route path="/reviewer" element={<Reviewer/>} />
       <Route path="/evaluationlist" element={<ListEval/>} />
+      <Route path="/reviewinglist" element={<ListRev/>} />
     </Routes>
   </BrowserRouter>
   );

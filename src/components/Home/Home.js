@@ -13,7 +13,7 @@ export default function Home() {
   const [position, setPosition] = useState('');
   const [date, setDate] = useState('');
   const [period,setPeriod]=useState('');
-  const [anyotherposition, setAnyotherposition] = useState('No');
+  const [anyotherposition, setAnyotherposition] = useState('');
   const [anyotherdate,setAnyotherdate]=useState('');
   const [anyother,setAnyother]=useState('');
   const [review,setReview]=useState('');
@@ -35,7 +35,6 @@ export default function Home() {
  
   const handleSave = async (e) => {
     e.preventDefault();
-
     if (
       name.trim() === '' ||
       position.trim() === '' ||
@@ -57,8 +56,8 @@ export default function Home() {
         // Add other form fields here
       };
 
-      await axios.post('/self-appraise/basic-info', formData);
-
+      await axios.post('https://appbackend-rala.onrender.com/self/self-appraise/basic-info', formData);
+      
       alert('Data saved successfully!');
       
       setSave(true);
@@ -153,8 +152,8 @@ export default function Home() {
                   onChange={(e) => setDate(e.target.value)}
                 />
               </div> */}
-              <div>
-                <label htmlFor="anyotherposition">
+              <div className="profile-section">
+                <label htmlFor="anyotherposition" className='labels'>
                   Any other position occupied during the review period:
                 </label>
                 <select
@@ -169,10 +168,10 @@ export default function Home() {
               </div>
       {/* Additional fields for "Yes" response */}
 
-      {anyotherposition === 'Yes' && (
+      {anyother === 'Yes' && (
         <div>
-        <div>
-          <label htmlFor="otherPosition">What position:</label>
+        <div className="profile-section">
+          <label htmlFor="otherPosition" className='labels'>What position:</label>
           <input
             type="text"
             id="otherPosition"
@@ -182,8 +181,8 @@ export default function Home() {
           />
         </div>
 
-        <div>
-          <label htmlFor="otherPositionPeriod">During what period:</label>
+        <div className="profile-section">
+          <label htmlFor="otherPositionPeriod" className='labels'>During what period:</label>
           <input
             type="text"
             id="otherPositionPeriod"
