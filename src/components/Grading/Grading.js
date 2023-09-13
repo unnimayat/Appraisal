@@ -124,7 +124,7 @@ export default function Grading() {
                
 
               <div className="profile-section">
-                <button type="submit"  >
+                <button type="submit" onClick={ window.location.href = '/knowledge'}  >
                   Save
                 </button>
               </div>

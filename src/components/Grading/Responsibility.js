@@ -124,7 +124,7 @@ export default function Responsibility() {
                
 
               <div className="profile-section">
-                <button type="submit"  >
+                <button type="submit" onClick={ window.location.href = '/'} >
                   Save
                 </button>
               </div>

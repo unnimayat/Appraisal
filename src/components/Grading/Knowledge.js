@@ -126,7 +126,7 @@ export default function Knowledge() {
                
 
               <div className="profile-section">
-                <button type="submit"  >
+                <button type="submit"  onClick={ window.location.href = '/responsibility'}>
                   Save
                 </button>
               </div>

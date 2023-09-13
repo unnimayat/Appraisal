@@ -93,7 +93,7 @@ export default function SelfAppraisal() {
                
 
               <div className="profile-section">
-                <button type="submit"  >
+                <button type="submit"  onClick={ window.location.href = '/grading'}>
                   Save
                 </button>
               </div>

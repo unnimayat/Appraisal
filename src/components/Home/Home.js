@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import './Home.css';
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
@@ -6,19 +6,70 @@ import axios from 'axios';
 
 // Retrieve the token from local storage
 const token = localStorage.getItem('token');
-const role = localStorage.getItem('role');
-const ID = localStorage.getItem('ID');
 
-// Set the default Authorization header for Axios
-axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 export default function Home() {
+  const[id,setId]=useState('');
   const [name, setName] = useState('');
   const [position, setPosition] = useState('');
   const [date, setDate] = useState('');
   const [period,setPeriod]=useState('');
+  const [anyotherposition, setAnyotherposition] = useState('No');
+  const [anyotherdate,setAnyotherdate]=useState('');
+  const [anyother,setAnyother]=useState('');
   const [review,setReview]=useState('');
   const [evaluation,setEvaluation]=useState('');
+  const [save,setSave]=useState(false);
+  
+  useEffect(() => {
+    // Retrieve the token, ID, and role from local storage
+    const token = localStorage.getItem('token');
+    const ID = localStorage.getItem('ID');
+    const role = localStorage.getItem('role');
+  
+    // Set the default Authorization header for Axios
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    setId(ID);
+    setPosition(role);
+     
+  }, []); 
+ 
+  const handleSave = async (e) => {
+    e.preventDefault();
 
+    if (
+      name.trim() === '' ||
+      position.trim() === '' ||
+      period.trim() === '' ||
+      date.trim() === '' ||
+      review.trim() === '' ||
+      evaluation.trim() === ''
+    ) {
+      alert('All fields are mandatory. Please enter values.');
+      return;
+    }
+    try {
+      const formData = {
+        Name: name,
+        position: position,
+        periodUnderReview: period,
+        dateOccupiedPosition: date,
+        anyotherposition: anyotherposition,
+        // Add other form fields here
+      };
+
+      await axios.post('/self-appraise/basic-info', formData);
+
+      alert('Data saved successfully!');
+      
+      setSave(true);
+    } catch (error) {
+      console.error(error);
+      alert('Failed to save data. Please try again.');
+    }
+    window.location.href = '/selfappraisal';
+  };
+
+  
     return (
       <div className="main-body">
         <div className="sidebar">
@@ -46,8 +97,8 @@ export default function Home() {
 
                 {/* Display the name and id */}
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <h3 className='name'>{role} ID:</h3>
-                    <p className='name' style={{ fontWeight: 300, fontSize: 16 ,marginTop:-15}}>{ID}</p>
+                    <h3 className='name'>{id}</h3>
+                    <p className='name' style={{ fontWeight: 300, fontSize: 16 ,marginTop:-15}}>{position}</p>
                 </div>
             </div>
 
@@ -94,14 +145,54 @@ export default function Home() {
                 />
               </div>
 
-              <div className="profile-section">
+              {/* <div className="profile-section">
                 <label className='labels'>Any other position occupied during the review period: If so, what position and during what period</label>
                 <input
                   type="text"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
                 />
+              </div> */}
+              <div>
+                <label htmlFor="anyotherposition">
+                  Any other position occupied during the review period:
+                </label>
+                <select
+                  id="anyotherposition"
+                  name="anyotherposition"
+                  value={anyotherposition}
+                  onChange={handleChange}
+                >
+                  <option value="No">No</option>
+                  <option value="Yes">Yes</option>
+                </select>
               </div>
+      {/* Additional fields for "Yes" response */}
+
+      {anyotherposition === 'Yes' && (
+        <div>
+        <div>
+          <label htmlFor="otherPosition">What position:</label>
+          <input
+            type="text"
+            id="otherPosition"
+            name="otherPosition"
+            value={formData.otherPosition}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="otherPositionPeriod">During what period:</label>
+          <input
+            type="text"
+            id="otherPositionPeriod"
+            name="otherPositionPeriod"
+            value={formData.otherPositionPeriod}
+            onChange={handleChange}
+          />
+        </div>
+        </div>)}
 
 
               <div className="profile-section">
@@ -123,7 +214,7 @@ export default function Home() {
               </div>
 
               <div className="profile-section">
-                <button type="submit"  >
+                <button type="submit" className='save' onClick={handleSave} >
                   Save
                 </button>
               </div>
