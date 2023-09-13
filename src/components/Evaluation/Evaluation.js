@@ -31,15 +31,7 @@ export default function Evaluation( ) {
 
     async function getDetails(){
       console.log("HAI");
-    // let result = await fetch(`http://localhost:5000/content/${params.id}`);
-    // console.log(result);
-    // result=await result.json();
-    // patients=result;
-    // console.log("P",patients.name);
-    // setPname(patients.name);
-    // setPdoc(patients.consulting_doc);
-    // setPdis(patients.desc);
-    // setPmed(patients.medicine);
+     
     
     }
 

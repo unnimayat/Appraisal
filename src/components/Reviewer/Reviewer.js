@@ -2,25 +2,39 @@ import React, { useState ,useEffect} from 'react';
 import './Reviewer.css';
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
-import axios from 'axios';
+import axios from 'axios'; 
 
+import { Params,useParams } from 'react-router-dom';
 // Retrieve the token from local storage
 const token = localStorage.getItem('token');
 
-export default function Reviewer() {
+export default function Reviewer( ) {
+  const { match } = useParams();
   const[id,setId]=useState('');
   const [name, setName] = useState('');
   const [position, setPosition] = useState('');
   const [date, setDate] = useState('');
   const [period,setPeriod]=useState('');
-  const [anyotherposition, setAnyotherposition] = useState('No');
+  const [anyotherposition, setAnyotherposition] = useState('');
   const [anyotherdate,setAnyotherdate]=useState('');
   const [anyother,setAnyother]=useState('');
   const [review,setReview]=useState('');
   const [evaluation,setEvaluation]=useState('');
   const [save,setSave]=useState(false);
-  const isReviewer = position === 'reviewer'; 
-  
+  const isReviewer= position === 'reviewer'; 
+  // const profileId = match.params.id;
+  const params=useParams();
+    console.log(params.id);
+    useEffect(()=>{
+      getDetails();
+    })
+
+    async function getDetails(){
+      console.log("HAI");
+     
+    
+    }
+
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
     const token = localStorage.getItem('token');

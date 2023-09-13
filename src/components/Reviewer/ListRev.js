@@ -1,4 +1,6 @@
-import React, { useState ,useEffect} from 'react';
+import React, { useState ,useEffect} from 'react'; 
+import { Link } from 'react-router-dom';
+
 import './ListRev.css';
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
@@ -30,15 +32,16 @@ export default function ListRev() {
 
   useEffect(() => {
     // Make a GET request to your backend endpoint when the component mounts
-    fetch('/profiles/:ID')
-      .then(response => response.json())
-      .then(data => {
-        setProfiles(data);
+    axios.get(`https://appbackend-rala.onrender.com/reviewer/profiles/?id=${id}`)
+
+      .then(response => {
+        setProfiles(response.data);
+        console.log(response.data); // Check the response data in the console
       })
       .catch(error => {
         console.log(error);
       });
-  }, []);
+  }, [id]);
 
  
 
@@ -85,10 +88,14 @@ export default function ListRev() {
              
               <div className="profile-section">
               <ul>
-          {profiles.map(profile => (
-            <li key={profile._id}>{profile._id}</li>
-          ))}
-        </ul>
+  {profiles.map(profile => (
+    <li key={profile.userId}>
+      {/* <Link to={`/evaluation/${profile.userId}`}>{profile.Name}</Link> */}
+      <Link to={`/reviewing/${profile.userId}`}>{profile.Name}</Link>
+    </li>
+  ))}
+</ul>
+
                 {/* <button type="submit" className='save' onClick={handleSave} >
                   Save
                 </button> */}
@@ -99,4 +106,5 @@ export default function ListRev() {
       </div>
        
     );
-}
+  }
+  
