@@ -53,7 +53,7 @@ export default function Home() {
         position: position,
         periodUnderReview: period,
         dateOccupiedPosition: date,
-        anyotherposition: anyotherposition,
+        anyotherposition: anyother,
         // Add other form fields here
       };
 
@@ -160,8 +160,8 @@ export default function Home() {
                 <select
                   id="anyotherposition"
                   name="anyotherposition"
-                  value={anyotherposition}
-                  onChange={handleChange}
+                  value={anyother}
+                  onChange={(e) => setAnyother(e.target.value)}
                 >
                   <option value="No">No</option>
                   <option value="Yes">Yes</option>
@@ -177,8 +177,8 @@ export default function Home() {
             type="text"
             id="otherPosition"
             name="otherPosition"
-            value={formData.otherPosition}
-            onChange={handleChange}
+            value={anyotherposition}
+            onChange={(e) => setAnyotherposition(e.target.value)}
           />
         </div>
 
@@ -188,8 +188,8 @@ export default function Home() {
             type="text"
             id="otherPositionPeriod"
             name="otherPositionPeriod"
-            value={formData.otherPositionPeriod}
-            onChange={handleChange}
+            value={anyotherdate}
+            onChange={(e) => setAnyotherdate(e.target.value)}
           />
         </div>
         </div>)}

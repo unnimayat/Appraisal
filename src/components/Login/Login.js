@@ -20,7 +20,7 @@ function Login() {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('role', response.data.role);
         localStorage.setItem('ID', userId);
-  
+        console.log('login')
         // Change the window location to '/home'
         window.location.href = '/home';
   
