@@ -20,13 +20,24 @@ function Login() {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('role', response.data.role);
         localStorage.setItem('ID', userId);
-        console.log('login')
-        // Change the window location to '/home'
-        window.location.href = '/home';
-  
+        console.log('login');
+      
+        const userRole = response.data.role; // Get the user's role
+      
+        // Redirect based on the user's role
+        if (userRole === 'evaluator') {
+          window.location.href = '/evaluation';
+        } else if (userRole === 'reviewer') {
+          window.location.href = '/reviewer';
+        } else {
+          // Handle other roles or scenarios as needed
+          window.location.href = '/home';
+        }
+      
         // Redirect or perform the desired action
         alert('Login successful!');
       }
+      
     } catch (error) {
       // Failed login attempt, display an error message
       setErrorMessage('Invalid user ID or password. Please try again.');

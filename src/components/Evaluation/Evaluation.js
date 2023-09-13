@@ -1,5 +1,5 @@
 import React, { useState ,useEffect} from 'react';
-import './Reviewer.css';
+import './Evaluation.css';
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
 import axios from 'axios';
@@ -7,7 +7,7 @@ import axios from 'axios';
 // Retrieve the token from local storage
 const token = localStorage.getItem('token');
 
-export default function Reviewer() {
+export default function Evaluation() {
   const[id,setId]=useState('');
   const [name, setName] = useState('');
   const [position, setPosition] = useState('');
@@ -19,7 +19,7 @@ export default function Reviewer() {
   const [review,setReview]=useState('');
   const [evaluation,setEvaluation]=useState('');
   const [save,setSave]=useState(false);
-  const isReviewer = position === 'reviewer'; 
+  const isEvaluator= position === 'evaluator'; 
   
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
@@ -116,7 +116,7 @@ export default function Reviewer() {
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      disabled={isReviewer}
+                      disabled={isEvaluator}
                     />
               </div>
 
@@ -126,7 +126,7 @@ export default function Reviewer() {
                   type="text"
                   value={position}
                   onChange={(e) => setPosition(e.target.value)}
-                  disabled={isReviewer}
+                  disabled={isEvaluator}
                 />
               </div>
 
@@ -136,7 +136,7 @@ export default function Reviewer() {
                   type="text"
                   value={period}
                   onChange={(e) => setPeriod(e.target.value)}
-                  disabled={isReviewer}
+                  disabled={isEvaluator}
                 />
               </div>
 
@@ -146,7 +146,7 @@ export default function Reviewer() {
                   type="text"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  disabled={isReviewer}
+                  disabled={isEvaluator}
                 />
               </div>
 
@@ -167,7 +167,7 @@ export default function Reviewer() {
                   name="anyotherposition"
                   value={anyother}
                   onChange={(e) => setAnyother(e.target.value)}
-                  disabled={isReviewer}
+                  disabled={isEvaluator}
                 >
                   <option value="No">No</option>
                   <option value="Yes">Yes</option>
@@ -185,7 +185,7 @@ export default function Reviewer() {
             name="otherPosition"
             value={anyotherposition}
             onChange={(e) => setAnyotherposition(e.target.value)}
-            disabled={isReviewer}
+            disabled={isEvaluator}
           />
         </div>
 
@@ -197,7 +197,7 @@ export default function Reviewer() {
             name="otherPositionPeriod"
             value={anyotherdate}
             onChange={(e) => setAnyotherdate(e.target.value)}
-            disabled={isReviewer}
+            disabled={isEvaluator}
           />
         </div>
         </div>)}
@@ -209,7 +209,7 @@ export default function Reviewer() {
                 type="text"
                   value={evaluation}
                   onChange={(e) => setEvaluation(e.target.value)}
-                  disabled={isReviewer}
+                  disabled={isEvaluator}
                 />
               </div>
 
@@ -219,7 +219,7 @@ export default function Reviewer() {
                 type="text"
                   value={review}
                   onChange={(e) => setReview(e.target.value)}
-                  disabled={isReviewer}
+                  disabled={isEvaluator}
                 />
               </div>
 
