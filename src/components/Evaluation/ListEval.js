@@ -32,7 +32,7 @@ export default function ListEval() {
 
   useEffect(() => {
     // Make a GET request to your backend endpoint when the component mounts
-    axios.get(`https://appbackend-rala.onrender.com/evaluator/profiles/?id=${id}`)
+    axios.get(`https://appbackend-rala.onrender.com/evaluator/profiles`)
 
       .then(response => {
         setProfiles(response.data);
