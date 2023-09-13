@@ -47,42 +47,10 @@ export default function Reviewer( ) {
     setPosition(role);
      
   }, []); 
- 
-  const handleSave = async (e) => {
-    e.preventDefault();
-
-    if (
-      name.trim() === '' ||
-      position.trim() === '' ||
-      period.trim() === '' ||
-      date.trim() === '' ||
-      review.trim() === '' ||
-      evaluation.trim() === ''
-    ) {
-      alert('All fields are mandatory. Please enter values.');
-      return;
-    }
-    try {
-      const formData = {
-        Name: name,
-        position: position,
-        periodUnderReview: period,
-        dateOccupiedPosition: date,
-        anyotherposition: anyother,
-        // Add other form fields here
-      };
-
-      await axios.post('/self-appraise/basic-info', formData);
-
-      alert('Data saved successfully!');
-      
-      setSave(true);
-    } catch (error) {
-      console.error(error);
-      alert('Failed to save data. Please try again.');
-    }
-    window.location.href = '/selfappraisal';
-  };
+  const handleNext=()=>{
+    window.location.href = '/gradingevaluation';
+   }
+   
 
   
     return (
@@ -238,8 +206,8 @@ export default function Reviewer( ) {
               </div>
 
               <div className="profile-section">
-                <button type="submit" className='save' onClick={handleSave} >
-                  Save
+                <button type="submit" className='save' onClick={handleNext} >
+                  Next
                 </button>
               </div>
             </div>
