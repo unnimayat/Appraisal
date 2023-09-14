@@ -32,6 +32,67 @@ const [name, setName] = useState('');
     { parameter: '', selfScore: '', evalScore: '', reviewScore: '' },
   ]);
 
+  useEffect(() => {
+    // Make a GET request to fetch questions and self-scores
+    axios
+      .post('http://localhost:3005/evaluator/get-knowledge-based', {
+        apprId: "64fd8e3b9a14a681cba43ad3"
+      }) // Replace with your API endpoint
+      .then((response) => {
+        const questions = response.data.knowledgeParameterQuestions;
+        // Map the questions to table data
+        const newTableData = questions.map((question) => ({
+          parameter: question.questionText,
+          selfScore: question.selfScore,
+          evalScore: question.evaluatorScore !== null ? question.evaluatorScore : '',
+          reviewScore: '',
+        }));
+
+        setTableData(newTableData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+
+  const handleSave = () => {
+    // Create the request body structure based on your requirements
+    const requestBody = {
+      userId: "64fd8e3b9a14a681cba43ad3",
+      responses: tableData.map((row) => ({
+        question: row.parameter,
+        score: row.evalScore,
+      })),
+    };
+    console.log(requestBody)
+    // Make a POST request to your backend endpoint
+    axios
+      .post('http://localhost:3005/evaluator/evaluate-knowledge-based', requestBody)
+      .then((response) => {
+        // Handle the response as needed (e.g., show a success message)
+        alert('Data saved successfully!');
+      })
+      .catch((error) => {
+        // Handle any errors (e.g., display an error message)
+        console.error('Failed to save data:', error);
+      });
+  };
+  // Function to add a new row
+  //   const addRow = () => {
+  //     setTableData([...tableData, { subject: '', grade: '', internalScore: '', externalScore: '' }]);
+  //   };
+
+  const handleEvalScoreChange = (index, event) => {
+    const { value } = event.target;
+    console.log(value)
+    // Create a copy of the tableData array
+    const updatedTableData = [...tableData];
+    // Update the evalScore for the specified row
+    updatedTableData[index].evalScore = value;
+    // Update the state with the new data
+    setTableData(updatedTableData);
+  };
   // Function to add a new row
 //   const addRow = () => {
 //     setTableData([...tableData, { subject: '', grade: '', internalScore: '', externalScore: '' }]);
@@ -117,12 +178,12 @@ const [name, setName] = useState('');
         <tbody>
           {tableData.map((row, index) => (
             <tr key={index}>
-              <td className='box'><input className='box' style={{width:"35vw"}} type="text" value={row.subject} /></td>
+              <td className='box'><input className='box' style={{width:"35vw"}} type="text" value={row.parameter} /></td>
               <td className='sbox'></td>
               <td className='box'>
                 <div className="score-subdivision">
                   <input className='box' type="text" value={row.selfScore}   disabled={isEvaluator}/>
-                  <input className='box' type="text" value={row.evalScore} />
+                  <input className='box' type="text" value={row.evalScore} onChange={(e) => handleEvalScoreChange(index, e)}/>
                   <input className='box' type="text" value={row.reviewScore} disabled={isEvaluator}/>
                 </div>
               </td>
@@ -143,8 +204,11 @@ const [name, setName] = useState('');
                
 
               <div className="profile-section">
-                <button type="submit"  onClick={() => (window.location.href = '/responsibilityevaluation')}>
-                  Save
+                <button type="submit" onClick={() => {
+                  handleSave(); // Call the handleSave function
+                  window.location.href = '/responsibilityevaluation'; // Redirect to the desired page
+                }}>
+                  Next
                 </button>
               </div>
             </div>
