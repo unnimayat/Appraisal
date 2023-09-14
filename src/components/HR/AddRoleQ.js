@@ -1,5 +1,5 @@
 import React, { useState ,useEffect} from 'react';
-import './HomeHr.css';
+import './AddRoleQ.css';
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
 import axios from 'axios';
@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 // Retrieve the token from local storage
 const token = localStorage.getItem('token');
 
-export default function Home() {
+export default function AddRoleQ() {
   const[id,setId]=useState('');
 //   const [name, setName] = useState('');
 //   const [position, setPosition] = useState('');
@@ -21,26 +21,31 @@ export default function Home() {
 //   const [evaluation,setEvaluation]=useState('');
 //   const [save,setSave]=useState(false);
   const [role,setRole]=useState('');
-  const [newid, setNewId] = useState('');
-  const [newRole, setNewRole] = useState('');
-  const [password, setPassword] = useState('');
+  const [roleQ,setRoleQ]=useState('');
+//   const [newid, setNewId] = useState('');
+//   const [newRole, setNewRole] = useState('');
+//   const [password, setPassword] = useState('');
+  
+const [questions,setQuestions]=useState('')
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      const newUser = {  userId:newid ,
-      password:password ,
-      role:newRole};
-      await axios.post('https://appbackend-rala.onrender.com/hr/add-user', newUser);
-      setNewId('');
-      setPassword('');
-      setNewRole('');
-      alert('User added to the database.');
+  
+    const requestData = {
+      role: roleQ,
+      question: questions,
+    };
+  
+    try { 
+      await axios.post('https://appbackend-rala.onrender.com/hr/add-position-based-question', requestData);
+      setQuestions(''); // Clear the input fields after submission
+      setRoleQ(''); // Clear the input fields after submission
+      alert('Question added to the database.');
     } catch (error) {
-      console.error('Error adding user:', error);
+      console.error('Error adding question:', error);
     }
   };
+  
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
     const token = localStorage.getItem('token');
@@ -65,11 +70,11 @@ export default function Home() {
             </div>
             <div className="sidebar-item">
                 <i className="material-icons"></i>
-                <Link to="/addquestions"><span>Add Questions</span></Link>
+                <Link to="/hr"><span>Add Questions</span></Link>
             </div>
             <div className="sidebar-item">
                 <i className="material-icons"></i>
-                <Link to="/addrolequestions"><span>Add Role Questions</span></Link>
+                <span>Team</span>
             </div>
         </div>
         <div className="right">
@@ -94,27 +99,18 @@ export default function Home() {
                     <div className='row'>       
                         <input
                         type="text"
-                        placeholder="Enter ID"
-                        value={newid}
-                        onChange={(e) => setNewId(e.target.value)}
+                        placeholder="Enter question"
+                        value={questions}
+                        onChange={(e) => setQuestions(e.target.value)}
                         required
-                        />
-                     
+                        /> 
                         <input
                         type="text"
                         placeholder="Enter Role"
-                        value={newRole}
-                        onChange={(e) => setNewRole(e.target.value)}
+                        value={roleQ}
+                        onChange={(e) => setRoleQ(e.target.value)}
                         required
-                        />
-                        <input
-                        type="password"
-                        placeholder="Enter Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                        />
-
+                        /> 
                         <button type="submit">Add</button>
                     </div>
                    
