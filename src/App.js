@@ -16,6 +16,7 @@ import ResponsibilityE from './components/Evaluation/ResponsibilityE';
 import GradingR from './components/Reviewer/GradingR';
 import ResponsibilityR from './components/Reviewer/ResponsibilityR';
 import KnowledgeR from './components/Reviewer/KnowledgeR';
+import HomeHr from './components/HR/HomeHr'
 function App() {
   return (
     <BrowserRouter>
@@ -36,6 +37,7 @@ function App() {
       <Route path="/reviewer" element={<Reviewer/>} />
       <Route path="/evaluationlist" element={<ListEval/>} />
       <Route path="/reviewinglist" element={<ListRev/>} />
+      <Route path="/hr" element={<HomeHr/>} />
     </Routes>
   </BrowserRouter>
   );

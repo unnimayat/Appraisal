@@ -29,6 +29,8 @@ function Login() {
           window.location.href = '/evaluationlist';
         } else if (userRole === 'reviewer') {
           window.location.href = '/reviewer';
+        } else if (userRole === 'hr') {
+          window.location.href = '/hr';
         } else {
           // Handle other roles or scenarios as needed
           window.location.href = '/home';

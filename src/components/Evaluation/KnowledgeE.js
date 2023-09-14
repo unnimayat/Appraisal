@@ -35,7 +35,7 @@ const [name, setName] = useState('');
   useEffect(() => {
     // Make a GET request to fetch questions and self-scores
     axios
-      .post('http://localhost:3005/evaluator/get-knowledge-based', {
+      .post('https://appbackend-rala.onrender.com/evaluator/get-knowledge-based', {
         apprId: "64fd8e3b9a14a681cba43ad3"
       }) // Replace with your API endpoint
       .then((response) => {
@@ -68,7 +68,7 @@ const [name, setName] = useState('');
     console.log(requestBody)
     // Make a POST request to your backend endpoint
     axios
-      .post('http://localhost:3005/evaluator/evaluate-knowledge-based', requestBody)
+      .post('https://appbackend-rala.onrender.com/evaluator/evaluate-knowledge-based', requestBody)
       .then((response) => {
         // Handle the response as needed (e.g., show a success message)
         alert('Data saved successfully!');

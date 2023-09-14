@@ -1,20 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Knowledge.css';
+
+import axios from 'axios'; 
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
 export default function Knowledge() {
-//   const [name, setName] = useState('');
-//   const [position, setPosition] = useState('');
-//   const [date, setDate] = useState('');
-//   const [period,setPeriod]=useState('');
-//   const [review,setReview]=useState('');
-//   const [evaluation,setEvaluation]=useState('');
+  const [name, setName] = useState('');
+  const [role1, setRole1] = useState('');
+  const [id, setId] = useState('');
+  const [position, setPosition] = useState('');
+  const [date, setDate] = useState('');
+  const [period,setPeriod]=useState('');
+  const [review,setReview]=useState('');
+  const [evaluation,setEvaluation]=useState('');
+  const token = localStorage.getItem('token');
+  const role = localStorage.getItem('role');
+  const isEvaluator = role === 'evaluator';
+  const isSelf=role=='self';
+  const isReviewer=role=='reviewer';
 
+  useEffect(() => {
+    // Retrieve the token, ID, and role from local storage
+    const token = localStorage.getItem('token');
+    const ID = localStorage.getItem('ID');
+    const role = localStorage.getItem('role');
 
+    // Set the default Authorization header for Axios
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    setId(ID);
+    setRole1(role);
+  }, []);
+   
   const [tableData, setTableData] = useState([
     { subject: '', grade: '', internalScore: '', externalScore: '' },
   ]);
-
   // Function to add a new row
   const addRow = () => {
     setTableData([...tableData, { subject: '', grade: '', internalScore: '', externalScore: '' }]);
@@ -47,8 +66,8 @@ export default function Knowledge() {
 
                 {/* Display the name and id */}
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <h3 className='name'>Your Name</h3>
-                    <p className='name' style={{ fontWeight: 300, fontSize: 16 ,marginTop:-15}}>12345</p>
+                    <h3 className='name'>{id}</h3>
+                    <p className='name' style={{ fontWeight: 300, fontSize: 16 ,marginTop:-15}}>{role1}</p>
                 </div>
             </div>
 
@@ -100,13 +119,13 @@ export default function Knowledge() {
         <tbody>
           {tableData.map((row, index) => (
             <tr key={index}>
-              <td className='box'><input className='box' style={{width:"35vw"}} type="text" value={row.subject} /></td>
+              <td className='box'><input className='box' style={{width:"35vw"}} type="text" value={row.subject} disabled={isEvaluator || isReviewer || isSelf} /></td>
               <td className='sbox'></td>
               <td className='box'>
                 <div className="score-subdivision">
-                  <input className='box' type="text" value={row.internalScore}   />
-                  <input className='box' type="text" value={row.externalScore} />
-                  <input className='box' type="text" value={row.externalScore} />
+                  <input className='box' type="text" value={row.internalScore}  disabled={isEvaluator || isReviewer  } />
+                  <input className='box' type="text" value={row.externalScore} disabled={ isReviewer || isSelf}/>
+                  <input className='box' type="text" value={row.externalScore} disabled={isEvaluator  || isSelf}/>
                 </div>
               </td>
             </tr>
@@ -126,7 +145,10 @@ export default function Knowledge() {
                
 
               <div className="profile-section">
-                <button type="submit"  onClick={ window.location.href = '/responsibility'}>
+                <button type="submit"  onClick={() => {
+                  //handleSave(); // Call the handleSave function
+                  window.location.href = '/responsibility'; // Redirect to the desired page
+                }}>
                   Save
                 </button>
               </div>

@@ -1,16 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import './Responsibility.css';
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
+import axios from 'axios'
 export default function Responsibility() {
   const [name, setName] = useState('');
+  const [role1, setRole1] = useState('');
+  const [id, setId] = useState('');
   const [position, setPosition] = useState('');
   const [date, setDate] = useState('');
   const [period,setPeriod]=useState('');
   const [review,setReview]=useState('');
   const [evaluation,setEvaluation]=useState('');
+  const token = localStorage.getItem('token');
+  const role = localStorage.getItem('role');
+  const isEvaluator = role === 'evaluator';
+  const isSelf=role=='self';
+  const isReviewer=role=='reviewer';
 
+  useEffect(() => {
+    // Retrieve the token, ID, and role from local storage
+    const token = localStorage.getItem('token');
+    const ID = localStorage.getItem('ID');
+    const role = localStorage.getItem('role');
 
+    // Set the default Authorization header for Axios
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    setId(ID);
+    setRole1(role);
+  }, []);
+   
   const [tableData, setTableData] = useState([
     { subject: '', grade: '', internalScore: '', externalScore: '' },
   ]);
@@ -47,8 +66,8 @@ export default function Responsibility() {
 
                 {/* Display the name and id */}
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <h3 className='name'>Your Name</h3>
-                    <p className='name' style={{ fontWeight: 300, fontSize: 16 ,marginTop:-15}}>12345</p>
+                    <h3 className='name'>{id}</h3>
+                    <p className='name' style={{ fontWeight: 300, fontSize: 16 ,marginTop:-15}}>{role1}</p>
                 </div>
             </div>
 
@@ -99,12 +118,12 @@ export default function Responsibility() {
         <tbody>
           {tableData.map((row, index) => (
             <tr key={index}>
-              <td className='ibox' style={{ width: "39vw"}}><input className='ibox' style={{ width: "39vw"}} type="text" value={row.subject} /></td>
+              <td className='ibox' style={{ width: "39vw"}}><input className='ibox' style={{ width: "39vw"}} type="text" value={row.subject}disabled={isEvaluator || isReviewer || isSelf}  /></td>
               <td className='ibox'>
                 <div className="score-subdivision">
-                  <input className='ibox' type="text" value={row.internalScore}   />
-                  <input className='ibox' type="text" value={row.externalScore} />
-                  <input className='ibox' type="text" value={row.externalScore} />
+                  <input className='ibox' type="text" value={row.internalScore}   disabled={isEvaluator || isReviewer  } />
+                  <input className='ibox' type="text" value={row.externalScore} disabled={ isReviewer || isSelf} />
+                  <input className='ibox' type="text" value={row.externalScore} disabled={isEvaluator   || isSelf} />
                 </div>
               </td>
             </tr>
@@ -124,7 +143,10 @@ export default function Responsibility() {
                
 
               <div className="profile-section">
-                <button type="submit" onClick={ window.location.href = '/'} >
+                <button type="submit"  onClick={() => {
+                  //handleSave(); // Call the handleSave function
+                  window.location.href = '/'; // Redirect to the desired page
+                }}>
                   Save
                 </button>
               </div>

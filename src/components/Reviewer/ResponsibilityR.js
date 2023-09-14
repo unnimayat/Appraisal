@@ -30,7 +30,7 @@ export default function ResponsibilityR() {
   useEffect(() => {
     // Make a GET request to fetch questions and self-scores
     axios
-      .post('http://localhost:3005/reviewer/get-responsibility-based', {
+      .post('https://appbackend-rala.onrender.com/reviewer/get-responsibility-based', {
         apprId: "64fd8e3b9a14a681cba43ad3"
       }) // Replace with your API endpoint
       .then((response) => {
@@ -63,7 +63,7 @@ export default function ResponsibilityR() {
     console.log(requestBody)
     // Make a POST request to your backend endpoint
     axios
-      .post('http://localhost:3005/reviewer/evaluate-responsibility-fulfillment', requestBody)
+      .post('https://appbackend-rala.onrender.com/reviewer/evaluate-responsibility-fulfillment', requestBody)
       .then((response) => {
         // Handle the response as needed (e.g., show a success message)
         alert('Data saved successfully!');

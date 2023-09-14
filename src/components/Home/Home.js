@@ -19,6 +19,7 @@ export default function Home() {
   const [review,setReview]=useState('');
   const [evaluation,setEvaluation]=useState('');
   const [save,setSave]=useState(false);
+  const [role,setRole]=useState('');
   
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
@@ -28,9 +29,8 @@ export default function Home() {
   
     // Set the default Authorization header for Axios
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    setId(ID);
-    setPosition(role);
-     
+    setId(ID); 
+    setRole(role);
   }, []); 
  
   const handleSave = async (e) => {
@@ -97,7 +97,7 @@ export default function Home() {
                 {/* Display the name and id */}
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <h3 className='name'>{id}</h3>
-                    <p className='name' style={{ fontWeight: 300, fontSize: 16 ,marginTop:-15}}>{position}</p>
+                    <p className='name' style={{ fontWeight: 300, fontSize: 16 ,marginTop:-15}}>{role}</p>
                 </div>
             </div>
 
