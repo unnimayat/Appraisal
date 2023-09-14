@@ -18,6 +18,10 @@ export default function Knowledge() {
   const isEvaluator = role === 'evaluator';
   const isSelf=role=='self';
   const isReviewer=role=='reviewer';
+  const [selfScore,setSelfScore]=useState('');
+  const [evaluateScore,setEvaluateScore]=useState('');
+  const [reviewScore,setReviewScore]=useState('');
+  
 
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
@@ -29,8 +33,53 @@ export default function Knowledge() {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
     setRole1(role);
-  }, []);
-   
+    fetchKnowledgeQuestions(role);
+
+  }, [role]);
+  const fetchKnowledgeQuestions = async (role) => {
+    try {
+      const response = await axios.get(`https://appbackend-rala.onrender.com/self/self-appraise/knowledge-questions/${role}`);
+      const questions = response.data.questions;
+
+      // Set the questions in the tableData state
+      setTableData(questions);
+    } catch (error) {
+      console.error('Error fetching knowledge questions:', error);
+    }
+  };
+  const handleSave = async (e) => {
+    e.preventDefault(); 
+    try { 
+      // const questions = {   text: responsibility,
+      //   selfAppraisal:  self,
+      
+        
+      const data = {
+        responses: [
+          {
+            text: 'Self Score',
+            score: selfScore,
+          },
+          {
+            text: 'Evaluation Score',
+            score: evaluateScore,
+          },
+          {
+            text: 'Review Score',
+            score: reviewScore,
+          },
+        ],
+      };
+
+            
+      await axios.post('https://appbackend-rala.onrender.com/self/evaluate-position-based', data);
+       
+      alert('Data added to the database.'); 
+      window.location.href = '/responsibility';
+    } catch (error) {
+      console.error('Error adding user:', error);
+    }
+  };
   const [tableData, setTableData] = useState([
     { subject: '', grade: '', internalScore: '', externalScore: '' },
   ]);
@@ -123,9 +172,9 @@ export default function Knowledge() {
               <td className='sbox'></td>
               <td className='box'>
                 <div className="score-subdivision">
-                  <input className='box' type="text" value={row.internalScore}  disabled={isEvaluator || isReviewer  } />
-                  <input className='box' type="text" value={row.externalScore} disabled={ isReviewer || isSelf}/>
-                  <input className='box' type="text" value={row.externalScore} disabled={isEvaluator  || isSelf}/>
+                  <input className='box' type="text" value={selfScore}  disabled={isEvaluator || isReviewer  }  onChange={(e) => setSelfScore(e.target.value)}/>
+                  <input className='box' type="text" value={evaluateScore} disabled={ isReviewer || isSelf}/>
+                  <input className='box' type="text" value={reviewScore} disabled={isEvaluator  || isSelf}/>
                 </div>
               </td>
             </tr>
@@ -146,8 +195,8 @@ export default function Knowledge() {
 
               <div className="profile-section">
                 <button type="submit"  onClick={() => {
-                  //handleSave(); // Call the handleSave function
-                  window.location.href = '/responsibility'; // Redirect to the desired page
+                  handleSave(); // Call the handleSave function
+                  // Redirect to the desired page
                 }}>
                   Save
                 </button>

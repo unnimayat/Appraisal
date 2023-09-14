@@ -10,13 +10,16 @@ export default function SelfAppraisal() {
   const [id, setId] = useState('');
   const [position, setPosition] = useState('');
   const [date, setDate] = useState('');
-  const [period,setPeriod]=useState('');
-  const [review,setReview]=useState('');
+  const [period,setPeriod]=useState(''); 
   const [evaluation,setEvaluation]=useState('');
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
   const isEvaluator = role === 'evaluator';
   const isSelf=role=='self';
+  const [responsibility, setResponsibility] = useState('');
+  const [self, setSelf] = useState('');
+  const [evaluate,setEvaluate]=useState('');
+  const [comments,setComments]=useState('');
 
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
@@ -34,6 +37,32 @@ export default function SelfAppraisal() {
     { subject: '', grade: '', internalScore: '', externalScore: '' },
   ]);
 
+  const handleSave = async (e) => {
+    e.preventDefault(); 
+    try { 
+      // const questions = {   text: responsibility,
+      //   selfAppraisal:  self,
+      
+        
+      const data = {
+        responsibilities: [
+          {
+            text: responsibility,
+            selfAppraisal: self,
+              evaluation: null,
+        comments: null,
+          }, 
+        ],
+      };
+            
+      await axios.post('https://appbackend-rala.onrender.com/self/responsibility-fulfillment', data);
+       
+      alert('Data added to the database.');
+      window.location.href = '/grading'; 
+    } catch (error) {
+      console.error('Error adding user:', error);
+    }
+  };
 
   // Function to add a new row
   const addRow = () => {
@@ -97,12 +126,12 @@ export default function SelfAppraisal() {
         <tbody>
           {tableData.map((row, index) => (
             <tr key={index}>
-              <td className='ibox'><input className='ibox' type="text" value={row.subject} disabled={isEvaluator} /></td>
+              <td className='ibox'><input className='ibox' type="text" value={responsibility} onChange={(e) => setResponsibility(e.target.value)}  placeholder="Enter question" disabled={isEvaluator} /></td>
               <td className='ibox'>
                 <div className="score-subdivision">
-                  <input className='ibox' type="text" value={row.internalScore}  disabled={isEvaluator}  />
-                  <input className='ibox' type="text" value={row.externalScore} disabled={isSelf} />
-                  <input className='ibox' type="text" value={row.externalScore} disabled={isSelf} />
+                  <input className='ibox' type="text" value={self}  disabled={isEvaluator} onChange={(e) => setSelf(e.target.value)}    />
+                  <input className='ibox' type="text" value={evaluate} onChange={(e) => setEvaluate(e.target.value)}    disabled={isSelf} />
+                  <input className='ibox' type="text" value={comments} onChange={(e) => setComments(e.target.value)}    disabled={isSelf} />
                 </div>
               </td>
             </tr>
@@ -113,12 +142,7 @@ export default function SelfAppraisal() {
                
 
               <div className="profile-section">
-                <button type="submit"   onClick={() => {
-                  // handleSave(); // Call the handleSave function
-                  window.location.href = '/grading'; // Redirect to the desired page
-                }}>
-                  Save
-                </button>
+              <button type="submit" onClick={handleSave}>Save</button>
               </div>
             </div>
           </div>

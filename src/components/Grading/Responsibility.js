@@ -17,7 +17,10 @@ export default function Responsibility() {
   const isEvaluator = role === 'evaluator';
   const isSelf=role=='self';
   const isReviewer=role=='reviewer';
-
+  const [selfScore,setSelfScore]=useState('');
+  const [evaluateScore,setEvaluateScore]=useState('');
+  const [reviewScore,setReviewScore]=useState('');
+  const [knowledgeQuestions, setKnowledgeQuestions] = useState([]);
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
     const token = localStorage.getItem('token');
@@ -28,8 +31,41 @@ export default function Responsibility() {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
     setRole1(role);
+    fetchKnowledgeQuestions(ID);
   }, []);
-   
+  const fetchKnowledgeQuestions = async (userId) => {
+    try {
+      // Send a GET request to the /get-position-based-questions API endpoint
+      const response = await axios.get('https://appbackend-rala.onrender.com/self/get-position-based-questions');
+
+      // Extract questions from the response data
+      const { questions } = response.data;
+
+      // Update the state with the fetched questions
+      setKnowledgeQuestions(questions);
+    } catch (error) {
+      console.error('Error fetching knowledge questions:', error);
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      // Create an array of responses for evaluation
+      const responses = tableData.map((row) => ({
+        question: row.subject, // Assuming the subject field is your question text
+        score: selfScore, // Use the selfScore state for self evaluation
+      }));
+
+      // Send a POST request to the /evaluate-responsibility-fulfillment API endpoint
+      await axios.post('https://appbackend-rala.onrender.com/self/evaluate-responsibility-fulfillment', { responses });
+
+      alert('Responsibility Fulfillment evaluation data saved successfully.');
+      // Redirect to the desired page
+      window.location.href = '/';  
+    } catch (error) {
+      console.error('Error saving Responsibility Fulfillment evaluation data:', error);
+    }
+  };
   const [tableData, setTableData] = useState([
     { subject: '', grade: '', internalScore: '', externalScore: '' },
   ]);
@@ -121,9 +157,9 @@ export default function Responsibility() {
               <td className='ibox' style={{ width: "39vw"}}><input className='ibox' style={{ width: "39vw"}} type="text" value={row.subject}disabled={isEvaluator || isReviewer || isSelf}  /></td>
               <td className='ibox'>
                 <div className="score-subdivision">
-                  <input className='ibox' type="text" value={row.internalScore}   disabled={isEvaluator || isReviewer  } />
-                  <input className='ibox' type="text" value={row.externalScore} disabled={ isReviewer || isSelf} />
-                  <input className='ibox' type="text" value={row.externalScore} disabled={isEvaluator   || isSelf} />
+                <input className='box' type="text" value={selfScore}  disabled={isEvaluator || isReviewer  }  onChange={(e) => setSelfScore(e.target.value)}/>
+                  <input className='box' type="text" value={evaluateScore} disabled={ isReviewer || isSelf}/>
+                  <input className='box' type="text" value={reviewScore} disabled={isEvaluator  || isSelf}/>
                 </div>
               </td>
             </tr>
@@ -144,8 +180,8 @@ export default function Responsibility() {
 
               <div className="profile-section">
                 <button type="submit"  onClick={() => {
-                  //handleSave(); // Call the handleSave function
-                  window.location.href = '/'; // Redirect to the desired page
+                  handleSave(); // Call the handleSave function
+                  // Redirect to the desired page
                 }}>
                   Save
                 </button>

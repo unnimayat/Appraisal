@@ -21,22 +21,19 @@ export default function Home() {
 //   const [evaluation,setEvaluation]=useState('');
 //   const [save,setSave]=useState(false);
   const [role,setRole]=useState('');
-  const [newid, setNewId] = useState('');
-  const [newRole, setNewRole] = useState('');
-  const [password, setPassword] = useState('');
+//   const [newid, setNewId] = useState('');
+//   const [newRole, setNewRole] = useState('');
+//   const [password, setPassword] = useState('');
+  
+const [questions,setQuestions]=useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const newUser = {  userId:newid ,
-      password:password ,
-      role:newRole};
-      await axios.post('https://appbackend-rala.onrender.com/hr/add-user', newUser);
-      setNewId('');
-      setPassword('');
-      setNewRole('');
-      alert('User added to the database.');
+    try { 
+      await axios.post('https://appbackend-rala.onrender.com/hr/add-predefined-question', questions);
+      setQuestions('');
+      alert('Question added to the database.');
     } catch (error) {
       console.error('Error adding user:', error);
     }
@@ -65,7 +62,7 @@ export default function Home() {
             </div>
             <div className="sidebar-item">
                 <i className="material-icons"></i>
-                <Link to="/addquestions"><span>Add Questions</span></Link>
+                <Link to="/hr"><span>Add Questions</span></Link>
             </div>
             <div className="sidebar-item">
                 <i className="material-icons"></i>
@@ -94,27 +91,11 @@ export default function Home() {
                     <div className='row'>       
                         <input
                         type="text"
-                        placeholder="Enter ID"
-                        value={newid}
-                        onChange={(e) => setNewId(e.target.value)}
+                        placeholder="Enter question"
+                        value={questions}
+                        onChange={(e) => setQuestions(e.target.value)}
                         required
-                        />
-                     
-                        <input
-                        type="text"
-                        placeholder="Enter Role"
-                        value={newRole}
-                        onChange={(e) => setNewRole(e.target.value)}
-                        required
-                        />
-                        <input
-                        type="password"
-                        placeholder="Enter Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                        />
-
+                        /> 
                         <button type="submit">Add</button>
                     </div>
                    

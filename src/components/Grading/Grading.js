@@ -18,7 +18,10 @@ export default function Grading() {
   const isEvaluator = role === 'evaluator';
   const isSelf=role=='self';
   const isReviewer=role=='reviewer';
-
+  const [selfScore, setSelfScore] = useState('');
+  const [evaluateScore,setEvaluateScore]=useState('');
+  const [reviewScore,setReviewScore]=useState('');
+  const [tableData,setTableData]=useState([])
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
     const token = localStorage.getItem('token');
@@ -29,17 +32,60 @@ export default function Grading() {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
     setRole1(role);
+    fetchPredefinedQuestions();
   }, []);
    
-  const [tableData, setTableData] = useState([
-    { subject: '', grade: '', internalScore: '', externalScore: '' },
-  ]);
+  const fetchPredefinedQuestions = async () => {
+    try {
+      const response = await axios.get(
+        'https://appbackend-rala.onrender.com/self/predefined-questions'
+      );
 
+      // Extract the questions array from the response data
+      const questions = response.data.questions;
 
-  // Function to add a new row
-  const addRow = () => {
-    setTableData([...tableData, { subject: '', grade: '', internalScore: '', externalScore: '' }]);
+      // Set the questions in the tableData state
+      setTableData(questions);
+    } catch (error) {
+      console.error('Error fetching predefined questions:', error);
+    }
   };
+
+  const handleSave = async (e) => {
+    e.preventDefault(); 
+    try { 
+      // const questions = {   text: responsibility,
+      //   selfAppraisal:  self,
+      
+        
+      const data = {
+        responses: [
+          {
+            text: 'Self Score',
+            score: selfScore,
+          },
+          {
+            text: 'Evaluation Score',
+            score: evaluateScore,
+          },
+          {
+            text: 'Review Score',
+            score: reviewScore,
+          },
+        ],
+      };
+
+            
+      await axios.post('https://appbackend-rala.onrender.com/self/evaluate-professional-integrity-parameter', data);
+       
+      alert('Data added to the database.');
+      window.location.href = '/knowledge'; 
+    } catch (error) {
+      console.error('Error adding user:', error);
+    }
+  };
+  // Function to add a new row
+   
     return (
       <div className="main-body">
         <div className="sidebar">
@@ -118,18 +164,20 @@ export default function Grading() {
         </thead>
 
         <tbody>
-          {tableData.map((row, index) => (
+          {tableData.length > 0 ? (tableData.map((row, index) => (
             <tr key={index}>
               <td className='ibox' style={{ width: "39vw"}}><input className='ibox' style={{ width: "39vw"}} type="text" value={row.subject} disabled={isEvaluator || isReviewer || isSelf} /></td>
               <td className='ibox'>
                 <div className="score-subdivision">
-                  <input className='ibox' type="text" value={row.internalScore}  disabled={isEvaluator || isReviewer  } />
-                  <input className='ibox' type="text" value={row.externalScore} disabled={ isReviewer || isSelf}/>
-                  <input className='ibox' type="text" value={row.externalScore} disabled={isEvaluator || isSelf}/>
+                  <input className='ibox' type="text" value={selfScore}  disabled={isEvaluator || isReviewer  } onChange={(e) => setEvaluateScore(e.target.value)} />
+                  <input className='ibox' type="text" value={evaluateScore} disabled={ isReviewer || isSelf}/>
+                  <input className='ibox' type="text" value={reviewScore} disabled={isEvaluator || isSelf}/>
                 </div>
               </td>
             </tr>
-          ))}
+          ))):(
+            <p>Loading predefined questions...</p>
+          )}
         </tbody>
 
          
@@ -146,8 +194,8 @@ export default function Grading() {
 
               <div className="profile-section">
                 <button type="submit"  onClick={() => {
-                  // handleSave(); // Call the handleSave function
-                  window.location.href = '/knowledge'; // Redirect to the desired page
+                   handleSave(); // Call the handleSave function
+                    // Redirect to the desired page
                 }} >
                   Save
                 </button>
