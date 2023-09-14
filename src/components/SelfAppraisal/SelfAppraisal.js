@@ -44,13 +44,22 @@ export default function SelfAppraisal() {
     e.preventDefault();
     try {
       const data = {
-        responsibilities: responsibilitiesData, // Send the array of responsibilitiesData
+        responsibilities: responsibilitiesData.map((row) => ({
+          question: row.responsibility,
+          score: row.self,
+        }))
       };
-
-      await axios.post('https://appbackend-rala.onrender.com/self/responsibility-fulfillment', data);
-
-      alert('Data added to the database.');
-      window.location.href = '/grading';
+      console.log(data)
+      axios.post('http://localhost:3005/self/responsibility-fulfillment', data)
+        .then((response) => {
+          // Handle the response as needed (e.g., show a success message)
+          alert('Data saved successfully!');
+          window.location.href = '/grading';
+        })
+        .catch((error) => {
+          // Handle any errors (e.g., display an error message)
+          console.error('Failed to save data:', error);
+        });
     } catch (error) {
       console.error('Error adding user:', error);
     }
@@ -127,7 +136,7 @@ export default function SelfAppraisal() {
                             updatedData[index].responsibility = e.target.value;
                             setResponsibilitiesData(updatedData);
                           }}
-                          placeholder="Enter question"
+                          placeholder="responisbility"
                           disabled={isEvaluator}
                         />
                       </td>
