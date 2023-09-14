@@ -7,14 +7,16 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState(''); 
 
   const handleLogin = async (e) => {
+    console.log("hi");
     e.preventDefault();
   
     try {
+      console.log("start");
       const response = await axios.post('https://appbackend-rala.onrender.com/login', {
         userId,
         password,
       });
-  
+      console.log("end");
       if (response.status === 200) {
         // Successful login, save the JWT token to local storage
         localStorage.setItem('token', response.data.token);
@@ -44,6 +46,7 @@ function Login() {
       // Failed login attempt, display an error message
       setErrorMessage('Invalid user ID or password. Please try again.');
     }
+    console.log("hi2");
   };
   
 

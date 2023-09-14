@@ -64,7 +64,7 @@ export default function Evaluation() {
   }, [apprid]);
 
  const handleNext=()=>{
-  window.location.href = '/gradingevaluation';
+  window.location.href = '/selfevaluation';
  }
   return (
     <div className="main-body">
