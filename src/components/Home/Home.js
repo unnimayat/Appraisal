@@ -21,7 +21,7 @@ export default function Home() {
   const [save, setSave] = useState(false);
   const [role, setRole] = useState('');
   const [formData, setformData] = useState([]);
-  const [stage,setStage]=useState(0);
+  const [stage, setStage] = useState(0);
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
     const token = localStorage.getItem('token');
@@ -38,10 +38,10 @@ export default function Home() {
     // Make a GET request to your backend endpoint when the component mounts
     console.log(id)
     axios.get('https://appbackend-rala.onrender.com/finalsubmit/stage')
-    .then(response=>{
-      console.log(response.data);
+      .then(response => {
+        console.log(response.data);
         setStage(response.data.stage);
-    })
+      })
     axios.get(`https://appbackend-rala.onrender.com/self/basic-info`)
       .then(response => {
         setformData(response.data)
@@ -142,7 +142,7 @@ export default function Home() {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                disabled={!(stage===0)}
+                disabled={!(stage === 0)}
               />
             </div>
 
@@ -152,7 +152,7 @@ export default function Home() {
                 type="text"
                 value={position}
                 onChange={(e) => setPosition(e.target.value)}
-                disabled={!(stage===0)}
+                disabled={!(stage === 0)}
               />
             </div>
 
@@ -162,7 +162,7 @@ export default function Home() {
                 type="text"
                 value={period}
                 onChange={(e) => setPeriod(e.target.value)}
-                disabled={!(stage===0)}
+                disabled={!(stage === 0)}
               />
             </div>
 
@@ -172,7 +172,7 @@ export default function Home() {
                 type="text"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                disabled={!(stage===0)}
+                disabled={!(stage === 0)}
               />
             </div>
 
@@ -193,10 +193,10 @@ export default function Home() {
                 name="anyotherposition"
                 value={anyother}
                 onChange={(e) => setAnyother(e.target.value)}
-                disabled={!(stage===0)}
+                disabled={!(stage === 0)}
               >
-                <option value="No" disabled={!(stage===0)}>No</option>
-                <option value="Yes" disabled={!(stage===0)}>Yes</option>
+                <option value="No" disabled={!(stage === 0)}>No</option>
+                <option value="Yes" disabled={!(stage === 0)}>Yes</option>
               </select>
             </div>
             {/* Additional fields for "Yes" response */}
@@ -211,7 +211,7 @@ export default function Home() {
                     name="otherPosition"
                     value={anyotherposition}
                     onChange={(e) => setAnyotherposition(e.target.value)}
-                    disabled={!(stage===0)}
+                    disabled={!(stage === 0)}
                   />
                 </div>
 
@@ -248,11 +248,14 @@ export default function Home() {
               />
             </div> */}
 
-            <div className="profile-section">
+            {(stage === 0) && (<div className="profile-section">
               <button type="submit" className='save' onClick={handleSave} >
-                Save and Next
+                Save to Next
               </button>
-            </div>
+            </div>)}
+            {
+              (stage !== 0) && (<div className="profile-section"><button type="submit" onClick={() => { window.location.href = '/selfappraisal'; }}>Next</button></div>)
+            }
           </div>
         </div>
       </div>
