@@ -20,6 +20,10 @@ import HomeHr from './components/HR/HomeHr'
 import AddQ from './components/HR/AddQ'
 import SelfE from './components/Evaluation/SelfE'
 import AddRoleQ from './components/HR/AddRoleQ';
+import Summary_qgrading from './components/Summary/Summary_qgrading'
+import Feedback from './components/Summary/feedback'
+import Recommendation from './components/Summary/Recommendation'
+import Acceptance from './components/Acceptance/Acceptance'
 function App() {
   return (
     <BrowserRouter>
@@ -44,6 +48,10 @@ function App() {
       <Route path="/selfevaluation" element={<SelfE/>} />
       <Route path="/addquestions" element={<AddQ/>} />
       <Route path="/addrolequestions" element={<AddRoleQ/>} />
+      <Route path="/summary_qgrading" element={<Summary_qgrading/>} />
+      <Route path="/feedback" element={<Feedback/>} />
+      <Route path="/recommendation" element={<Recommendation/>} />
+      <Route path="/acceptance" element={<Acceptance/>} />
     </Routes>
   </BrowserRouter>
   );

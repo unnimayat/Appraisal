@@ -73,6 +73,7 @@ export default function ResponsibilityR() {
         // Handle any errors (e.g., display an error message)
         console.error('Failed to save data:', error);
       });
+      window.location.href = '/summary_qgrading';
   };
   // Function to add a new row
   //   const addRow = () => {
@@ -201,9 +202,7 @@ export default function ResponsibilityR() {
                 }}>
                   Save
                 </button>
-                <button type="submit"   >
-                  Final Save
-                </button>
+                 
               </div>
             </div>
           </div>

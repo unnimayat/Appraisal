@@ -60,6 +60,7 @@ export default function Knowledge() {
       console.error('Error fetching knowledge questions:', error);
     }
   };
+  
   const handleEvalScoreChange = (index, event) => {
     const { value } = event.target;
     console.log(value)
