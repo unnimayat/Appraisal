@@ -130,7 +130,7 @@ export default function Home() {
           </div>
 
         </div>
-        <div className="break"></div>
+        <div className="break"></div> 
         <div className="bottom">
 
 

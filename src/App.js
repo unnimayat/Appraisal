@@ -45,7 +45,7 @@ function App() {
       <Route path="/evaluationlist" element={<ListEval/>} />
       <Route path="/reviewinglist" element={<ListRev/>} />
       <Route path="/hr" element={<HomeHr/>} />
-      <Route path="/selfevaluation" element={<SelfE/>} />
+      <Route path="/selfevaluation/:uid" element={<SelfE/>} />
       <Route path="/addquestions" element={<AddQ/>} />
       <Route path="/addrolequestions" element={<AddRoleQ/>} />
       <Route path="/summary_qgrading" element={<Summary_qgrading/>} />

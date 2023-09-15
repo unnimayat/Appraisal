@@ -86,7 +86,7 @@ export default function ListEval() {
           <div className="bottom">
              
               
-             
+              
               <div className="profile-section">
               <ul>
   {profiles.map(profile => (

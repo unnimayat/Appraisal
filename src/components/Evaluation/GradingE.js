@@ -203,7 +203,7 @@ export default function GradingE() {
                 type="submit"
                 onClick={() => {
                   handleSave(); // Call the handleSave function
-                  window.location.href = '/knowledgeevaluation'; // Redirect to the desired page
+                  window.location.href = `/knowledgeevaluation/:${uid}`; // Redirect to the desired page
                 }}
               >
                 Save

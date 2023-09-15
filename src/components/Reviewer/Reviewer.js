@@ -62,7 +62,7 @@ export default function Reviewer() {
       });
   }, [apprid]);
   const handleNext = () => {
-    window.location.href = '/gradingreviewing/:uid';
+    window.location.href = `/gradingreviewing/:${uid}`;
   }
 
 

@@ -212,7 +212,7 @@ const [name, setName] = useState('');
               <div className="profile-section">
                 <button type="submit" onClick={() => {
                   handleSave(); // Call the handleSave function
-                  window.location.href = '/responsibilityevaluation'; // Redirect to the desired page
+                  window.location.href = `/responsibilityevaluation/:${uid}`; // Redirect to the desired page
                 }}>
                   Next
                 </button>

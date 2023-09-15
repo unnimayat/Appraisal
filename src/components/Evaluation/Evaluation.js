@@ -66,8 +66,8 @@ export default function Evaluation() {
       });
   }, [apprid]);
 
- const handleNext=()=>{
-  window.location.href = '/selfevaluation';
+ const handleNext=()=>{ 
+  window.location.href = `/selfevaluation/:${uid}`;
  }
   return (
     <div className="main-body">

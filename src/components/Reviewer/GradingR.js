@@ -200,7 +200,7 @@ export default function GradingR() {
                   type="submit"
                   onClick={() => {
                     handleSave(); // Call the handleSave function
-                    window.location.href = '/knowledgereviewing/:uid'; // Redirect to the desired page
+                    window.location.href = `/knowledgereviewing/:${uid}`; // Redirect to the desired page
                   }}
                 >
                   Save
