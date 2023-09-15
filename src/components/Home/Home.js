@@ -248,9 +248,12 @@ export default function Home() {
               />
             </div> */}
 
-            <div className="profile-section">
+            <div className="profile-section" style={{ justifyContent: "space-around"}}>
               <button type="submit" className='save' onClick={handleSave} >
-                Save and Next
+                Save 
+              </button>
+              <button type="submit" className='save' onClick={handleSave} >
+                Next
               </button>
             </div>
           </div>

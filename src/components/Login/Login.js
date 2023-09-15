@@ -54,7 +54,7 @@ function Login() {
         <div className='login'>
       <div className="login-page">
         <h1>Login</h1>
-        <form onSubmit={handleLogin}>
+        <form className='form-group' onSubmit={handleLogin}>
           <div className="form-group">
              
             <input
@@ -75,7 +75,7 @@ function Login() {
               placeholder='Password'
             />
           </div>
-          <button type="submit" style={{justifyContent: "center"}}>Login</button>
+          <button type="submit" >Login</button>
         </form>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
       </div>
