@@ -3,6 +3,7 @@ import './KnowledgeE.css';
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 export default function KnowledgeE() {
 //   const [name, setName] = useState('');
 //   const [position, setPosition] = useState('');
@@ -12,10 +13,11 @@ export default function KnowledgeE() {
 //   const [evaluation,setEvaluation]=useState('');
 const [name, setName] = useState('');
   const [id,setId]=useState('');
-  
+  const {uid}=useParams(); 
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
   const isEvaluator = role === 'evaluator';
+  const [stage,setStage]=useState(0);
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
     const token = localStorage.getItem('token');
@@ -25,7 +27,11 @@ const [name, setName] = useState('');
     // Set the default Authorization header for Axios
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
      setId(ID);
-
+     axios.get('https://appbackend-rala.onrender.com/finalsubmit/stage')
+     .then(response=>{
+       console.log(response.data);
+         setStage(response.data.stage);
+     })
   }, []);
 
   const [tableData, setTableData] = useState([
@@ -36,7 +42,7 @@ const [name, setName] = useState('');
     // Make a GET request to fetch questions and self-scores
     axios
       .post('https://appbackend-rala.onrender.com/evaluator/get-knowledge-based', {
-        apprId: "64fd8e3b9a14a681cba43ad3"
+        apprId:  uid
       }) // Replace with your API endpoint
       .then((response) => {
         const questions = response.data.knowledgeParameterQuestions;
@@ -59,7 +65,7 @@ const [name, setName] = useState('');
   const handleSave = () => {
     // Create the request body structure based on your requirements
     const requestBody = {
-      userId: "64fd8e3b9a14a681cba43ad3",
+      userId:  uid,
       responses: tableData.map((row) => ({
         question: row.parameter,
         score: row.evalScore,
@@ -183,7 +189,7 @@ const [name, setName] = useState('');
               <td className='box'>
                 <div className="score-subdivision">
                   <input className='box' type="text" value={row.selfScore}   disabled={isEvaluator}/>
-                  <input className='box' type="text" value={row.evalScore} onChange={(e) => handleEvalScoreChange(index, e)}/>
+                  <input className='box' type="text" value={row.evalScore} onChange={(e) => handleEvalScoreChange(index, e)} disabled={!(stage===1)}/>
                   <input className='box' type="text" value={row.reviewScore} disabled={isEvaluator}/>
                 </div>
               </td>

@@ -3,11 +3,12 @@ import './ResponsibilityR.css';
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 export default function ResponsibilityR() {
    
   const [name, setName] = useState('');
   const [id,setId]=useState('');
-  
+  const {uid}=useParams(); 
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
   const isReviewer = role === 'reviewer';
@@ -31,7 +32,7 @@ export default function ResponsibilityR() {
     // Make a GET request to fetch questions and self-scores
     axios
       .post('https://appbackend-rala.onrender.com/reviewer/get-responsibility-based', {
-        apprId: "64fd8e3b9a14a681cba43ad3"
+        apprId:  uid
       }) // Replace with your API endpoint
       .then((response) => {
         const questions = response.data.responsibilityFulfillmentQuestions;
@@ -54,7 +55,7 @@ export default function ResponsibilityR() {
   const handleSave = () => {
     // Create the request body structure based on your requirements
     const requestBody = {
-      userId: "64fd8e3b9a14a681cba43ad3",
+      userId:  uid,
       responses: tableData.map((row) => ({
         question: row.parameter,
         score: row.reviewScore,

@@ -3,13 +3,15 @@ import './GradingE.css';
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 export default function GradingE() {
   const [name, setName] = useState('');
   const [id, setId] = useState('');
   const [tableData, setTableData] = useState([
     { parameter: '', selfScore: '', evalScore: '', reviewScore: '' },
   ]);
-
+  const [stage,setStage]=useState(0);
+  const {uid}=useParams(); 
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
   const isEvaluator = role === 'evaluator';
@@ -22,7 +24,11 @@ export default function GradingE() {
     // Set the default Authorization header for Axios
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
-
+    axios.get('https://appbackend-rala.onrender.com/finalsubmit/stage')
+    .then(response=>{
+      console.log(response.data);
+        setStage(response.data.stage);
+    })
   }, []);
 
 
@@ -30,7 +36,7 @@ export default function GradingE() {
     // Make a GET request to fetch questions and self-scores
     axios
       .post('https://appbackend-rala.onrender.com/evaluator/get-professional-integrity', {
-        apprId: "64fd8e3b9a14a681cba43ad3"
+        apprId:  uid
       }) // Replace with your API endpoint
       .then((response) => {
         const questions = response.data.professionalIntegrityQuestions;
@@ -53,7 +59,7 @@ export default function GradingE() {
   const handleSave = () => {
     // Create the request body structure based on your requirements
     const requestBody = {
-      userId:"64fd8e3b9a14a681cba43ad3",
+      userId: uid,
       responses: tableData.map((row) => ({
         text: row.parameter,
         score: row.evalScore,
@@ -171,9 +177,9 @@ export default function GradingE() {
                       <td className='ibox' style={{ width: "39vw" }}><input className='ibox' style={{ width: "39vw" }} type="text" value={row.parameter} /></td>
                       <td className='ibox'>
                         <div className="score-subdivision">
-                          <input className='ibox' type="text" value={row.selfScore} disabled={isEvaluator} />
-                          <input className='ibox' type="text" value={row.evalScore} onChange={(e) => handleEvalScoreChange(index, e)} />
-                          <input className='ibox' type="text" value={row.reviewScore} disabled={isEvaluator} />
+                          <input className='ibox' type="text" value={row.selfScore} disabled={isEvaluator || !(stage===1) } />
+                          <input className='ibox' type="text" value={row.evalScore} disabled={!(stage===1)} onChange={(e) => handleEvalScoreChange(index, e)} />
+                          <input className='ibox' type="text" value={row.reviewScore} disabled={isEvaluator || !(stage===1)} />
                         </div>
                       </td>
                     </tr>

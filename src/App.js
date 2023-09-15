@@ -30,14 +30,14 @@ function App() {
       <Route path="/grading" element={<Grading/>} />
       <Route path="/knowledge" element={<Knowledge/>} />
       <Route path="/responsibility" element={<Responsibility/>} /> 
-      <Route path="/evaluation/:id" element={<Evaluation />} />
-      <Route path="/gradingevaluation" element={<GradingE />} />
-      <Route path="/knowledgeevaluation" element={<KnowledgeE />} />
-      <Route path='/responsibilityevaluation' element={<ResponsibilityE/>}/>
-      <Route path="/gradingreviewing" element={<GradingR />} />
-      <Route path="/knowledgereviewing" element={<KnowledgeR/>} />
-      <Route path='/responsibilityreviewing' element={<ResponsibilityR/>}/>
-      <Route path="/reviewer" element={<Reviewer/>} />
+      <Route path="/evaluation/:uid" element={<Evaluation />} />
+      <Route path="/gradingevaluation/:uid" element={<GradingE />} />
+      <Route path="/knowledgeevaluation/:uid" element={<KnowledgeE />} />
+      <Route path='/responsibilityevaluation/:uid' element={<ResponsibilityE/>}/>
+      <Route path="/gradingreviewing/:uid" element={<GradingR />} />
+      <Route path="/knowledgereviewing/:uid" element={<KnowledgeR/>} />
+      <Route path='/responsibilityreviewing/:uid' element={<ResponsibilityR/>}/>
+      <Route path="/reviewer/:uid" element={<Reviewer/>} />
       <Route path="/evaluationlist" element={<ListEval/>} />
       <Route path="/reviewinglist" element={<ListRev/>} />
       <Route path="/hr" element={<HomeHr/>} />

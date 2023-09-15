@@ -24,7 +24,8 @@ export default function Knowledge() {
   const [tableData, setTableData] = useState([
     { parameter: '', selfScore: '' },
   ]);
-
+  
+  const [stage,setStage]=useState(0);
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
     const token = localStorage.getItem('token');
@@ -35,6 +36,11 @@ export default function Knowledge() {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
     setRole1(role);
+    axios.get('https://appbackend-rala.onrender.com/finalsubmit/stage')
+    .then(response=>{
+      console.log(response.data);
+        setStage(response.data.stage);
+    })
     fetchKnowledgeQuestions(role);
 
   }, []);
@@ -160,8 +166,7 @@ export default function Knowledge() {
       <table>
         <thead>
           <tr>
-            <th className='boxbig'>Parameter</th>
-            <th className='sbox'>Applicability</th>
+            <th className='boxbig'>Parameter</th> 
             <th className='boxbig'>Points Awarded
                 <th className='box'>Self</th>
                 <th className='box'>Evaluation</th>
@@ -189,10 +194,10 @@ export default function Knowledge() {
                   {tableData.length > 0 ? (tableData.map((row, index) => (
                     <tr key={index}>
                       <td className='box'><input className='box' style={{ width: "35vw" }} type="text" value={row.parameter} disabled={isEvaluator || isReviewer || isSelf} /></td>
-                      <td className='sbox'></td>
+                       
                       <td className='box'>
                         <div className="score-subdivision">
-                          <input className='box' type="text" value={row.selfScore} disabled={isEvaluator || isReviewer} onChange={(e) => handleEvalScoreChange(index, e)} />
+                          <input className='box' type="text" value={row.selfScore} disabled={isEvaluator || isReviewer ||!(stage===0)} onChange={(e) => handleEvalScoreChange(index, e)} />
                           <input className='box' type="text" value={evaluateScore} disabled={isReviewer || isSelf} />
                           <input className='box' type="text" value={reviewScore} disabled={isEvaluator || isSelf} />
                         </div>
@@ -221,6 +226,7 @@ export default function Knowledge() {
                 }}>
                   Save
                 </button>
+                
               </div>
             </div>
           </div>

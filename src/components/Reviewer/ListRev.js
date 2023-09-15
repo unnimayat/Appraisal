@@ -91,8 +91,8 @@ export default function ListRev() {
   {profiles.map(profile => (
     <li key={profile.userId}>
       {/* <Link to={`/evaluation/${profile.userId}`}>{profile.Name}</Link> */}
-      <Link to={`/reviewing/${profile.userId}`}>{profile.Name}</Link>
-    </li>
+      <Link to={`/reviewer/${profile.userId}`}>{profile.Name}</Link>
+    </li> 
   ))}
 </ul>
 

@@ -16,7 +16,7 @@ export default function SelfE() {
   const role = localStorage.getItem('role');
   const isEvaluator = role === 'evaluator';
   const isSelf = role === 'self';
-
+  const [stage,setStage]=useState(0);
   const [responsibilitiesData, setResponsibilitiesData] = useState([
     { responsibility: '', self: '', evaluate: '', comments: '' },
   ]);
@@ -32,6 +32,11 @@ export default function SelfE() {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
     setRole1(role);
+    axios.get('https://appbackend-rala.onrender.com/finalsubmit/stage')
+    .then(response=>{
+      console.log(response.data);
+        setStage(response.data.stage);
+    })
   }, []);
 
   const handleSave = async (e) => {
@@ -147,7 +152,7 @@ export default function SelfE() {
                               updatedData[index].evaluate = e.target.value;
                               setResponsibilitiesData(updatedData);
                             }}
-                            disabled={isSelf}
+                            disabled={isSelf || !(stage===1)}
                           />
                           <input
                             className="ibox"
@@ -158,7 +163,7 @@ export default function SelfE() {
                               updatedData[index].comments = e.target.value;
                               setResponsibilitiesData(updatedData);
                             }}
-                            disabled={isSelf}
+                            disabled={isSelf || !(stage===1)}
                           />
                         </div>
                       </td>

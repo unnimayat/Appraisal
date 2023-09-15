@@ -23,6 +23,8 @@ export default function Responsibility() {
   const [tableData, setTableData] = useState([
     { parameter: '', selfScore: '' },
   ]);
+  
+  const [stage,setStage]=useState(0);
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
     const token = localStorage.getItem('token');
@@ -49,7 +51,6 @@ export default function Responsibility() {
       }));
       // Set the newTableData in the state
       setTableData(newTableData);
-      console.log(tableData);
     } catch (error) {
       console.error('Error fetching responsibility questions:', error);
     }
@@ -181,7 +182,7 @@ export default function Responsibility() {
                        
                       <td className='ibox'>
                         <div className="score-subdivision">
-                          <input className='box' type="text" value={row.selfScore} disabled={isEvaluator || isReviewer} onChange={(e) => handleEvalScoreChange(index, e)} />
+                          <input className='box' type="text" value={row.selfScore} disabled={isEvaluator || isReviewer ||!(stage===0)} onChange={(e) => handleEvalScoreChange(index, e)} />
                           <input className='box' type="text" value={evaluateScore} disabled={isReviewer || isSelf} />
                           <input className='box' type="text" value={reviewScore} disabled={isEvaluator || isSelf} />
                         </div>
@@ -203,12 +204,18 @@ export default function Responsibility() {
     </div>
                
 
-              <div className="profile-section">
+              <div className="profile-section" style={{display:"flex" ,flexDirection:"row"}}>
                 <button type="submit"  onClick={() => {
                   handleSave(); // Call the handleSave function
                   // Redirect to the desired page
                 }}>
                   Save
+                </button>
+                <button type="submit"  onClick={() => {
+                  handleFinalSave(); // Call the handleSave function
+                  // Redirect to the desired page
+                }}>
+                  Final Save
                 </button>
               </div>
             </div>

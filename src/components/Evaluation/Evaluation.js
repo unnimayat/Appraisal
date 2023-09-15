@@ -9,8 +9,7 @@ import { Params, useParams } from 'react-router-dom';
 const token = localStorage.getItem('token');
 const role = localStorage.getItem('role');
 
-export default function Evaluation() {
-  const { match } = useParams();
+export default function Evaluation() { 
   const [id, setId] = useState('');
   const [apprid,setapprid]=useState('');
   // const [name, setName] = useState('');
@@ -25,9 +24,9 @@ export default function Evaluation() {
   const [evaluation, setEvaluation] = useState('');
   const [save, setSave] = useState(false);
   const isEvaluator = role === 'evaluator';
-  // const profileId = match.params.id;
-  const params = useParams();
-  console.log(params.id);
+  const [stage,setStage]=useState(0);
+  // const profileId = match.params.id; 
+  const {uid}=useParams(); 
   useEffect(() => {
     getDetails();
   })
@@ -47,12 +46,16 @@ export default function Evaluation() {
     // Set the default Authorization header for Axios
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
-
+    axios.get('https://appbackend-rala.onrender.com/finalsubmit/stage')
+    .then(response=>{
+      console.log(response.data);
+        setStage(response.data.stage);
+    })
   }, []);
 
   useEffect(() => {
     // Make a GET request to your backend endpoint when the component mounts
-    axios.post(`https://appbackend-rala.onrender.com/self/basic-info`, { apprId:"64fd8e3b9a14a681cba43ad3"})
+    axios.post(`https://appbackend-rala.onrender.com/self/basic-info`, { apprId:uid})
       .then(response => {
         setformData(response.data)
         console.log(formData); // Check the response data in the console
@@ -111,7 +114,7 @@ export default function Evaluation() {
                 type="text"
                 value={formData.Name}
                 // onChange={(e) => setName(e.target.value)}
-                disabled={isEvaluator}
+                disabled={isEvaluator || !(stage===1)}
               />
             </div>
 
@@ -121,7 +124,7 @@ export default function Evaluation() {
                 type="text"
                 value={formData.position}
                 // onChange={(e) => setPosition(e.target.value)}
-                disabled={isEvaluator}
+                disabled={isEvaluator || !(stage===1)}
               />
             </div>
 
@@ -131,7 +134,7 @@ export default function Evaluation() {
                 type="text"
                 value={formData.periodUnderReview}
                 // onChange={(e) => setPeriod(e.target.value)}
-                disabled={isEvaluator}
+                disabled={isEvaluator || !(stage===1)}
               />
             </div>
 
@@ -141,7 +144,7 @@ export default function Evaluation() {
                 type="text"
                 value={formData.dateOccupiedPosition}
                 // onChange={(e) => setDate(e.target.value)}
-                disabled={isEvaluator}
+                disabled={isEvaluator || !(stage===1)}
               />
             </div>
 
@@ -162,9 +165,9 @@ export default function Evaluation() {
                 name="anyotherposition"
                 value={formData.anyotherposition}
                 // onChange={(e) => setAnyother(e.target.value)}
-                disabled={isEvaluator}
+                disabled={isEvaluator || !(stage===1)}
               >
-                <option value="No">No</option>
+                <option value="No" >No</option>
                 <option value="Yes">Yes</option>
               </select>
             </div>
@@ -180,7 +183,7 @@ export default function Evaluation() {
                     name="otherPosition"
                     value={formData.anyotherposition}
                     // onChange={(e) => setAnyotherposition(e.target.value)}
-                    disabled={isEvaluator}
+                    disabled={isEvaluator || !(stage===1)}
                   />
                 </div>
 
@@ -204,7 +207,7 @@ export default function Evaluation() {
                 type="text"
                 value={evaluation}
                 // onChange={(e) => setEvaluation(e.target.value)}
-                disabled={isEvaluator}
+                disabled={isEvaluator || !(stage===1)}
               />
             </div>
 
@@ -214,7 +217,7 @@ export default function Evaluation() {
                 type="text"
                 value={review}
                 // onChange={(e) => setReview(e.target.value)}
-                disabled={isEvaluator}
+                disabled={isEvaluator || !(stage===1)}
               />
             </div>
 

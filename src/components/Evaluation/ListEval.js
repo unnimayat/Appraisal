@@ -5,7 +5,7 @@ import './ListEval.css';
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
 import axios from 'axios';
-
+import { useParams } from 'react-router-dom';
 // Retrieve the token from local storage
 const token = localStorage.getItem('token');
 
@@ -36,6 +36,7 @@ export default function ListEval() {
 
       .then(response => {
         setProfiles(response.data);
+        console.log('profile');
         console.log(response.data); // Check the response data in the console
       })
       .catch(error => {
