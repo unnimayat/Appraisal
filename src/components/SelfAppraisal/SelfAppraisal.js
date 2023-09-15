@@ -202,10 +202,15 @@ export default function SelfAppraisal() {
                   ))}
                 </tbody>
               </table>
-              <button type="submit" onClick={handleSave}>
-                Save
-              </button>
-              <button onClick={addRow} disabled={ !(stage===0)}>Add Row</button>
+              {(stage === 0) && (<div className="profile-section">
+                <button type="submit" onClick={handleSave}>
+                  Save to Next
+                </button>
+                <button onClick={addRow} disabled={!(stage === 0)}>Add Row</button>
+              </div>)}
+              {
+                (stage !== 0) && (<div className="profile-section"><button type="submit" onClick={() => { window.location.href = '/grading';; }}>Next</button></div>)
+              }
             </div>
           </div>
         </div>
