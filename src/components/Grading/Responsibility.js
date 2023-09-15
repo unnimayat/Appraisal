@@ -33,20 +33,21 @@ export default function Responsibility() {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
     setRole1(role);
-    fetchResponsibilityQuestions(ID);
+    fetchResponsibilityQuestions();
   }, []);
-  const fetchResponsibilityQuestions = async (userId) => {
+  const fetchResponsibilityQuestions = async () => {
     try {
       // Send a GET request to the /get-position-based-questions API endpoint
       const response = await axios.get(`https://appbackend-rala.onrender.com/self/responsibilities`);
 
       // Extract questions from the response data
       const  questions = response.data;
-      console.log(response.data);
+      console.log(questions);
       const newTableData = questions.map((question) => ({
         parameter: question.text,
         selfScore: '', // You can initialize this as needed
       }));
+      // Set the newTableData in the state
       setTableData(newTableData);
       console.log(tableData);
     } catch (error) {
@@ -58,6 +59,7 @@ export default function Responsibility() {
     const { value } = event.target;
     console.log(value)
     // Create a copy of the tableData array
+    console.log(tableData)
     const updatedTableData = [...tableData];
     // Update the evalScore for the specified row
     updatedTableData[index].selfScore = value;
@@ -72,15 +74,16 @@ export default function Responsibility() {
       console.log(tableData);
       const data = {
         responses: tableData.map((row) => ({
-          text: row.parameter,
+          question: row.parameter,
           score: row.selfScore,
         }))
       };
+      console.log(data)
       // Send a POST request to the /evaluate-responsibility-fulfillment API endpoint
       await axios.post('https://appbackend-rala.onrender.com/self/evaluate-responsibility-fulfillment', data)
       .then((response) => {
         alert('Data added to the database.');
-        window.location.href = '/';
+        // window.location.href = '/';
       }) 
       .catch((error) => {
         // Handle any errors (e.g., display an error message)
