@@ -1,5 +1,5 @@
 import React, { useState ,useEffect} from 'react';
-import './HomeHr.css';
+import './AddQ.css';
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
 import axios from 'axios';
@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 // Retrieve the token from local storage
 const token = localStorage.getItem('token');
 
-export default function Home() {
+export default function AddQ() {
   const[id,setId]=useState('');
 //   const [name, setName] = useState('');
 //   const [position, setPosition] = useState('');
@@ -106,4 +106,3 @@ const [questions,setQuestions]=useState('')
         </div>
     );
   }
-  
