@@ -35,7 +35,12 @@ export default function Responsibility() {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
     setRole1(role);
-    fetchResponsibilityQuestions();
+    axios.get('https://appbackend-rala.onrender.com/finalsubmit/stage')
+    .then(response=>{
+      console.log(response.data);
+        setStage(response.data.stage);
+    })
+    fetchResponsibilityQuestions(ID);
   }, []);
   const fetchResponsibilityQuestions = async () => {
     try {
@@ -84,7 +89,33 @@ export default function Responsibility() {
       await axios.post('https://appbackend-rala.onrender.com/self/evaluate-responsibility-fulfillment', data)
       .then((response) => {
         alert('Data added to the database.');
-        // window.location.href = '/';
+        //window.location.href = '/';
+      }) 
+      .catch((error) => {
+        // Handle any errors (e.g., display an error message)
+        console.error('Failed to save data:', error);
+      });
+    } catch (error) {
+      console.error('Error adding user:', error);
+    }
+  }; 
+
+  const handleFinalSave = async () => {
+    try { 
+      // const questions = {   text: responsibility,
+      //   selfAppraisal:  self,
+      console.log(tableData);
+      // const data = {
+      //   responses: tableData.map((row) => ({
+      //     text: row.parameter,
+      //     score: row.selfScore,
+      //   }))
+      // };
+      // Send a POST request to the /evaluate-responsibility-fulfillment API endpoint
+      await axios.put('https://appbackend-rala.onrender.com/finalsubmit/self-evaluation-completed')
+      .then((response) => {
+        alert('Data finally saved to the database.');
+        window.location.href = '/home';
       }) 
       .catch((error) => {
         // Handle any errors (e.g., display an error message)
