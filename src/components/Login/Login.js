@@ -30,7 +30,7 @@ function Login() {
         if (userRole === 'evaluator') {
           window.location.href = '/evaluationlist';
         } else if (userRole === 'reviewer') {
-          window.location.href = '/reviewer';
+          window.location.href = '/reviewinglist';
         } else if (userRole === 'hr') {
           window.location.href = '/hr';
         } else {

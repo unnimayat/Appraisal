@@ -9,8 +9,7 @@ import { Params, useParams } from 'react-router-dom';
 const token = localStorage.getItem('token');
 const role = localStorage.getItem('role');
 
-export default function Evaluation() {
-  const { match } = useParams();
+export default function Evaluation() { 
   const [id, setId] = useState('');
   const [apprid,setapprid]=useState('');
   // const [name, setName] = useState('');
@@ -25,9 +24,8 @@ export default function Evaluation() {
   const [evaluation, setEvaluation] = useState('');
   const [save, setSave] = useState(false);
   const isEvaluator = role === 'evaluator';
-  // const profileId = match.params.id;
-  const params = useParams();
-  console.log(params.id);
+  // const profileId = match.params.id; 
+  const {uid}=useParams(); 
   useEffect(() => {
     getDetails();
   })
@@ -52,7 +50,7 @@ export default function Evaluation() {
 
   useEffect(() => {
     // Make a GET request to your backend endpoint when the component mounts
-    axios.post(`https://appbackend-rala.onrender.com/self/basic-info`, { apprId:"64fd8e3b9a14a681cba43ad3"})
+    axios.post(`https://appbackend-rala.onrender.com/self/basic-info`, { apprId:uid})
       .then(response => {
         setformData(response.data)
         console.log(formData); // Check the response data in the console

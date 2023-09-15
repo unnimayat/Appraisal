@@ -48,7 +48,6 @@ export default function Responsibility() {
         selfScore: '', // You can initialize this as needed
       }));
       setTableData(newTableData);
-      console.log(tableData);
     } catch (error) {
       console.error('Error fetching responsibility questions:', error);
     }
