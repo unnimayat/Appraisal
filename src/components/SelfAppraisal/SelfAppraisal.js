@@ -38,6 +38,22 @@ export default function SelfAppraisal() {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
     setRole1(role);
+    axios.get(`http://localhost:3005/self/responsibilities`)
+      .then(response => {
+        console.log(response.data); // Check the response data in the console
+        if (Array.isArray(response.data)) {
+          setResponsibilitiesData(response.data.map(item => ({
+            responsibility: item.text || '',
+            self: item.selfAppraisal || '',
+            evaluate: item.evaluation || '',
+            comments: item.comments || '',
+          })));
+        }
+        console.log(responsibilitiesData)
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }, []);
 
   const handleSave = async (e) => {
