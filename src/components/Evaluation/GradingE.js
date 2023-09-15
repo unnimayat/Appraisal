@@ -10,7 +10,7 @@ export default function GradingE() {
   const [tableData, setTableData] = useState([
     { parameter: '', selfScore: '', evalScore: '', reviewScore: '' },
   ]);
-  
+  const [stage,setStage]=useState(0);
   const {uid}=useParams(); 
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
@@ -24,7 +24,11 @@ export default function GradingE() {
     // Set the default Authorization header for Axios
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
-
+    axios.get('https://appbackend-rala.onrender.com/finalsubmit/stage')
+    .then(response=>{
+      console.log(response.data);
+        setStage(response.data.stage);
+    })
   }, []);
 
 
@@ -173,9 +177,9 @@ export default function GradingE() {
                       <td className='ibox' style={{ width: "39vw" }}><input className='ibox' style={{ width: "39vw" }} type="text" value={row.parameter} /></td>
                       <td className='ibox'>
                         <div className="score-subdivision">
-                          <input className='ibox' type="text" value={row.selfScore} disabled={isEvaluator} />
-                          <input className='ibox' type="text" value={row.evalScore} onChange={(e) => handleEvalScoreChange(index, e)} />
-                          <input className='ibox' type="text" value={row.reviewScore} disabled={isEvaluator} />
+                          <input className='ibox' type="text" value={row.selfScore} disabled={isEvaluator || !(stage===1) } />
+                          <input className='ibox' type="text" value={row.evalScore} disabled={!(stage===1)} onChange={(e) => handleEvalScoreChange(index, e)} />
+                          <input className='ibox' type="text" value={row.reviewScore} disabled={isEvaluator || !(stage===1)} />
                         </div>
                       </td>
                     </tr>

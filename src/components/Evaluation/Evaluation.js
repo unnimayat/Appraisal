@@ -24,6 +24,7 @@ export default function Evaluation() {
   const [evaluation, setEvaluation] = useState('');
   const [save, setSave] = useState(false);
   const isEvaluator = role === 'evaluator';
+  const [stage,setStage]=useState(0);
   // const profileId = match.params.id; 
   const {uid}=useParams(); 
   useEffect(() => {
@@ -45,7 +46,11 @@ export default function Evaluation() {
     // Set the default Authorization header for Axios
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
-
+    axios.get('https://appbackend-rala.onrender.com/finalsubmit/stage')
+    .then(response=>{
+      console.log(response.data);
+        setStage(response.data.stage);
+    })
   }, []);
 
   useEffect(() => {
@@ -109,7 +114,7 @@ export default function Evaluation() {
                 type="text"
                 value={formData.Name}
                 // onChange={(e) => setName(e.target.value)}
-                disabled={isEvaluator}
+                disabled={isEvaluator || !(stage===1)}
               />
             </div>
 
@@ -119,7 +124,7 @@ export default function Evaluation() {
                 type="text"
                 value={formData.position}
                 // onChange={(e) => setPosition(e.target.value)}
-                disabled={isEvaluator}
+                disabled={isEvaluator || !(stage===1)}
               />
             </div>
 
@@ -129,7 +134,7 @@ export default function Evaluation() {
                 type="text"
                 value={formData.periodUnderReview}
                 // onChange={(e) => setPeriod(e.target.value)}
-                disabled={isEvaluator}
+                disabled={isEvaluator || !(stage===1)}
               />
             </div>
 
@@ -139,7 +144,7 @@ export default function Evaluation() {
                 type="text"
                 value={formData.dateOccupiedPosition}
                 // onChange={(e) => setDate(e.target.value)}
-                disabled={isEvaluator}
+                disabled={isEvaluator || !(stage===1)}
               />
             </div>
 
@@ -160,9 +165,9 @@ export default function Evaluation() {
                 name="anyotherposition"
                 value={formData.anyotherposition}
                 // onChange={(e) => setAnyother(e.target.value)}
-                disabled={isEvaluator}
+                disabled={isEvaluator || !(stage===1)}
               >
-                <option value="No">No</option>
+                <option value="No" >No</option>
                 <option value="Yes">Yes</option>
               </select>
             </div>
@@ -178,7 +183,7 @@ export default function Evaluation() {
                     name="otherPosition"
                     value={formData.anyotherposition}
                     // onChange={(e) => setAnyotherposition(e.target.value)}
-                    disabled={isEvaluator}
+                    disabled={isEvaluator || !(stage===1)}
                   />
                 </div>
 
@@ -202,7 +207,7 @@ export default function Evaluation() {
                 type="text"
                 value={evaluation}
                 // onChange={(e) => setEvaluation(e.target.value)}
-                disabled={isEvaluator}
+                disabled={isEvaluator || !(stage===1)}
               />
             </div>
 
@@ -212,7 +217,7 @@ export default function Evaluation() {
                 type="text"
                 value={review}
                 // onChange={(e) => setReview(e.target.value)}
-                disabled={isEvaluator}
+                disabled={isEvaluator || !(stage===1)}
               />
             </div>
 

@@ -17,6 +17,7 @@ const [name, setName] = useState('');
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
   const isEvaluator = role === 'evaluator';
+  const [stage,setStage]=useState(0);
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
     const token = localStorage.getItem('token');
@@ -26,7 +27,11 @@ const [name, setName] = useState('');
     // Set the default Authorization header for Axios
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
      setId(ID);
-
+     axios.get('https://appbackend-rala.onrender.com/finalsubmit/stage')
+     .then(response=>{
+       console.log(response.data);
+         setStage(response.data.stage);
+     })
   }, []);
 
   const [tableData, setTableData] = useState([
@@ -184,7 +189,7 @@ const [name, setName] = useState('');
               <td className='box'>
                 <div className="score-subdivision">
                   <input className='box' type="text" value={row.selfScore}   disabled={isEvaluator}/>
-                  <input className='box' type="text" value={row.evalScore} onChange={(e) => handleEvalScoreChange(index, e)}/>
+                  <input className='box' type="text" value={row.evalScore} onChange={(e) => handleEvalScoreChange(index, e)} disabled={!(stage===1)}/>
                   <input className='box' type="text" value={row.reviewScore} disabled={isEvaluator}/>
                 </div>
               </td>

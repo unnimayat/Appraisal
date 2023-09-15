@@ -21,7 +21,7 @@ export default function Home() {
   const [save, setSave] = useState(false);
   const [role, setRole] = useState('');
   const [formData, setformData] = useState([]);
-
+  const [stage,setStage]=useState(0);
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
     const token = localStorage.getItem('token');
@@ -37,6 +37,11 @@ export default function Home() {
   useEffect(() => {
     // Make a GET request to your backend endpoint when the component mounts
     console.log(id)
+    axios.get('https://appbackend-rala.onrender.com/finalsubmit/stage')
+    .then(response=>{
+      console.log(response.data);
+        setStage(response.data.stage);
+    })
     axios.get(`https://appbackend-rala.onrender.com/self/basic-info`)
       .then(response => {
         setformData(response.data)
@@ -61,9 +66,10 @@ export default function Home() {
       name.trim() === '' ||
       position.trim() === '' ||
       period.trim() === '' ||
-      date.trim() === '' ||
-      review.trim() === '' ||
-      evaluation.trim() === ''
+      date.trim() === ''
+      //  ||
+      // review.trim() === '' ||
+      // evaluation.trim() === ''
     ) {
       alert('All fields are mandatory. Please enter values.');
       return;
@@ -136,6 +142,7 @@ export default function Home() {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                disabled={!(stage===0)}
               />
             </div>
 
@@ -145,6 +152,7 @@ export default function Home() {
                 type="text"
                 value={position}
                 onChange={(e) => setPosition(e.target.value)}
+                disabled={!(stage===0)}
               />
             </div>
 
@@ -154,6 +162,7 @@ export default function Home() {
                 type="text"
                 value={period}
                 onChange={(e) => setPeriod(e.target.value)}
+                disabled={!(stage===0)}
               />
             </div>
 
@@ -163,6 +172,7 @@ export default function Home() {
                 type="text"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
+                disabled={!(stage===0)}
               />
             </div>
 
@@ -183,9 +193,10 @@ export default function Home() {
                 name="anyotherposition"
                 value={anyother}
                 onChange={(e) => setAnyother(e.target.value)}
+                disabled={!(stage===0)}
               >
-                <option value="No">No</option>
-                <option value="Yes">Yes</option>
+                <option value="No" disabled={!(stage===0)}>No</option>
+                <option value="Yes" disabled={!(stage===0)}>Yes</option>
               </select>
             </div>
             {/* Additional fields for "Yes" response */}
@@ -200,6 +211,7 @@ export default function Home() {
                     name="otherPosition"
                     value={anyotherposition}
                     onChange={(e) => setAnyotherposition(e.target.value)}
+                    disabled={!(stage===0)}
                   />
                 </div>
 
@@ -216,12 +228,13 @@ export default function Home() {
               </div>)}
 
 
-            <div className="profile-section">
+            {/* <div className="profile-section">
               <label className='labels'>Evalution Authority</label>
               <input
                 type="text"
                 value={evaluation}
                 onChange={(e) => setEvaluation(e.target.value)}
+                disabled={!(stage===0)}
               />
             </div>
 
@@ -231,12 +244,13 @@ export default function Home() {
                 type="text"
                 value={review}
                 onChange={(e) => setReview(e.target.value)}
+                disabled={!(stage===0)}
               />
-            </div>
+            </div> */}
 
             <div className="profile-section">
               <button type="submit" className='save' onClick={handleSave} >
-                Save
+                Save and Next
               </button>
             </div>
           </div>

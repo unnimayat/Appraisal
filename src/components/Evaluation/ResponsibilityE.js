@@ -12,6 +12,7 @@ export default function ResponsibilityE() {
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
   const isEvaluator = role === 'evaluator';
+  const [stage,setStage]=useState(0)
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
     const token = localStorage.getItem('token');
@@ -21,7 +22,11 @@ export default function ResponsibilityE() {
     // Set the default Authorization header for Axios
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
-
+    axios.get('https://appbackend-rala.onrender.com/finalsubmit/stage')
+    .then(response=>{
+      console.log(response.data);
+        setStage(response.data.stage);
+    })
   }, []);
 
   const [tableData, setTableData] = useState([
@@ -51,6 +56,31 @@ export default function ResponsibilityE() {
       });
   }, []);
 
+  const handleFinalSave = async () => {
+    try { 
+      // const questions = {   text: responsibility,
+      //   selfAppraisal:  self,
+      console.log(tableData);
+      // const data = {
+      //   responses: tableData.map((row) => ({
+      //     text: row.parameter,
+      //     score: row.selfScore,
+      //   }))
+      // };
+      // Send a POST request to the /evaluate-responsibility-fulfillment API endpoint
+      await axios.put('https://appbackend-rala.onrender.com/finalsubmit/self-evaluation-completed')
+      .then((response) => {
+        alert('Data finally saved to the database.');
+        window.location.href = '/evaluationlist';
+      }) 
+      .catch((error) => {
+        // Handle any errors (e.g., display an error message)
+        console.error('Failed to save data:', error);
+      });
+    } catch (error) {
+      console.error('Error adding user:', error);
+    }
+  }; 
 
   const handleSave = () => {
     // Create the request body structure based on your requirements
@@ -175,7 +205,7 @@ export default function ResponsibilityE() {
                       <td className='ibox'>
                         <div className="score-subdivision">
                           <input className='ibox' type="text" value={row.selfScore} disabled={isEvaluator} />
-                          <input className='ibox' type="text" value={row.evalScore} onChange={(e) => handleEvalScoreChange(index, e)} />
+                          <input className='ibox' type="text" value={row.evalScore} onChange={(e) => handleEvalScoreChange(index, e)} disabled={!(stage===1)} />
                           <input className='ibox' type="text" value={row.reviewScore} disabled={isEvaluator} />
                         </div>
                       </td>
@@ -201,9 +231,12 @@ export default function ResponsibilityE() {
               }}>
                 Save
               </button>
-              <button type="submit"   >
-                Final Save
-              </button>
+              <button type="submit"  onClick={() => {
+                  handleFinalSave(); // Call the handleSave function
+                  // Redirect to the desired page
+                }}>
+                  Final Save
+                </button>
             </div>
           </div>
         </div>

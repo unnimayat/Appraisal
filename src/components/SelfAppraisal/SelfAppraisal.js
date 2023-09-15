@@ -16,7 +16,7 @@ export default function SelfAppraisal() {
   const role = localStorage.getItem('role');
   const isEvaluator = role === 'evaluator';
   const isSelf = role === 'self';
-
+  const [stage,setStage]=useState(0);
   const [responsibilitiesData, setResponsibilitiesData] = useState([
     { responsibility: '', self: '', evaluate: '', comments: '' },
   ]);
@@ -38,6 +38,11 @@ export default function SelfAppraisal() {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
     setRole1(role);
+    axios.get('https://appbackend-rala.onrender.com/finalsubmit/stage')
+    .then(response=>{
+      console.log(response.data);
+        setStage(response.data.stage);
+    })
     axios.get(`https://appbackend-rala.onrender.com/self/responsibilities`)
       .then(response => {
         console.log(response.data); // Check the response data in the console
@@ -153,7 +158,7 @@ export default function SelfAppraisal() {
                             setResponsibilitiesData(updatedData);
                           }}
                           placeholder="responisbility"
-                          disabled={isEvaluator}
+                          disabled={isEvaluator || !(stage===0)} 
                         />
                       </td>
                       <td className="ibox">
@@ -162,7 +167,7 @@ export default function SelfAppraisal() {
                             className="ibox"
                             type="text"
                             value={row.self}
-                            disabled={isEvaluator}
+                            disabled={isEvaluator || !(stage===0)}
                             onChange={(e) => {
                               const updatedData = [...responsibilitiesData];
                               updatedData[index].self = e.target.value;
@@ -178,7 +183,7 @@ export default function SelfAppraisal() {
                               updatedData[index].evaluate = e.target.value;
                               setResponsibilitiesData(updatedData);
                             }}
-                            disabled={isSelf}
+                            disabled={isSelf }
                           />
                           <input
                             className="ibox"
@@ -200,7 +205,7 @@ export default function SelfAppraisal() {
               <button type="submit" onClick={handleSave}>
                 Save
               </button>
-              <button onClick={addRow}>Add Row</button>
+              <button onClick={addRow} disabled={ !(stage===0)}>Add Row</button>
             </div>
           </div>
         </div>
