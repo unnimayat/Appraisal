@@ -20,6 +20,7 @@ export default function Home() {
   const [evaluation,setEvaluation]=useState('');
   const [save,setSave]=useState(false);
   const [role,setRole]=useState('');
+  const [formData, setformData] = useState([]);
   
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
@@ -33,6 +34,27 @@ export default function Home() {
     setRole(role);
   }, []); 
  
+  useEffect(() => {
+    // Make a GET request to your backend endpoint when the component mounts
+    console.log(id)
+    axios.get(`http://localhost:3005/self/basic-info`)
+      .then(response => {
+        setformData(response.data)
+        console.log(formData); // Check the response data in the console
+        // Extract values from response.data and set them in state
+        const { Name, position, periodUnderReview, dateOccupiedPosition, anyotherposition } = response.data;
+        setName(Name || '');
+        setPosition(position || '');
+        setPeriod(periodUnderReview || '');
+        setDate(dateOccupiedPosition || '');
+        setAnyotherposition(anyotherposition || '');
+      })
+      .catch(error => {
+        setformData([]);
+        console.log(error);
+      });
+  }, [id]);
+
   const handleSave = async (e) => {
     e.preventDefault();
     if (
@@ -181,7 +203,7 @@ export default function Home() {
           />
         </div>
 
-        <div className="profile-section">
+        {/* <div className="profile-section">
           <label htmlFor="otherPositionPeriod" className='labels'>During what period:</label>
           <input
             type="text"
@@ -190,7 +212,7 @@ export default function Home() {
             value={anyotherdate}
             onChange={(e) => setAnyotherdate(e.target.value)}
           />
-        </div>
+        </div> */}
         </div>)}
 
 
