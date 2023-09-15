@@ -104,7 +104,7 @@ export default function Knowledge() {
   const fetchscores = async () => {
     try {
       const response = await axios.get(
-        'http://localhost:3005/self/knowledge-scores'
+        'https://appbackend-rala.onrender.com/self/knowledge-scores'
       );
       // Extract the questions array from the response data
       const questions = response.data;
@@ -193,40 +193,34 @@ export default function Knowledge() {
               <table>
                 <thead>
                   <tr>
-                    <th className='boxbig'>Parameter</th>
-                    <th className='boxbig'>Points Awarded
-                      <th className='box'>Self</th>
-                      <th className='box'>Evaluation</th>
-                      <th className='box'>Review</th>
-                    </th>
+                    <th className='box'>Parameter</th>
+                    <table  >
+                      <tr style={{display:"flex",flexDirection:"column",backgroundColor:"none"}}>
+                        <th style={{justifyItems:"center",width:"100%",border:"none",backgroundColor:"transparent"}}>
+                        Points Awarded
+                        </th>
+                      </tr>
+                    <tr>
+                       <th className="ibox" >Self</th>
+                      <th className="ibox">Evaluation</th>
+                      <th className="ibox">Review</th>
+                    </tr>
+                    
+                    </table>
                   </tr>
                 </thead>
 
-                {/* <tbody>
-          {tableData.map((row, index) => (
-            <tr key={index}>
-              <td className='box'><input className='box' style={{width:"35vw"}} type="text" value={row.subject} disabled={isEvaluator || isReviewer || isSelf} /></td>
-              <td className='sbox'></td>
-              <td className='box'>
-                <div className="score-subdivision">
-                  <input className='box' type="text" value={selfScore}  disabled={isEvaluator || isReviewer  }  onChange={(e) => setSelfScore(e.target.value)}/>
-                  <input className='box' type="text" value={evaluateScore} disabled={ isReviewer || isSelf}/>
-                  <input className='box' type="text" value={reviewScore} disabled={isEvaluator  || isSelf}/>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody> */}
-                <tbody>
+               
+                 
                   {(stage === 0) && (<tbody>
                     {tableData.length > 0 ? (tableData.map((row, index) => (
                       <tr key={index}>
-                        <td className='ibox' style={{ width: "39vw" }}><input className='ibox' style={{ width: "39vw" }} type="text" value={row.parameter} disabled={isEvaluator || isReviewer || isSelf} /></td>
+                        <td className='ibox' ><input className='ibox'   type="text" value={row.parameter} disabled={isEvaluator || isReviewer || isSelf} /></td>
                         <td className='ibox'>
                           <div className="score-subdivision">
-                            <input className='ibox' type="text" value={row.selfScore} disabled={isEvaluator || isReviewer || !(stage === 0)} onChange={(e) => handleEvalScoreChange(index, e)} />
-                            <input className='ibox' type="text" value={evaluateScore} disabled={isReviewer || isSelf} />
-                            <input className='ibox' type="text" value={reviewScore} disabled={isEvaluator || isSelf} />
+                            <input className='ibox' style={{ backgroundColor:"white"}} type="text" value={row.selfScore} disabled={isEvaluator || isReviewer || !(stage === 0)} onChange={(e) => handleEvalScoreChange(index, e)} />
+                            <input className='ibox' style={{ backgroundColor:"white"}} type="text" value={evaluateScore} disabled={isReviewer || isSelf} />
+                            <input className='ibox' style={{ backgroundColor:"white"}} type="text" value={reviewScore} disabled={isEvaluator || isSelf} />
                           </div>
                         </td>
                       </tr>
@@ -238,12 +232,12 @@ export default function Knowledge() {
                     (stage !== 0) && (<tbody>
                       {scoreData.length > 0 ? (scoreData.map((row, index) => (
                         <tr key={index}>
-                          <td className='ibox' style={{ width: "39vw" }}><input className='ibox' style={{ width: "39vw" }} type="text" value={row.qntext} disabled={isEvaluator || isReviewer || isSelf} /></td>
+                          <td className='ibox' ><input className='ibox'  type="text" value={row.qntext} disabled={isEvaluator || isReviewer || isSelf} /></td>
                           <td className='ibox'>
                             <div className="score-subdivision">
-                              <input className='ibox' type="text" value={row.selfscore} disabled={isEvaluator || isReviewer || !(stage === 0)} onChange={(e) => handleEvalScoreChange(index, e)} />
-                              <input className='ibox' type="text" value={row.evalscore} disabled={isReviewer || isSelf} />
-                              <input className='ibox' type="text" value={row.reviewscore} disabled={isEvaluator || isSelf} />
+                              <input className='ibox' style={{ backgroundColor:"white"}} type="text" value={row.selfscore} disabled={isEvaluator || isReviewer || !(stage === 0)} onChange={(e) => handleEvalScoreChange(index, e)} />
+                              <input className='ibox' style={{ backgroundColor:"white"}}  type="text" value={row.evalscore} disabled={isReviewer || isSelf} />
+                              <input className='ibox' style={{ backgroundColor:"white"}}  type="text" value={row.reviewscore} disabled={isEvaluator || isSelf} />
                             </div>
                           </td>
                         </tr>
@@ -251,8 +245,7 @@ export default function Knowledge() {
                         <p>Loading ...</p>
                       )}
                     </tbody>)
-                  }
-                </tbody>
+                  } 
 
                 {/* <tr>
             <th className='box' style={{width:10}}>Total</th>
@@ -275,7 +268,7 @@ export default function Knowledge() {
                 </button>
               </div>)}
               {
-                (stage !== 0) && (<div className="profile-section"><button type="submit" onClick={() => { window.location.href = '/responsibility'; }}>Next</button></div>)
+                (stage !== 0) && (<div className="profile-section"><button type="submit" style={{width:"10vw"}} onClick={() => { window.location.href = '/responsibility'; }}>Next</button></div>)
               }
             </div>
           </div>

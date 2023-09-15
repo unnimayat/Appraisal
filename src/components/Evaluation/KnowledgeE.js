@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 export default function KnowledgeE() {
 //   const [name, setName] = useState('');
 //   const [position, setPosition] = useState('');
-//   const [date, setDate] = useState('');
+//   cons t [date, setDate] = useState('');
 //   const [period,setPeriod]=useState('');
 //   const [review,setReview]=useState('');
 //   const [evaluation,setEvaluation]=useState('');
@@ -171,31 +171,37 @@ const [name, setName] = useState('');
       <table>
         <thead>
           <tr>
-            <th className='boxbig'>Parameter</th>
-            <th className='sbox'>Applicability</th>
-            <th className='boxbig'>Points Awarded
-                <th className='box'>Self</th>
-                <th className='box'>Evaluation</th>
-                <th className='box'>Review</th>
-            </th>
+            <th className='box'>Parameter</th>
+            <table  >
+                      <tr style={{display:"flex",flexDirection:"column",backgroundColor:"none"}}>
+                        <th style={{justifyItems:"center",width:"100%",border:"none",backgroundColor:"transparent"}}>
+                        Points Awarded
+                        </th>
+                      </tr>
+                    <tr>
+                       <th className="ibox" >Self</th>
+                      <th className="ibox">Evaluation</th>
+                      <th className="ibox">Review</th>
+                    </tr>
+                    
+                    </table>
           </tr>
         </thead>
 
-        <tbody>
+         
           {tableData.map((row, index) => (
             <tr key={index}>
-              <td className='box'><input className='box' style={{width:"35vw"}} type="text" value={row.parameter} /></td>
-              <td className='sbox'></td>
-              <td className='box'>
+              <td className='ibox'><input className='ibox'  type="text" value={row.parameter} /></td>
+             
+              <td className='ibox'>
                 <div className="score-subdivision">
-                  <input className='box' type="text" value={row.selfScore}   disabled={isEvaluator}/>
-                  <input className='box' type="text" value={row.evalScore} onChange={(e) => handleEvalScoreChange(index, e)} disabled={!(stage===1)}/>
-                  <input className='box' type="text" value={row.reviewScore} disabled={isEvaluator}/>
+                  <input className='ibox' style={{ backgroundColor:"white"}} type="text" value={row.selfScore}   disabled={isEvaluator}/>
+                  <input className='ibox'style={{ backgroundColor:"white"}} type="text" value={row.evalScore} onChange={(e) => handleEvalScoreChange(index, e)} disabled={!(stage===1)}/>
+                  <input className='ibox'style={{ backgroundColor:"white"}} type="text" value={row.reviewScore} disabled={isEvaluator}/>
                 </div>
               </td>
             </tr>
-          ))}
-        </tbody>
+          ))} 
 
          
           {/* <tr>

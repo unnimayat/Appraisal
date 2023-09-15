@@ -159,37 +159,45 @@ export default function GradingR() {
       <table>
         <thead>
           <tr>
-            <th className='boxbig'>Parameter</th>
-            <th className='boxbig'>Points Awarded
-                <th className='box'>Self</th>
-                <th className='box'>Evaluation</th>
-                <th className='box'>Review</th>
-            </th>
+            <th className='box'>Parameter</th>
+            <table  >
+                      <tr style={{display:"flex",flexDirection:"column",backgroundColor:"none"}}>
+                        <th style={{justifyItems:"center",width:"100%",border:"none",backgroundColor:"transparent"}}>
+                        Points Awarded
+                        </th>
+                      </tr>
+                    <tr>
+                       <th className="ibox" >Self</th>
+                      <th className="ibox">Evaluation</th>
+                      <th className="ibox">Review</th>
+                    </tr>
+                    
+                    </table>
           </tr>
         </thead>
 
-        <tbody>
+        
           {tableData.map((row, index) => (
             <tr key={index}>
-              <td className='ibox' style={{ width: "39vw"}}><input className='ibox' style={{ width: "39vw"}} type="text" value={row.subject} /></td>
+              <td className='ibox'  ><input className='ibox'  type="text" value={row.subject} /></td>
               <td className='ibox'>
                 <div className="score-subdivision">
-                  <input className='ibox' type="text" value={row.selfScore}    disabled={isReviewer} />
-                  <input className='ibox' type="text" value={row.evalScore} disabled={isReviewer}/>
-                  <input className='ibox' type="text" value={row.reviewScore} onChange={(e) => handleEvalScoreChange(index, e)} />
+                  <input className='ibox'style={{ backgroundColor:"white"}} type="text" value={row.selfScore}    disabled={isReviewer} />
+                  <input className='ibox' style={{ backgroundColor:"white"}}type="text" value={row.evalScore} disabled={isReviewer}/>
+                  <input className='ibox'style={{ backgroundColor:"white"}} type="text" value={row.reviewScore} onChange={(e) => handleEvalScoreChange(index, e)} />
                 </div>
               </td>
             </tr>
           ))}
-        </tbody>
+         
 
          
-          <tr>
+          {/* <tr>
             <th className='box' style={{width:10}}>Total</th>
             <th className='tbox'>10</th>
             <th className='tbox'>10</th>
             <th className='tbox'>6</th> 
-          </tr>
+          </tr> */}
          
       </table>
     </div>

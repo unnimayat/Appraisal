@@ -133,7 +133,7 @@ export default function Responsibility() {
   const fetchscores = async () => {
     try {
       const response = await axios.get(
-        'http://localhost:3005/self/responsibility-scores'
+        'https://appbackend-rala.onrender.com/self/responsibility-scores'
       );
       // Extract the questions array from the response data
       const questions = response.data;
@@ -220,27 +220,35 @@ export default function Responsibility() {
               <table>
                 <thead>
                   <tr>
-                    <th className='boxbig'>Quantitative Measure indicators approved in the JD</th>
-                    <th className='boxbig'>Points Awarded
-                      <th className='box'>Self</th>
-                      <th className='box'>Evaluation</th>
-                      <th className='box'>Review</th>
-                    </th>
+                    <th className='box'>Quantitative Measure indicators approved in the JD</th>
+                    <table  >
+                      <tr style={{display:"flex",flexDirection:"column",backgroundColor:"none"}}>
+                        <th style={{justifyItems:"center",width:"100%",border:"none",backgroundColor:"transparent"}}>
+                        Points Awarded
+                        </th>
+                      </tr>
+                    <tr>
+                       <th className="ibox" >Self</th>
+                      <th className="ibox">Evaluation</th>
+                      <th className="ibox">Review</th>
+                    </tr>
+                    
+                    </table>
                   </tr>
                 </thead>
 
 
 
-                <tbody>
+                 
                   {(stage === 0) && (<tbody>
                     {tableData.length > 0 ? (tableData.map((row, index) => (
                       <tr key={index}>
-                        <td className='ibox' style={{ width: "39vw" }}><input className='ibox' style={{ width: "39vw" }} type="text" value={row.parameter} disabled={isEvaluator || isReviewer || isSelf} /></td>
+                        <td className='ibox'  ><input className='ibox'   type="text" value={row.parameter} disabled={isEvaluator || isReviewer || isSelf} /></td>
                         <td className='ibox'>
                           <div className="score-subdivision">
-                            <input className='ibox' type="text" value={row.selfScore} disabled={isEvaluator || isReviewer || !(stage === 0)} onChange={(e) => handleEvalScoreChange(index, e)} />
-                            <input className='ibox' type="text" value={evaluateScore} disabled={isReviewer || isSelf} />
-                            <input className='ibox' type="text" value={reviewScore} disabled={isEvaluator || isSelf} />
+                            <input className='ibox'  style={{ backgroundColor:"white"}} type="text" value={row.selfScore} disabled={isEvaluator || isReviewer || !(stage === 0)} onChange={(e) => handleEvalScoreChange(index, e)} />
+                            <input className='ibox' style={{ backgroundColor:"white"}} type="text" value={evaluateScore} disabled={isReviewer || isSelf} />
+                            <input className='ibox'  style={{ backgroundColor:"white"}} type="text" value={reviewScore} disabled={isEvaluator || isSelf} />
                           </div>
                         </td>
                       </tr>
@@ -252,12 +260,12 @@ export default function Responsibility() {
                     (stage !== 0) && (<tbody>
                       {scoreData.length > 0 ? (scoreData.map((row, index) => (
                         <tr key={index}>
-                          <td className='ibox' style={{ width: "39vw" }}><input className='ibox' style={{ width: "39vw" }} type="text" value={row.qntext} disabled={isEvaluator || isReviewer || isSelf} /></td>
+                          <td className='ibox' ><input className='ibox'  type="text" value={row.qntext} disabled={isEvaluator || isReviewer || isSelf} /></td>
                           <td className='ibox'>
                             <div className="score-subdivision">
-                              <input className='ibox' type="text" value={row.selfscore} disabled={isEvaluator || isReviewer || !(stage === 0)} onChange={(e) => handleEvalScoreChange(index, e)} />
-                              <input className='ibox' type="text" value={row.evalscore} disabled={isReviewer || isSelf} />
-                              <input className='ibox' type="text" value={row.reviewscore} disabled={isEvaluator || isSelf} />
+                              <input className='ibox'  style={{ backgroundColor:"white"}}type="text" value={row.selfscore} disabled={isEvaluator || isReviewer || !(stage === 0)} onChange={(e) => handleEvalScoreChange(index, e)} />
+                              <input className='ibox'  style={{ backgroundColor:"white"}} type="text" value={row.evalscore} disabled={isReviewer || isSelf} />
+                              <input className='ibox'  style={{ backgroundColor:"white"}}  type="text" value={row.reviewscore} disabled={isEvaluator || isSelf} />
                             </div>
                           </td>
                         </tr>
@@ -265,15 +273,14 @@ export default function Responsibility() {
                         <p>Loading ...</p>
                       )}
                     </tbody>)
-                  }
-                </tbody>
+                  } 
 
-                <tr>
+                {/* <tr>
                   <th className='box' style={{ width: 10 }}>Total</th>
                   <th className='tbox'>10</th>
                   <th className='tbox'>10</th>
                   <th className='tbox'>6</th>
-                </tr>
+                </tr> */}
 
               </table>
             </div>
@@ -285,18 +292,20 @@ export default function Responsibility() {
                 <button type="submit" onClick={() => {
                   handleSave(); // Call the handleSave function
                   // Redirect to the desired page
-                }}>
+                }}
+                style={{width:"15vw"}}>
                   Save
                 </button>
                 <button type="submit" onClick={() => {
                   handleFinalSave(); // Call the handleSave function
                   // Redirect to the desired page
-                }}>
+                }}
+                style={{width:"15vw"}}>
                   Final Save
                 </button>
               </div>)}
               {
-                (stage !== 0) && (<div className="profile-section"><button type="submit" onClick={() => { window.location.href = '/responsibility'; }}>End</button></div>)
+                (stage !== 0) && (<div className="profile-section"><button style={{width:"15vw"}} type="submit" onClick={() => { window.location.href = '/responsibility'; }}>End</button></div>)
               }
             </div>
           </div>

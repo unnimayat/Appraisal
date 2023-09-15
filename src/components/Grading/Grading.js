@@ -24,6 +24,7 @@ export default function Grading() {
   const [tableData, setTableData] = useState([
     { parameter: '', selfScore: '' },
   ]);
+  const [tself,setTself]=useState(0);
   const [scoreData, setscoreData] = useState({ qntext: '', selfscore: '', evalscore: '', reviewscore: '' });
   const [stage, setStage] = useState(0);
   useEffect(() => {
@@ -71,7 +72,7 @@ export default function Grading() {
   const fetchscores = async () => {
     try {
       const response = await axios.get(
-        'http://localhost:3005/self/predefined-scores'
+        'https://appbackend-rala.onrender.com/self/predefined-scores'
       );
       // Extract the questions array from the response data
       const questions = response.data;
@@ -193,27 +194,48 @@ export default function Grading() {
               {/* <button onClick={addRow}>Add Row</button> */}
               {/* table */}
               <table>
+                  
                 <thead>
                   <tr>
-                    <th className='boxbig'>Parameter</th>
-                    <th className='boxbig'>Points Awarded
-                      <th className='box'>Self</th>
-                      <th className='box'>Evaluation</th>
-                      <th className='box'>Review</th>
-                    </th>
+                    <th className="box">Parameter</th>
+                    <table  >
+                      <tr style={{display:"flex",flexDirection:"column",backgroundColor:"none"}}>
+                        <th style={{justifyItems:"center",width:"100%",border:"none",backgroundColor:"transparent"}}>
+                        Points Awarded
+                        </th>
+                      </tr>
+                    <tr>
+                       <th className="ibox" >Self</th>
+                      <th className="ibox">Evaluation</th>
+                      <th className="ibox">Review</th>
+                    </tr>
+                    
+                    </table>
+                    
                   </tr>
                 </thead>
 
                 {/* chances of null value */}
-                {(stage === 0) && (<tbody>
+                {(stage === 0) && (
+                <tbody>
                   {tableData.length > 0 ? (tableData.map((row, index) => (
                     <tr key={index}>
-                      <td className='ibox' style={{ width: "39vw" }}><input className='ibox' style={{ width: "39vw" }} type="text" value={row.parameter} disabled={isEvaluator || isReviewer || isSelf} /></td>
+                      <td className='ibox' >
+                        <input 
+                        className='ibox'  
+                        type="text" 
+                        value={row.parameter} 
+                        disabled={isEvaluator || isReviewer || isSelf} />
+                      </td>
                       <td className='ibox'>
                         <div className="score-subdivision">
-                          <input className='ibox' type="text" value={row.selfScore} disabled={isEvaluator || isReviewer || !(stage === 0)} onChange={(e) => handleEvalScoreChange(index, e)} />
-                          <input className='ibox' type="text" value={evaluateScore} disabled={isReviewer || isSelf} />
-                          <input className='ibox' type="text" value={reviewScore} disabled={isEvaluator || isSelf} />
+                          <input 
+                          className='ibox'  
+                          style={{ backgroundColor:"white"}} 
+                          type="text" value={row.selfScore} 
+                          disabled={isEvaluator || isReviewer || !(stage === 0)} onChange={(e) => handleEvalScoreChange(index, e)} />
+                          <input className='ibox' style={{ backgroundColor:"white"}} type="text" value={evaluateScore} disabled={isReviewer || isSelf} />
+                          <input className='ibox' style={{ backgroundColor:"white"}} type="text" value={reviewScore} disabled={isEvaluator || isSelf} />
                         </div>
                       </td>
                     </tr>
@@ -222,15 +244,16 @@ export default function Grading() {
                   )}
                 </tbody>)}
                 {
-                  (stage !== 0) && (<tbody>
+                  (stage !== 0) && (
+                  <tbody>
                     {scoreData.length > 0 ? (scoreData.map((row, index) => (
                       <tr key={index}>
-                        <td className='ibox' style={{ width: "39vw" }}><input className='ibox' style={{ width: "39vw" }} type="text" value={row.qntext} disabled={isEvaluator || isReviewer || isSelf} /></td>
+                        <td className='ibox' ><input className='ibox'   type="text" value={row.qntext} disabled={isEvaluator || isReviewer || isSelf} /></td>
                         <td className='ibox'>
                           <div className="score-subdivision">
-                            <input className='ibox' type="text" value={row.selfscore} disabled={isEvaluator || isReviewer || !(stage === 0)} onChange={(e) => handleEvalScoreChange(index, e)} />
-                            <input className='ibox' type="text" value={row.evalscore} disabled={isReviewer || isSelf} />
-                            <input className='ibox' type="text" value={row.reviewscore} disabled={isEvaluator || isSelf} />
+                            <input className='ibox' style={{ backgroundColor:"white"}}type="text" value={row.selfscore}  disabled={isEvaluator || isReviewer || !(stage === 0)} onChange={(e) => handleEvalScoreChange(index, e)} />
+                            <input className='ibox' style={{ backgroundColor:"white"}} type="text" value={row.evalscore} disabled={isReviewer || isSelf} />
+                            <input className='ibox' style={{ backgroundColor:"white"}} type="text" value={row.reviewscore} disabled={isEvaluator || isSelf} />
                           </div>
                         </td>
                       </tr>
@@ -241,12 +264,12 @@ export default function Grading() {
                 }
 
 
-                <tr>
-                  <th className='box' style={{ width: 10 }}>Total</th>
-                  <th className='tbox'>10</th>
-                  <th className='tbox'>10</th>
-                  <th className='tbox'>6</th>
-                </tr>
+                {/* <tr>
+                  <th className='box' style={{  }}>Total</th>
+                  <th className='ibox'>10</th>
+                  <th className='ibox'>10</th>
+                  <th className='ibox'>6</th>
+                </tr> */}
 
               </table>
             </div>

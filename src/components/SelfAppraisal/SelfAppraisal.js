@@ -135,12 +135,20 @@ export default function SelfAppraisal() {
                 <thead>
                   <tr>
                     <th className="box">Deliverables as per approved JD</th>
-                    <th className="boxbig">
-                      Qualitative Assessment
-                      <th className="box">Self Appraisal</th>
-                      <th className="box">Evaluation</th>
-                      <th className="box">Comments</th>
-                    </th>
+                    <table>
+                      <tr style={{display:"flex",flexDirection:"column",backgroundColor:"none"}}>
+                        <th style={{justifyItems:"center",width:"100%",border:"none",backgroundColor:"transparent"}}>
+                        Qualitative Assessment
+                        </th>
+                      </tr>
+                    <tr>
+                       <th className="ibox" >Self Appraisal</th>
+                      <th className="ibox">Evaluation</th>
+                      <th className="ibox">Comments</th>
+                    </tr>
+                    
+                    </table>
+                    
                   </tr>
                 </thead>
 
@@ -161,10 +169,11 @@ export default function SelfAppraisal() {
                           disabled={isEvaluator || !(stage===0)} 
                         />
                       </td>
-                      <td className="ibox">
+                      <td className="ibox" >
                         <div className="score-subdivision">
                           <input
                             className="ibox"
+                            style={{backgroundColor:"white"}}
                             type="text"
                             value={row.self}
                             disabled={isEvaluator || !(stage===0)}
@@ -176,6 +185,7 @@ export default function SelfAppraisal() {
                           />
                           <input
                             className="ibox"
+                            style={{backgroundColor:"white"}}
                             type="text"
                             value={row.evaluate}
                             onChange={(e) => {
@@ -187,6 +197,7 @@ export default function SelfAppraisal() {
                           />
                           <input
                             className="ibox"
+                            style={{backgroundColor:"white"}}
                             type="text"
                             value={row.comments}
                             onChange={(e) => {

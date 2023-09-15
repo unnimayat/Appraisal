@@ -88,11 +88,11 @@ export default function ListEval() {
               
               
               <div className="profile-section">
-              <ul>
+              <ul style={{display:"flex",flexDirection:"column"}}>
   {profiles.map(profile => (
-    <li key={profile.userId}>
+    <li key={profile.userId} className='list'>
       {/* <Link to={`/evaluation/${profile.userId}`}>{profile.Name}</Link> */}
-      <Link to={`/evaluation/${profile.userId}`}>{profile.Name}</Link>
+      <Link to={`/evaluation/${profile.userId}`} className='link'>{profile.Name}</Link>
     </li>
   ))}
 </ul>

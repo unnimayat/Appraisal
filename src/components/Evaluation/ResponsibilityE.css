@@ -1,174 +1,222 @@
 .main-body {
-    height: 100vh;
-    width: 100vw;
-    background-color: #394867;
-    border-radius: 0px;
-    display: flex;
+  height: 100vh;
+  width: 100vw;
+  background-color: #394867;
+  border-radius: 0px;
+  display: flex;
 }
 
 .sidebar {
-    height: 100vh;
-    width: 15vw;
-    background-color: #212A3E;
-    display: flex;
-    flex-direction: column;
+  height: 100vh;
+  width: 15vw;
+  background-color: #212A3E;
+  display: flex;
+  flex-direction: column;
 }
 
 .right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end; /* Align content to the right */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Align content to the right */
 }
 
 .top {
-    height: 15vh;
-    width: 85vw;
-    background-color: #394867;
-    display: flex;
-    justify-content: flex-end; /* Align content to the right */
+  height: 15vh;
+  width: 85vw;
+  background-color: #394867;
+  display: flex;
+  justify-content: flex-end; /* Align content to the right */
 }
 
 .profileimage {
-    border-radius: 50%;
-    width: 70px;
-    height: 70px;
-    padding: 10px;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  padding: 10px;
 }
 .logoimage { 
-    
-    border-radius: 50%;
-    height: 15vh;
-    width: 13vw;
-    padding: 10px;
+  
+  border-radius: 50%;
+  height: 15vh;
+  width: 13vw;
+  padding: 10px;
 }
 
 .break {
-    width: 85vw;
-    height: 1px;
-    background-color: white;
+  width: 85vw;
+  height: 1px;
+  background-color: white;
 }
 
 .name {
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 35px;
-    margin: 10px;
-    color: #F1F6F9;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 35px;
+  margin: 10px;
+  color: #F1F6F9;
 }
 .sidebar-item {
-    display: flex;
-    align-items: center;
-    color: #ffffff;
-    margin-bottom: 20px;
-    cursor: pointer;
-    transition: color 0.3s;
-    margin-top:50px;
-    padding: 10;
-  }
-  
-  .sidebar-item i {
-    margin-right: 10px;
-    font-size: 24px;
-  }
-  
-  .sidebar-item:hover {
-    color: #ff9900; /* Change the color on hover */
-  }
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: color 0.3s;
+  margin-top:50px;
+  padding: 10;
+}
+
+.sidebar-item i {
+  margin-right: 10px;
+  font-size: 24px;
+}
+
+.sidebar-item:hover {
+  color: #ff9900; /* Change the color on hover */
+}
 /* ProfilePage.css */
 .bottom {
-    height: 85vh;
-    width: 85vw;
-    background-color: #394867;
-    display: flex;
+  height: 85vh;
+  width: 85vw;
+  background-color: #394867;
+  display: flex;
 }
 .profile-page {
-    background-color: #394867;
-    color: white;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .profile-section {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: row;
-  }
-  
-  .profile-section label {
-    font-weight: bold;
-  }
-  
-  .profile-section input[type="text"],
-  .profile-section textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: none;
-    background-color: #ffffff0d; /* Semi-transparent white background */
-    color: white;
-    border-radius: 4px;
-    outline: none;
-    margin-left: 100px;
-  }
-  
-  .profile-section button {
-    background-color: #6e84a3;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 4px;
-    margin-top: 10px;
-  }
-  
-  .profile-section button:hover {
-    background-color: #546b8c;
-  }
-  .labels{
-    padding: 10;
-    width: 50vw;
-    height: 30px; 
-    margin-top: 5;
-  }
-  
+  background-color: #394867;
+  color: white;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.profile-section {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+.profile-section label {
+  font-weight: bold;
+}
+
+.profile-section input[type="text"],
+.profile-section textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: none;
+  background-color: #ffffff0d; /* Semi-transparent white background */
+  color: white;
+  border-radius: 4px;
+  outline: none;
+  margin-left: 100px;
+}
+
+.profile-section button {
+  background-color: #6e84a3;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.profile-section button:hover {
+  background-color: #546b8c;
+}
+.labels{
+  padding: 10;
+  width: 50vw;
+  height: 30px; 
+  margin-top: 5;
+}
+
 .box{
-    width: 13vw;
-    height: 4vh;
-    background-color:  #6e84a3;
-    border: 0.1px solid #394867;
+  width: 18vw;
+  height: 6vh;
+  background-color:  #6e84a3;
+  border: 1px solid #394867; 
 }
 .boxbig{
-    width: 39vw;
-    height: 10vh;
-    background-color: #6e84a3;
+  width: auto;
+  height: 10vh;
+  background-color: #7989a2;
 }
 .ibox{
-  width: 13vw; 
-  height: 5vh;
-  border: 1px solid #394867; /* Border color for input fields */
-  border-radius: 1px;
-  outline: none;
-  color: #212A3E;
+width: 100px; 
+height: 6vh;
+border: 1px solid #394867; /* Border color for input fields */
+border-radius: 1px;
+outline: none;
+color: #212A3E;
 }
 .score-subdivision{
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
-.smallbox{
-    width: 13vw;
-    height: 4vh;
-    background-color:  #212A3E;
-    border: .5px solid #eaedf1; 
+/* Update your CSS for the table */
+table {
+width: 100%;
+border-collapse: collapse;
+border-spacing: 0;
+background-color: #6e84a3; /* Set a background color for the table */
+border-radius: 4px; /* Add rounded corners to the table */
+}
 
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 25px;
+table th,
+table td {
+padding: 10px; /* Add padding to table cells for spacing */
+text-align: center; /* Center-align text in table cells */
 }
-.tbox{
-    background-color: #212A3E;
-    width: 100px;
+
+thead th {
+background-color: #c0cad9; /* Header background color */
+color: #ffffff; /* Header text color */
+}
+
+tbody tr:nth-child(even) {
+background-color: #6e84a3; /* Alternate row background color */
+}
+
+/* Update styles for input fields inside the table */
+table input[type="text"] {
+width: 100%;
+padding: 8px; /* Adjust padding for input fields */
+border:  none;/* Add a border to input fields */
+border-radius: 4px;
+outline: none;
+color: #212A3E;
+background-color: transparent;
+}
+
+/* Update styles for the "score-subdivision" div */
+.score-subdivision {
+display: flex;
+flex-direction: row;
+justify-content: space-around; /* Distribute space evenly between elements */
+}
+
+/* Update styles for "ibox" class (you may need to adjust the width) */
+
+
+/* Add hover effect for table rows */
+
+
+/* Add border to table cells */
+table th,
+table td {
+border: 1px solid #ccc;
+}
+.smallbox {
+  width: 13vw;
+  height: 2vh;
+  background-color: #212A3E;
+  border: 0.5px solid #eaedf1;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 5px;
 }

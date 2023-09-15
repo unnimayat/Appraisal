@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './GradingE.css';
+import './GradingE.css'; 
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
 import axios from 'axios';
@@ -162,37 +162,44 @@ export default function GradingE() {
               <table>
                 <thead>
                   <tr>
-                    <th className='boxbig'>Parameter</th>
-                    <th className='boxbig'>Points Awarded
-                      <th className='box'>Self</th>
-                      <th className='box'>Evaluation</th>
-                      <th className='box'>Review</th>
-                    </th>
+                    <th className='box'>Parameter</th>
+                    <table  >
+                      <tr style={{display:"flex",flexDirection:"column",backgroundColor:"none"}}>
+                        <th style={{justifyItems:"center",width:"100%",border:"none",backgroundColor:"transparent"}}>
+                        Points Awarded
+                        </th>
+                      </tr>
+                    <tr>
+                       <th className="ibox" >Self</th>
+                      <th className="ibox">Evaluation</th>
+                      <th className="ibox">Review</th>
+                    </tr>
+                    
+                    </table>
                   </tr>
                 </thead>
 
-                <tbody>
+                 
                   {tableData.map((row, index) => (
                     <tr key={index}>
-                      <td className='ibox' style={{ width: "39vw" }}><input className='ibox' style={{ width: "39vw" }} type="text" value={row.parameter} /></td>
+                      <td className='ibox' ><input className='ibox' type="text" value={row.parameter} /></td>
                       <td className='ibox'>
                         <div className="score-subdivision">
-                          <input className='ibox' type="text" value={row.selfScore} disabled={isEvaluator || !(stage===1) } />
-                          <input className='ibox' type="text" value={row.evalScore} disabled={!(stage===1)} onChange={(e) => handleEvalScoreChange(index, e)} />
-                          <input className='ibox' type="text" value={row.reviewScore} disabled={isEvaluator || !(stage===1)} />
+                          <input className='ibox' style={{ backgroundColor:"white"}} type="text" value={row.selfScore} disabled={isEvaluator || !(stage===1) } />
+                          <input className='ibox' style={{ backgroundColor:"white"}}type="text" value={row.evalScore} disabled={!(stage===1)} onChange={(e) => handleEvalScoreChange(index, e)} />
+                          <input className='ibox' style={{ backgroundColor:"white"}}type="text" value={row.reviewScore} disabled={isEvaluator || !(stage===1)} />
                         </div>
                       </td>
                     </tr>
-                  ))}
-                </tbody>
+                  ))} 
 
 
-                <tr>
+                {/* <tr>
                   <th className='box' style={{ width: 10 }}>Total</th>
                   <th className='tbox'>10</th>
                   <th className='tbox'>10</th>
                   <th className='tbox'>6</th>
-                </tr>
+                </tr> */}
 
               </table>
             </div>

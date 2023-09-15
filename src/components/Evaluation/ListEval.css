@@ -143,4 +143,16 @@
     width: 10vw;
     border-radius: 10px;
   }
-  
+  .list{
+    width: 15vw;
+    height: 5vh;
+    border-radius: 5px;
+    padding: 4px;
+    background-color: #212A3E;
+    margin-bottom: 10px;
+    list-style-type: none;
+  }
+  .link{
+    text-decoration: none;
+    color: white;
+  }

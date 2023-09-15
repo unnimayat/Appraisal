@@ -140,12 +140,12 @@
     border: 1px solid #394867; 
 }
 .boxbig{
-    width: 55vw;
+    width: auto;
     height: 10vh;
     background-color: #7989a2;
 }
 .ibox{
-  width: 18vw; 
+  width: 100px; 
   height: 6vh;
   border: 1px solid #394867; /* Border color for input fields */
   border-radius: 1px;
@@ -155,4 +155,57 @@
 .score-subdivision{
     display: flex;
     flex-direction: row;
+}
+/* Update your CSS for the table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  background-color: #6e84a3; /* Set a background color for the table */
+  border-radius: 4px; /* Add rounded corners to the table */
+}
+
+table th,
+table td {
+  padding: 10px; /* Add padding to table cells for spacing */
+  text-align: center; /* Center-align text in table cells */
+}
+
+thead th {
+  background-color: #c0cad9; /* Header background color */
+  color: #ffffff; /* Header text color */
+}
+
+tbody tr:nth-child(even) {
+  background-color: #6e84a3; /* Alternate row background color */
+}
+
+/* Update styles for input fields inside the table */
+table input[type="text"] {
+  width: 100%;
+  padding: 8px; /* Adjust padding for input fields */
+  border:  none;/* Add a border to input fields */
+  border-radius: 4px;
+  outline: none;
+  color: #212A3E;
+  background-color: transparent;
+}
+
+/* Update styles for the "score-subdivision" div */
+.score-subdivision {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around; /* Distribute space evenly between elements */
+}
+
+/* Update styles for "ibox" class (you may need to adjust the width) */
+
+
+/* Add hover effect for table rows */
+ 
+
+/* Add border to table cells */
+table th,
+table td {
+  border: 1px solid #ccc;
 }
