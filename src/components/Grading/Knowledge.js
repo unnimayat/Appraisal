@@ -21,7 +21,9 @@ export default function Knowledge() {
   const [selfScore,setSelfScore]=useState('');
   const [evaluateScore,setEvaluateScore]=useState('');
   const [reviewScore,setReviewScore]=useState('');
-  
+  const [tableData, setTableData] = useState([
+    { parameter: '', selfScore: '' },
+  ]);
 
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
@@ -35,58 +37,61 @@ export default function Knowledge() {
     setRole1(role);
     fetchKnowledgeQuestions(role);
 
-  }, [role]);
+  }, []);
+
   const fetchKnowledgeQuestions = async (role) => {
     try {
-      const response = await axios.get(`https://appbackend-rala.onrender.com/self/self-appraise/knowledge-questions/${role}`);
-      const questions = response.data.questions;
-
-      // Set the questions in the tableData state
-      setTableData(questions);
+      const response = await axios.get('https://appbackend-rala.onrender.com/self/get-position-based-questions');
+      const questions = response.data.questions; 
+      console.log(questions)
+      // Set the questions in the tableData state 
+      const newTableData = questions.map((question) => ({
+        parameter: question,
+        selfScore: '', // You can initialize this as needed
+      }));
+      setTableData(newTableData);
     } catch (error) {
       console.error('Error fetching knowledge questions:', error);
     }
   };
-  const handleSave = async (e) => {
-    e.preventDefault(); 
+  const handleEvalScoreChange = (index, event) => {
+    const { value } = event.target;
+    console.log(value)
+    // Create a copy of the tableData array
+    const updatedTableData = [...tableData];
+    // Update the evalScore for the specified row
+    updatedTableData[index].selfScore = value;
+    // Update the state with the new data
+    setTableData(updatedTableData);
+  };
+  const handleSave = async () => {
+    //e.preventDefault(); 
     try { 
       // const questions = {   text: responsibility,
       //   selfAppraisal:  self,
-      
-        
       const data = {
-        responses: [
-          {
-            text: 'Self Score',
-            score: selfScore,
-          },
-          {
-            text: 'Evaluation Score',
-            score: evaluateScore,
-          },
-          {
-            text: 'Review Score',
-            score: reviewScore,
-          },
-        ],
+        responses: tableData.map((row) => ({
+          text: row.parameter,
+          score: row.selfScore,
+        }))
       };
-
             
-      await axios.post('https://appbackend-rala.onrender.com/self/evaluate-position-based', data);
+      await axios.post('https://appbackend-rala.onrender.com/self/evaluate-position-based', data)
+      .then((response) => {
+        alert('Data added to the database.');
+        window.location.href = '/responsibility';
+      })
+      .catch((error) => {
+        // Handle any errors (e.g., display an error message)
+        console.error('Failed to save data:', error);
+      });
+  } catch (error) {
+    console.error('Error adding user:', error);
+  }
        
-      alert('Data added to the database.'); 
-      window.location.href = '/responsibility';
-    } catch (error) {
-      console.error('Error adding user:', error);
-    }
-  };
-  const [tableData, setTableData] = useState([
-    { subject: '', grade: '', internalScore: '', externalScore: '' },
-  ]);
+  }; 
   // Function to add a new row
-  const addRow = () => {
-    setTableData([...tableData, { subject: '', grade: '', internalScore: '', externalScore: '' }]);
-  };
+   
     return (
       <div className="main-body">
         <div className="sidebar">
@@ -165,7 +170,7 @@ export default function Knowledge() {
           </tr>
         </thead>
 
-        <tbody>
+        {/* <tbody>
           {tableData.map((row, index) => (
             <tr key={index}>
               <td className='box'><input className='box' style={{width:"35vw"}} type="text" value={row.subject} disabled={isEvaluator || isReviewer || isSelf} /></td>
@@ -179,8 +184,24 @@ export default function Knowledge() {
               </td>
             </tr>
           ))}
+        </tbody> */}
+        <tbody>
+                  {tableData.length > 0 ? (tableData.map((row, index) => (
+                    <tr key={index}>
+                      <td className='box'><input className='box' style={{ width: "35vw" }} type="text" value={row.parameter} disabled={isEvaluator || isReviewer || isSelf} /></td>
+                      <td className='sbox'></td>
+                      <td className='box'>
+                        <div className="score-subdivision">
+                          <input className='box' type="text" value={row.selfScore} disabled={isEvaluator || isReviewer} onChange={(e) => handleEvalScoreChange(index, e)} />
+                          <input className='box' type="text" value={evaluateScore} disabled={isReviewer || isSelf} />
+                          <input className='box' type="text" value={reviewScore} disabled={isEvaluator || isSelf} />
+                        </div>
+                      </td>
+                    </tr>
+                  ))) : (
+                    <p>Loading predefined questions...</p>
+                  )}
         </tbody>
-
          
           {/* <tr>
             <th className='box' style={{width:10}}>Total</th>

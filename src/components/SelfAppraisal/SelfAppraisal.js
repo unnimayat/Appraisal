@@ -38,7 +38,7 @@ export default function SelfAppraisal() {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
     setRole1(role);
-    axios.get(`http://localhost:3005/self/responsibilities`)
+    axios.get(`https://appbackend-rala.onrender.com/self/responsibilities`)
       .then(response => {
         console.log(response.data); // Check the response data in the console
         if (Array.isArray(response.data)) {
@@ -66,7 +66,7 @@ export default function SelfAppraisal() {
         }))
       };
       console.log(data)
-      axios.post('http://localhost:3005/self/responsibility-fulfillment', data)
+      axios.post('https://appbackend-rala.onrender.com/self/responsibility-fulfillment', data)
         .then((response) => {
           // Handle the response as needed (e.g., show a success message)
           alert('Data saved successfully!');

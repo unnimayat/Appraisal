@@ -37,7 +37,7 @@ export default function Home() {
   useEffect(() => {
     // Make a GET request to your backend endpoint when the component mounts
     console.log(id)
-    axios.get(`http://localhost:3005/self/basic-info`)
+    axios.get(`https://appbackend-rala.onrender.com/self/basic-info`)
       .then(response => {
         setformData(response.data)
         console.log(formData); // Check the response data in the console

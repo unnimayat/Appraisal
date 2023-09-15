@@ -20,7 +20,9 @@ export default function Responsibility() {
   const [selfScore,setSelfScore]=useState('');
   const [evaluateScore,setEvaluateScore]=useState('');
   const [reviewScore,setReviewScore]=useState('');
-  const [knowledgeQuestions, setKnowledgeQuestions] = useState([]);
+  const [tableData, setTableData] = useState([
+    { parameter: '', selfScore: '' },
+  ]);
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
     const token = localStorage.getItem('token');
@@ -31,49 +33,65 @@ export default function Responsibility() {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
     setRole1(role);
-    fetchKnowledgeQuestions(ID);
+    fetchResponsibilityQuestions(ID);
   }, []);
-  const fetchKnowledgeQuestions = async (userId) => {
+  const fetchResponsibilityQuestions = async (userId) => {
     try {
       // Send a GET request to the /get-position-based-questions API endpoint
-      const response = await axios.get('https://appbackend-rala.onrender.com/self/get-position-based-questions');
+      const response = await axios.get(`https://appbackend-rala.onrender.com/self/responsibilities`);
 
       // Extract questions from the response data
-      const { questions } = response.data;
-
-      // Update the state with the fetched questions
-      setKnowledgeQuestions(questions);
+      const  questions = response.data;
+      console.log(response.data);
+      const newTableData = questions.map((question) => ({
+        parameter: question.text,
+        selfScore: '', // You can initialize this as needed
+      }));
+      setTableData(newTableData);
+      console.log(tableData);
     } catch (error) {
-      console.error('Error fetching knowledge questions:', error);
+      console.error('Error fetching responsibility questions:', error);
     }
+  };
+
+  const handleEvalScoreChange = (index, event) => {
+    const { value } = event.target;
+    console.log(value)
+    // Create a copy of the tableData array
+    const updatedTableData = [...tableData];
+    // Update the evalScore for the specified row
+    updatedTableData[index].selfScore = value;
+    // Update the state with the new data
+    setTableData(updatedTableData);
   };
 
   const handleSave = async () => {
-    try {
-      // Create an array of responses for evaluation
-      const responses = tableData.map((row) => ({
-        question: row.subject, // Assuming the subject field is your question text
-        score: selfScore, // Use the selfScore state for self evaluation
-      }));
-
+    try { 
+      // const questions = {   text: responsibility,
+      //   selfAppraisal:  self,
+      console.log(tableData);
+      const data = {
+        responses: tableData.map((row) => ({
+          text: row.parameter,
+          score: row.selfScore,
+        }))
+      };
       // Send a POST request to the /evaluate-responsibility-fulfillment API endpoint
-      await axios.post('https://appbackend-rala.onrender.com/self/evaluate-responsibility-fulfillment', { responses });
-
-      alert('Responsibility Fulfillment evaluation data saved successfully.');
-      // Redirect to the desired page
-      window.location.href = '/';  
+      await axios.post('https://appbackend-rala.onrender.com/self/evaluate-responsibility-fulfillment', data)
+      .then((response) => {
+        alert('Data added to the database.');
+        window.location.href = '/';
+      }) 
+      .catch((error) => {
+        // Handle any errors (e.g., display an error message)
+        console.error('Failed to save data:', error);
+      });
     } catch (error) {
-      console.error('Error saving Responsibility Fulfillment evaluation data:', error);
+      console.error('Error adding user:', error);
     }
-  };
-  const [tableData, setTableData] = useState([
-    { subject: '', grade: '', internalScore: '', externalScore: '' },
-  ]);
+  }; 
 
-  // Function to add a new row
-  const addRow = () => {
-    setTableData([...tableData, { subject: '', grade: '', internalScore: '', externalScore: '' }]);
-  };
+  
     return (
       <div className="main-body">
         <div className="sidebar">
@@ -151,21 +169,25 @@ export default function Responsibility() {
           </tr>
         </thead>
 
+         
+        
         <tbody>
-          {tableData.map((row, index) => (
-            <tr key={index}>
-              <td className='ibox' style={{ width: "39vw"}}><input className='ibox' style={{ width: "39vw"}} type="text" value={row.subject}disabled={isEvaluator || isReviewer || isSelf}  /></td>
-              <td className='ibox'>
-                <div className="score-subdivision">
-                <input className='box' type="text" value={selfScore}  disabled={isEvaluator || isReviewer  }  onChange={(e) => setSelfScore(e.target.value)}/>
-                  <input className='box' type="text" value={evaluateScore} disabled={ isReviewer || isSelf}/>
-                  <input className='box' type="text" value={reviewScore} disabled={isEvaluator  || isSelf}/>
-                </div>
-              </td>
-            </tr>
-          ))}
+                  {tableData.length > 0 ? (tableData.map((row, index) => (
+                    <tr key={index}>
+                      <td className='ibox'  style={{ width: "39vw"}}><input className='ibox' style={{ width: "39vw" }} type="text" value={row.parameter} disabled={isEvaluator || isReviewer || isSelf} /></td>
+                       
+                      <td className='ibox'>
+                        <div className="score-subdivision">
+                          <input className='box' type="text" value={row.selfScore} disabled={isEvaluator || isReviewer} onChange={(e) => handleEvalScoreChange(index, e)} />
+                          <input className='box' type="text" value={evaluateScore} disabled={isReviewer || isSelf} />
+                          <input className='box' type="text" value={reviewScore} disabled={isEvaluator || isSelf} />
+                        </div>
+                      </td>
+                    </tr>
+                  ))) : (
+                    <p>Loading predefined questions...</p>
+                  )}
         </tbody>
-
          
           <tr>
             <th className='box' style={{width:10}}>Total</th>
