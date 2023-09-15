@@ -50,7 +50,8 @@ function Login() {
   };
   
 
-      return (
+      return ( 
+        <div className='login'>
       <div className="login-page">
         <h1>Login</h1>
         <form onSubmit={handleLogin}>
@@ -77,6 +78,7 @@ function Login() {
           <button type="submit" style={{justifyContent: "center"}}>Login</button>
         </form>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
+      </div>
       </div>
     );
 }

@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import './Recommendations.css';
+import './Recommendation.css';
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
 import axios from 'axios';
