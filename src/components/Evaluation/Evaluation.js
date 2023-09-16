@@ -46,12 +46,12 @@ export default function Evaluation() {
     // Set the default Authorization header for Axios
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
-    axios.get('https://appbackend-rala.onrender.com/finalsubmit/stage')
+    axios.get(`https://appbackend-rala.onrender.com/finalsubmit/stagestatus/${uid}`)
     .then(response=>{
       console.log(response.data);
         setStage(response.data.stage);
     })
-  }, []);
+  }, [uid]);
 
   useEffect(() => {
     // Make a GET request to your backend endpoint when the component mounts
@@ -67,7 +67,7 @@ export default function Evaluation() {
   }, [apprid]);
 
  const handleNext=()=>{ 
-  window.location.href = `/selfevaluation/:${uid}`;
+  window.location.href = `/selfevaluation/${uid}`;
  }
   return (
     <div className="main-body">

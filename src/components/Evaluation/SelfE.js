@@ -3,6 +3,7 @@ import './SelfE.css';
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
 import axios from 'axios';
+import { Params, useParams } from 'react-router-dom';
 
 export default function SelfE() {
   const [name, setName] = useState('');
@@ -20,6 +21,7 @@ export default function SelfE() {
   const [responsibilitiesData, setResponsibilitiesData] = useState([
     { responsibility: '', self: '', evaluate: '', comments: '' },
   ]);
+  const { uid } = useParams();
 
    
   useEffect(() => {
@@ -32,11 +34,11 @@ export default function SelfE() {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
     setRole1(role);
-    axios.get('https://appbackend-rala.onrender.com/finalsubmit/stage')
-    .then(response=>{
-      console.log(response.data);
+    axios.get(`https://appbackend-rala.onrender.com/finalsubmit/stagestatus/${uid}`)
+      .then(response => {
+        console.log(response.data);
         setStage(response.data.stage);
-    })
+      })
   }, []);
 
   const handleSave = async (e) => {
@@ -49,7 +51,7 @@ export default function SelfE() {
       await axios.post('https://appbackend-rala.onrender.com/self/responsibility-fulfillment', data);
 
       alert('Data added to the database.');
-      window.location.href = '/gradingevaluation';
+      window.location.href = `/gradingevaluation/${uid}`;
     } catch (error) {
       console.error('Error adding user:', error);
     }

@@ -33,6 +33,15 @@ const [name, setName] = useState('');
     { parameter: '', selfScore: '', evalScore: '', reviewScore: '' },
   ]);
 
+  const [stage, setStage] = useState(0);
+  useEffect(() => {
+    axios.get(`https://appbackend-rala.onrender.com/finalsubmit/stagestatus/${uid}`)
+      .then(response => {
+        console.log(response.data);
+        setStage(response.data.stage);
+      })
+  }, [uid])
+
   // Function to add a new row
 //   const addRow = () => {
 //     setTableData([...tableData, { subject: '', grade: '', internalScore: '', externalScore: '' }]);
@@ -214,7 +223,7 @@ const [name, setName] = useState('');
               <div className="profile-section">
                  <button type="submit" onClick={() => {
                   handleSave(); // Call the handleSave function
-                  window.location.href = `/responsibilityreviewing/:${uid}`; // Redirect to the desired page
+                  window.location.href = `/responsibilityreviewing/${uid}`; // Redirect to the desired page
                 }}>
                   Next
                 </button>

@@ -22,12 +22,12 @@ export default function ResponsibilityE() {
     // Set the default Authorization header for Axios
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
-    axios.get('https://appbackend-rala.onrender.com/finalsubmit/stage')
+    axios.get(`https://appbackend-rala.onrender.com/finalsubmit/stagestatus/${uid}`)
     .then(response=>{
       console.log(response.data);
         setStage(response.data.stage);
     })
-  }, []);
+  }, [uid]);
 
   const [tableData, setTableData] = useState([
     { parameter: '', selfScore: '', evalScore: '', reviewScore: '' },
@@ -68,7 +68,7 @@ export default function ResponsibilityE() {
       //   }))
       // };
       // Send a POST request to the /evaluate-responsibility-fulfillment API endpoint
-      await axios.put('https://appbackend-rala.onrender.com/finalsubmit/self-evaluation-completed')
+      await axios.put('https://appbackend-rala.onrender.com/finalsubmit/evaluation-completed', { userId: uid })
       .then((response) => {
         alert('Data finally saved to the database.');
         window.location.href = '/evaluationlist';

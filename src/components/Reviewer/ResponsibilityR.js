@@ -52,6 +52,15 @@ export default function ResponsibilityR() {
   }, []);
 
 
+  const [stage, setStage] = useState(0);
+  useEffect(() => {
+    axios.get(axios.get('https://appbackend-rala.onrender.com/finalsubmit/stagestatus', { userId: uid }))
+      .then(response => {
+        console.log(response.data);
+        setStage(response.data.stage);
+      })
+  }, [uid])
+  
   const handleSave = () => {
     // Create the request body structure based on your requirements
     const requestBody = {

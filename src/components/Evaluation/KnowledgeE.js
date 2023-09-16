@@ -27,12 +27,12 @@ const [name, setName] = useState('');
     // Set the default Authorization header for Axios
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
      setId(ID);
-     axios.get('https://appbackend-rala.onrender.com/finalsubmit/stage')
+    axios.get(`https://appbackend-rala.onrender.com/finalsubmit/stagestatus/${uid}`)
      .then(response=>{
        console.log(response.data);
          setStage(response.data.stage);
      })
-  }, []);
+  }, [uid]);
 
   const [tableData, setTableData] = useState([
     { parameter: '', selfScore: '', evalScore: '', reviewScore: '' },
