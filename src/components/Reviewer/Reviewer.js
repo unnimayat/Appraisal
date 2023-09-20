@@ -59,7 +59,7 @@ export default function Reviewer() {
   
   useEffect(() => {
     // Make a GET request to your backend endpoint when the component mounts
-    axios.post(`https://appbackend-rala.onrender.com/self/appr-basic-info/${uid}`)
+    axios.get(`https://appbackend-rala.onrender.com/self/appr-basic-info/${uid}`)
       .then(response => {
         setformData(response.data)
         console.log(formData); // Check the response data in the console

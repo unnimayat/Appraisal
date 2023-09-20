@@ -54,7 +54,7 @@ export default function ResponsibilityR() {
 
   const [stage, setStage] = useState(0);
   useEffect(() => {
-    axios.get(axios.get('https://appbackend-rala.onrender.com/finalsubmit/stagestatus', { userId: uid }))
+    axios.get(`https://appbackend-rala.onrender.com/finalsubmit/stagestatus/${uid}`)
       .then(response => {
         console.log(response.data);
         setStage(response.data.stage);
@@ -187,18 +187,38 @@ export default function ResponsibilityR() {
         </thead>
 
          
-          {tableData.map((row, index) => (
-            <tr key={index}>
-              <td className='ibox' ><input className='ibox'   type="text" value={row.parameter} /></td>
-              <td className='ibox'>
-                <div className="score-subdivision">
-                  <input className='ibox' style={{ backgroundColor:"white"}} type="text" value={row.selfScore}   disabled={isReviewer} />
-                  <input className='ibox' style={{ backgroundColor:"white"}} type="text" value={row.evalScore} disabled={isReviewer}/>
-                  <input className='ibox' style={{ backgroundColor:"white"}} type="text" value={row.reviewScore} onChange={(e) => handleEvalScoreChange(index, e)} />
-                </div>
-              </td>
-            </tr>
-          ))} 
+                  {(stage === 3) && (<tbody>
+                    {tableData.map((row, index) => (
+                      <tr key={index}>
+                        <td className='ibox'  ><input className='ibox' type="text" value={row.subject} /></td>
+                        <td className='ibox'>
+                          <div className="score-subdivision">
+                            <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.selfScore} disabled={isReviewer} />
+                            <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.evalScore} disabled={isReviewer} />
+                            <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.reviewScore} onChange={(e) => handleEvalScoreChange(index, e)} />
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>)}
+
+                  {
+                    (stage !== 3) && (<tbody>
+                      {tableData.map((row, index) => (
+                        <tr key={index}>
+                          <td className='ibox'  ><input className='ibox' type="text" value={row.subject} /></td>
+                          <td className='ibox'>
+                            <div className="score-subdivision">
+                              <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.selfScore} disabled={true} />
+                              <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.evalScore} disabled={true} />
+                              <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.reviewScore} onChange={(e) => handleEvalScoreChange(index, e)} />
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>)
+                  }
+
 
          
           {/* <tr>
@@ -210,16 +230,17 @@ export default function ResponsibilityR() {
          
       </table>
     </div>
-               
-
-              <div className="profile-section">
+    
+              {(stage === 3) && (<div className="profile-section">
                 <button type="submit" onClick={() => {
-                  handleSave(); // Call the handleSave function
+                  handleSave(); 
                 }}>
-                  Save
+                  Save to Next
                 </button>
-                 
-              </div>
+              </div>)}
+              {
+                (stage !== 3) && (<div className="profile-section"><button type="submit" onClick={() => { window.location.href = '/summary_qgrading'; }}>Next</button></div>)
+              } 
             </div>
           </div>
         </div>

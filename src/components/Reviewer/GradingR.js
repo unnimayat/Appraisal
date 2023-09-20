@@ -37,7 +37,7 @@ export default function GradingR() {
         const newTableData = questions.map((question) => ({
           parameter: question.questionText,
           selfScore: question.selfScore,
-          evalScore: question.evaluatorScore,
+          evalScore: question.evaluatorScore !== null ? question.evalScore : '',
           reviewScore: question.reviewerScore !== null ? question.reviewerScore : '',
         }));
 
@@ -55,7 +55,7 @@ export default function GradingR() {
         console.log(response.data);
         setStage(response.data.stage);
       })
-  },[uid])
+  }, [uid])
 
   const handleSave = () => {
     // Create the request body structure based on your requirements
@@ -184,34 +184,42 @@ export default function GradingR() {
                   </tr>
                 </thead>
 
+                {(stage === 3) && (<tbody>
+                  {tableData.map((row, index) => (
+                    <tr key={index}>
+                      <td className='ibox'  ><input className='ibox' type="text" value={row.subject} /></td>
+                      <td className='ibox'>
+                        <div className="score-subdivision">
+                          <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.selfScore} disabled={isReviewer} />
+                          <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.evalScore} disabled={isReviewer} />
+                          <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.reviewScore} onChange={(e) => handleEvalScoreChange(index, e)} />
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>)}
 
-                {tableData.map((row, index) => (
-                  <tr key={index}>
-                    <td className='ibox'  ><input className='ibox' type="text" value={row.subject} /></td>
-                    <td className='ibox'>
-                      <div className="score-subdivision">
-                        <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.selfScore} disabled={isReviewer} />
-                        <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.evalScore} disabled={isReviewer} />
-                        <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.reviewScore} onChange={(e) => handleEvalScoreChange(index, e)} />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-
-
-
-                {/* <tr>
-            <th className='box' style={{width:10}}>Total</th>
-            <th className='tbox'>10</th>
-            <th className='tbox'>10</th>
-            <th className='tbox'>6</th> 
-          </tr> */}
+                {
+                  (stage !== 3) && (<tbody>
+                    {tableData.map((row, index) => (
+                      <tr key={index}>
+                        <td className='ibox'  ><input className='ibox' type="text" value={row.subject} /></td>
+                        <td className='ibox'>
+                          <div className="score-subdivision">
+                            <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.selfScore} disabled={true} />
+                            <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.evalScore} disabled={true} />
+                            <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.reviewScore} onChange={(e) => handleEvalScoreChange(index, e)} />
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>)
+                }
 
               </table>
             </div>
 
-
-            <div className="profile-section">
+            {(stage === 3) && (<div className="profile-section">
               <button
                 type="submit"
                 onClick={() => {
@@ -221,7 +229,10 @@ export default function GradingR() {
               >
                 Save
               </button>
-            </div>
+            </div>)}
+            {
+              (stage !== 3) && (<div className="profile-section"><button type="submit" onClick={() => { window.location.href = `/knowledgereviewing/${uid}`; }}>Next</button></div>)
+            } 
           </div>
         </div>
       </div>
