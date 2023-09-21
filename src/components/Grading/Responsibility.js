@@ -3,6 +3,8 @@ import './Responsibility.css';
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
 import axios from 'axios'
+import { useParams } from 'react-router-dom';
+
 export default function Responsibility() {
   const [name, setName] = useState('');
   const [role1, setRole1] = useState('');
@@ -23,7 +25,7 @@ export default function Responsibility() {
   const [tableData, setTableData] = useState([
     { parameter: '', selfScore: '' },
   ]);
-
+  const { uid } = useParams();
   const [stage, setStage] = useState(0);
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
@@ -42,6 +44,7 @@ export default function Responsibility() {
       })
     fetchResponsibilityQuestions(ID);
   }, []);
+
   const fetchResponsibilityQuestions = async () => {
     try {
       // Send a GET request to the /get-position-based-questions API endpoint
@@ -222,58 +225,58 @@ export default function Responsibility() {
                   <tr>
                     <th className='box'>Quantitative Measure indicators approved in the JD</th>
                     <table  >
-                      <tr style={{display:"flex",flexDirection:"column",backgroundColor:"none"}}>
-                        <th style={{justifyItems:"center",width:"100%",border:"none",backgroundColor:"transparent"}}>
-                        Points Awarded
+                      <tr style={{ display: "flex", flexDirection: "column", backgroundColor: "none" }}>
+                        <th style={{ justifyItems: "center", width: "100%", border: "none", backgroundColor: "transparent" }}>
+                          Points Awarded
                         </th>
                       </tr>
-                    <tr>
-                       <th className="ibox" >Self</th>
-                      <th className="ibox">Evaluation</th>
-                      <th className="ibox">Review</th>
-                    </tr>
-                    
+                      <tr>
+                        <th className="ibox" >Self</th>
+                        <th className="ibox">Evaluation</th>
+                        <th className="ibox">Review</th>
+                      </tr>
+
                     </table>
                   </tr>
                 </thead>
 
 
 
-                 
-                  {(stage === 0) && (<tbody>
-                    {tableData.length > 0 ? (tableData.map((row, index) => (
+
+                {(stage === 0) && (<tbody>
+                  {tableData.length > 0 ? (tableData.map((row, index) => (
+                    <tr key={index}>
+                      <td className='ibox'  ><input className='ibox' type="text" value={row.parameter} disabled={isEvaluator || isReviewer || isSelf} /></td>
+                      <td className='ibox'>
+                        <div className="score-subdivision">
+                          <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.selfScore} disabled={isEvaluator || isReviewer || !(stage === 0)} onChange={(e) => handleEvalScoreChange(index, e)} />
+                          <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={evaluateScore} disabled={isReviewer || isSelf} />
+                          <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={reviewScore} disabled={isEvaluator || isSelf} />
+                        </div>
+                      </td>
+                    </tr>
+                  ))) : (
+                    <p>Loading predefined questions...</p>
+                  )}
+                </tbody>)}
+                {
+                  (stage !== 0) && (<tbody>
+                    {scoreData.length > 0 ? (scoreData.map((row, index) => (
                       <tr key={index}>
-                        <td className='ibox'  ><input className='ibox'   type="text" value={row.parameter} disabled={isEvaluator || isReviewer || isSelf} /></td>
+                        <td className='ibox' ><input className='ibox' type="text" value={row.qntext} disabled={isEvaluator || isReviewer || isSelf} /></td>
                         <td className='ibox'>
                           <div className="score-subdivision">
-                            <input className='ibox'  style={{ backgroundColor:"white"}} type="text" value={row.selfScore} disabled={isEvaluator || isReviewer || !(stage === 0)} onChange={(e) => handleEvalScoreChange(index, e)} />
-                            <input className='ibox' style={{ backgroundColor:"white"}} type="text" value={evaluateScore} disabled={isReviewer || isSelf} />
-                            <input className='ibox'  style={{ backgroundColor:"white"}} type="text" value={reviewScore} disabled={isEvaluator || isSelf} />
+                            <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.selfscore} disabled={isEvaluator || isReviewer || !(stage === 0)} onChange={(e) => handleEvalScoreChange(index, e)} />
+                            <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.evalscore} disabled={isReviewer || isSelf} />
+                            <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.reviewscore} disabled={isEvaluator || isSelf} />
                           </div>
                         </td>
                       </tr>
                     ))) : (
-                      <p>Loading predefined questions...</p>
+                      <p>Loading ...</p>
                     )}
-                  </tbody>)}
-                  {
-                    (stage !== 0) && (<tbody>
-                      {scoreData.length > 0 ? (scoreData.map((row, index) => (
-                        <tr key={index}>
-                          <td className='ibox' ><input className='ibox'  type="text" value={row.qntext} disabled={isEvaluator || isReviewer || isSelf} /></td>
-                          <td className='ibox'>
-                            <div className="score-subdivision">
-                              <input className='ibox'  style={{ backgroundColor:"white"}}type="text" value={row.selfscore} disabled={isEvaluator || isReviewer || !(stage === 0)} onChange={(e) => handleEvalScoreChange(index, e)} />
-                              <input className='ibox'  style={{ backgroundColor:"white"}} type="text" value={row.evalscore} disabled={isReviewer || isSelf} />
-                              <input className='ibox'  style={{ backgroundColor:"white"}}  type="text" value={row.reviewscore} disabled={isEvaluator || isSelf} />
-                            </div>
-                          </td>
-                        </tr>
-                      ))) : (
-                        <p>Loading ...</p>
-                      )}
-                    </tbody>)
-                  } 
+                  </tbody>)
+                }
 
                 {/* <tr>
                   <th className='box' style={{ width: 10 }}>Total</th>
@@ -293,19 +296,19 @@ export default function Responsibility() {
                   handleSave(); // Call the handleSave function
                   // Redirect to the desired page
                 }}
-                style={{width:"15vw"}}>
+                  style={{ width: "15vw" }}>
                   Save
                 </button>
                 <button type="submit" onClick={() => {
                   handleFinalSave(); // Call the handleSave function
                   // Redirect to the desired page
                 }}
-                style={{width:"15vw"}}>
+                  style={{ width: "15vw" }}>
                   Final Save
                 </button>
               </div>)}
               {
-                (stage !== 0) && (<div className="profile-section"><button style={{width:"15vw"}} type="submit" onClick={() => { window.location.href = '/responsibility'; }}>End</button></div>)
+                (stage !== 0) && (<div className="profile-section"><button style={{ width: "15vw" }} type="submit" onClick={() => { window.location.href = '/responsibility'; }}>End</button></div>)
               }
             </div>
           </div>

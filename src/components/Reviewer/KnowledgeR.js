@@ -33,6 +33,15 @@ const [name, setName] = useState('');
     { parameter: '', selfScore: '', evalScore: '', reviewScore: '' },
   ]);
 
+  const [stage, setStage] = useState(0);
+  useEffect(() => {
+    axios.get(`https://appbackend-rala.onrender.com/finalsubmit/stagestatus/${uid}`)
+      .then(response => {
+        console.log(response.data);
+        setStage(response.data.stage);
+      })
+  }, [uid])
+
   // Function to add a new row
 //   const addRow = () => {
 //     setTableData([...tableData, { subject: '', grade: '', internalScore: '', externalScore: '' }]);
@@ -185,19 +194,38 @@ const [name, setName] = useState('');
         </thead>
 
          
-          {tableData.map((row, index) => (
-            <tr key={index}>
-              <td className='ibox'><input className='ibox' type="text" value={row.parameter} /></td>
-               
-              <td className='ibox'>
-                <div className="score-subdivision">
-                  <input className='ibox'   style={{ backgroundColor:"white"}}type="text" value={row.selfScore}    disabled={isReviewer}/>
-                  <input className='ibox' style={{ backgroundColor:"white"}} type="text" value={row.evalScore}  disabled={isReviewer}/>
-                  <input className='ibox' style={{ backgroundColor:"white"}} type="text" value={row.reviewScore} onChange={(e) => handleEvalScoreChange(index, e)} />
-                </div>
-              </td>
-            </tr>
-          ))} 
+                  {(stage === 3) && (<tbody>
+                    {tableData.map((row, index) => (
+                      <tr key={index}>
+                        <td className='ibox'  ><input className='ibox' type="text" value={row.subject} /></td>
+                        <td className='ibox'>
+                          <div className="score-subdivision">
+                            <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.selfScore} disabled={isReviewer} />
+                            <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.evalScore} disabled={isReviewer} />
+                            <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.reviewScore} onChange={(e) => handleEvalScoreChange(index, e)} />
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>)}
+
+                  {
+                    (stage !== 3) && (<tbody>
+                      {tableData.map((row, index) => (
+                        <tr key={index}>
+                          <td className='ibox'  ><input className='ibox' type="text" value={row.subject} /></td>
+                          <td className='ibox'>
+                            <div className="score-subdivision">
+                              <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.selfScore} disabled={true} />
+                              <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.evalScore} disabled={true} />
+                              <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.reviewScore} onChange={(e) => handleEvalScoreChange(index, e)} />
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>)
+                  }
+
 
          
           {/* <tr>
@@ -210,15 +238,18 @@ const [name, setName] = useState('');
       </table>
     </div>
                
-
-              <div className="profile-section">
-                 <button type="submit" onClick={() => {
+              
+              {(stage === 3) && (<div className="profile-section">
+                <button type="submit" onClick={() => {
                   handleSave(); // Call the handleSave function
-                  window.location.href = `/responsibilityreviewing/:${uid}`; // Redirect to the desired page
+                  window.location.href = `/responsibilityreviewing/${uid}`; // Redirect to the desired page
                 }}>
                   Next
                 </button>
-              </div>
+              </div>)}
+              {
+                (stage !== 3) && (<div className="profile-section"><button type="submit" onClick={() => { window.location.href = `/responsibilityreviewing/${uid}`; }}>Next</button></div>)
+              } 
             </div>
           </div>
         </div>

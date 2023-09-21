@@ -11,10 +11,12 @@ export default function GradingE() {
     { parameter: '', selfScore: '', evalScore: '', reviewScore: '' },
   ]);
   const [stage,setStage]=useState(0);
-  const {uid}=useParams(); 
+
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
   const isEvaluator = role === 'evaluator';
+  const { uid } = useParams();
+  
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
     const token = localStorage.getItem('token');
@@ -24,12 +26,12 @@ export default function GradingE() {
     // Set the default Authorization header for Axios
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
-    axios.get('https://appbackend-rala.onrender.com/finalsubmit/stage')
+    axios.get(`https://appbackend-rala.onrender.com/finalsubmit/stagestatus/${uid}`)
     .then(response=>{
       console.log(response.data);
         setStage(response.data.stage);
     })
-  }, []);
+  }, [uid]);
 
 
   useEffect(() => {
@@ -210,7 +212,7 @@ export default function GradingE() {
                 type="submit"
                 onClick={() => {
                   handleSave(); // Call the handleSave function
-                  window.location.href = `/knowledgeevaluation/:${uid}`; // Redirect to the desired page
+                  window.location.href = `/knowledgeevaluation/${uid}`; // Redirect to the desired page
                 }}
               >
                 Save

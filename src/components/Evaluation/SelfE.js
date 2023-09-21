@@ -3,6 +3,7 @@ import './SelfE.css';
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
 import axios from 'axios';
+import { Params, useParams } from 'react-router-dom';
 
 export default function SelfE() {
   const [name, setName] = useState('');
@@ -16,12 +17,13 @@ export default function SelfE() {
   const role = localStorage.getItem('role');
   const isEvaluator = role === 'evaluator';
   const isSelf = role === 'self';
-  const [stage,setStage]=useState(0);
+  const [stage, setStage] = useState(0);
   const [responsibilitiesData, setResponsibilitiesData] = useState([
     { responsibility: '', self: '', evaluate: '', comments: '' },
   ]);
+  const { uid } = useParams();
 
-   
+
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
     const token = localStorage.getItem('token');
@@ -32,24 +34,43 @@ export default function SelfE() {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
     setRole1(role);
-    axios.get('https://appbackend-rala.onrender.com/finalsubmit/stage')
-    .then(response=>{
-      console.log(response.data);
+    axios.get(`https://appbackend-rala.onrender.com/finalsubmit/stagestatus/${uid}`)
+      .then(response => {
+        console.log(response.data);
         setStage(response.data.stage);
-    })
+      })
   }, []);
-
+  useEffect(() => {
+    axios.get(`https://appbackend-rala.onrender.com/evaluator/responsibilities/${uid}`)
+      .then(response => {
+        console.log(response.data); // Check the response data in the console
+        if (Array.isArray(response.data)) {
+          setResponsibilitiesData(response.data.map(item => ({
+            responsibility: item.text || '',
+            self: item.selfAppraisal || '',
+            evaluate: item.evaluation || '',
+            comments: item.comments || '',
+          })));
+        }
+        console.log(responsibilitiesData)
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [uid])
   const handleSave = async (e) => {
     e.preventDefault();
     try {
       const data = {
-        responsibilities: responsibilitiesData, // Send the array of responsibilitiesData
+        userId:uid,
+        responses: responsibilitiesData
+        // .map(({responsibility,evaluate})=>({text:responsibility,score:evaluate})), // Send the array of responsibilitiesData
       };
-
-      await axios.post('https://appbackend-rala.onrender.com/self/responsibility-fulfillment', data);
+      console.log(data)
+      await axios.post('http://localhost:3005/evaluator/evaluate-responsibilities', data);
 
       alert('Data added to the database.');
-      window.location.href = '/gradingevaluation';
+      window.location.href = `/gradingevaluation/${uid}`;
     } catch (error) {
       console.error('Error adding user:', error);
     }
@@ -136,7 +157,7 @@ export default function SelfE() {
                             className="ibox"
                             type="text"
                             value={row.self}
-                            disabled={isEvaluator}
+                            disabled={true}
                             onChange={(e) => {
                               const updatedData = [...responsibilitiesData];
                               updatedData[index].self = e.target.value;
@@ -152,7 +173,7 @@ export default function SelfE() {
                               updatedData[index].evaluate = e.target.value;
                               setResponsibilitiesData(updatedData);
                             }}
-                            disabled={isSelf || !(stage===1)}
+                            disabled={!(stage === 1)}
                           />
                           <input
                             className="ibox"
@@ -163,7 +184,7 @@ export default function SelfE() {
                               updatedData[index].comments = e.target.value;
                               setResponsibilitiesData(updatedData);
                             }}
-                            disabled={isSelf || !(stage===1)}
+                            disabled={!(stage === 1)}
                           />
                         </div>
                       </td>
@@ -171,9 +192,15 @@ export default function SelfE() {
                   ))}
                 </tbody>
               </table>
-              <button type="submit" onClick={handleSave}>
-                Next
-              </button> 
+
+              {(stage === 1) && (<div className="profile-section">
+                <button type="submit" onClick={handleSave}>
+                  Save
+                </button>
+              </div>)}
+              {
+                (stage !== 1) && (<div className="profile-section"><button type="submit" onClick={() => { window.location.href = `/gradingevaluation/${uid}`; }}>Next</button></div>)
+              }
             </div>
           </div>
         </div>

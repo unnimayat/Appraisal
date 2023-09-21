@@ -9,7 +9,7 @@ import { Params, useParams } from 'react-router-dom';
 const role = localStorage.getItem('role')
 const token = localStorage.getItem('token');
 
-export default function Reviewer() { 
+export default function Reviewer() {
   const [id, setId] = useState('');
   const [apprid, setapprid] = useState('');
   const [name, setName] = useState('');
@@ -25,15 +25,13 @@ export default function Reviewer() {
   const [save, setSave] = useState(false);
   const isReviewer = role === 'reviewer';
   // const profileId = match.params.id; 
-  const {uid}=useParams(); 
+  const { uid } = useParams();
   useEffect(() => {
     getDetails();
   })
 
   async function getDetails() {
     console.log("HAI");
-
-
   }
 
   useEffect(() => {
@@ -49,9 +47,19 @@ export default function Reviewer() {
 
   }, []);
 
+  const [stage, setStage] = useState(0);
+  useEffect(() => {
+    console.log(uid)
+    axios.get(`https://appbackend-rala.onrender.com/finalsubmit/stagestatus/${uid}`)
+      .then(response => {
+        console.log(response.data);
+        setStage(response.data.stage);
+      })
+  }, [uid])
+  
   useEffect(() => {
     // Make a GET request to your backend endpoint when the component mounts
-    axios.post(`https://appbackend-rala.onrender.com/self/basic-info`, { apprId:  uid })
+    axios.get(`https://appbackend-rala.onrender.com/self/appr-basic-info/${uid}`)
       .then(response => {
         setformData(response.data)
         console.log(formData); // Check the response data in the console
@@ -60,9 +68,9 @@ export default function Reviewer() {
         setformData([]);
         console.log(error);
       });
-  }, [apprid]);
+  }, []);
   const handleNext = () => {
-    window.location.href = `/gradingreviewing/:${uid}`;
+    window.location.href = `/gradingreviewing/${uid}`;
   }
 
 

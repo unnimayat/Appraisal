@@ -5,14 +5,14 @@ import logoImage from '../../assets/shg.png';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 export default function ResponsibilityE() {
- 
+
   const [name, setName] = useState('');
   const [id, setId] = useState('');
-  const {uid}=useParams(); 
+  const { uid } = useParams();
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
   const isEvaluator = role === 'evaluator';
-  const [stage,setStage]=useState(0)
+  const [stage, setStage] = useState(0)
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
     const token = localStorage.getItem('token');
@@ -22,12 +22,12 @@ export default function ResponsibilityE() {
     // Set the default Authorization header for Axios
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
-    axios.get('https://appbackend-rala.onrender.com/finalsubmit/stage')
-    .then(response=>{
-      console.log(response.data);
+    axios.get(`https://appbackend-rala.onrender.com/finalsubmit/stagestatus/${uid}`)
+      .then(response => {
+        console.log(response.data);
         setStage(response.data.stage);
-    })
-  }, []);
+      })
+  }, [uid]);
 
   const [tableData, setTableData] = useState([
     { parameter: '', selfScore: '', evalScore: '', reviewScore: '' },
@@ -37,7 +37,7 @@ export default function ResponsibilityE() {
     // Make a GET request to fetch questions and self-scores
     axios
       .post('https://appbackend-rala.onrender.com/evaluator/get-responsibility-based', {
-        apprId:  uid
+        apprId: uid
       }) // Replace with your API endpoint
       .then((response) => {
         const questions = response.data.responsibilityFulfillmentQuestions;
@@ -57,7 +57,7 @@ export default function ResponsibilityE() {
   }, []);
 
   const handleFinalSave = async () => {
-    try { 
+    try {
       // const questions = {   text: responsibility,
       //   selfAppraisal:  self,
       console.log(tableData);
@@ -68,24 +68,24 @@ export default function ResponsibilityE() {
       //   }))
       // };
       // Send a POST request to the /evaluate-responsibility-fulfillment API endpoint
-      await axios.put('https://appbackend-rala.onrender.com/finalsubmit/self-evaluation-completed')
-      .then((response) => {
-        alert('Data finally saved to the database.');
-        window.location.href = '/evaluationlist';
-      }) 
-      .catch((error) => {
-        // Handle any errors (e.g., display an error message)
-        console.error('Failed to save data:', error);
-      });
+      await axios.put(`https://appbackend-rala.onrender.com/finalsubmit/evaluation-completed/${uid}`,)
+        .then((response) => {
+          alert('Data finally saved to the database.');
+          window.location.href = '/evaluationlist';
+        })
+        .catch((error) => {
+          // Handle any errors (e.g., display an error message)
+          console.error('Failed to save data:', error);
+        });
     } catch (error) {
       console.error('Error adding user:', error);
     }
-  }; 
+  };
 
   const handleSave = () => {
     // Create the request body structure based on your requirements
     const requestBody = {
-      userId:  uid,
+      userId: uid,
       responses: tableData.map((row) => ({
         question: row.parameter,
         score: row.evalScore,
@@ -191,34 +191,34 @@ export default function ResponsibilityE() {
                   <tr>
                     <th className='box'>Quantitative Measure indicators approved in the JD</th>
                     <table  >
-                      <tr style={{display:"flex",flexDirection:"column",backgroundColor:"none"}}>
-                        <th style={{justifyItems:"center",width:"100%",border:"none",backgroundColor:"transparent"}}>
-                        Points Awarded
+                      <tr style={{ display: "flex", flexDirection: "column", backgroundColor: "none" }}>
+                        <th style={{ justifyItems: "center", width: "100%", border: "none", backgroundColor: "transparent" }}>
+                          Points Awarded
                         </th>
                       </tr>
-                    <tr>
-                       <th className="ibox" >Self</th>
-                      <th className="ibox">Evaluation</th>
-                      <th className="ibox">Review</th>
-                    </tr>
-                    
+                      <tr>
+                        <th className="ibox" >Self</th>
+                        <th className="ibox">Evaluation</th>
+                        <th className="ibox">Review</th>
+                      </tr>
+
                     </table>
                   </tr>
                 </thead>
 
-                
-                  {tableData.map((row, index) => (
-                    <tr key={index}>
-                      <td className='ibox'  ><input className='ibox'  type="text" value={row.parameter} /></td>
-                      <td className='ibox'>
-                        <div className="score-subdivision">
-                          <input className='ibox' style={{ backgroundColor:"white"}} type="text" value={row.selfScore} disabled={isEvaluator} />
-                          <input className='ibox' style={{ backgroundColor:"white"}} type="text" value={row.evalScore} onChange={(e) => handleEvalScoreChange(index, e)} disabled={!(stage===1)} />
-                          <input className='ibox'style={{ backgroundColor:"white"}} type="text" value={row.reviewScore} disabled={isEvaluator} />
-                        </div>
-                      </td>
-                    </tr>
-                  ))} 
+
+                {tableData.map((row, index) => (
+                  <tr key={index}>
+                    <td className='ibox'  ><input className='ibox' type="text" value={row.parameter} /></td>
+                    <td className='ibox'>
+                      <div className="score-subdivision">
+                        <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.selfScore} disabled={isEvaluator} />
+                        <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.evalScore} onChange={(e) => handleEvalScoreChange(index, e)} disabled={!(stage === 1)} />
+                        <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.reviewScore} disabled={isEvaluator} />
+                      </div>
+                    </td>
+                  </tr>
+                ))}
 
 
                 {/* <tr>
@@ -238,12 +238,12 @@ export default function ResponsibilityE() {
               }}>
                 Save
               </button>
-              <button type="submit"  onClick={() => {
-                  handleFinalSave(); // Call the handleSave function
-                  // Redirect to the desired page
-                }}>
-                  Final Save
-                </button>
+              <button type="submit" onClick={() => {
+                handleFinalSave(); // Call the handleSave function
+                // Redirect to the desired page
+              }}>
+                Final Save
+              </button>
             </div>
           </div>
         </div>
