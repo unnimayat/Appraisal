@@ -11,37 +11,21 @@ export default function Grading() {
   const [period, setPeriod] = useState('');
   const [review, setReview] = useState('');
   const [evaluation, setEvaluation] = useState('');
-  const [tableData, setTableData] = useState([
-    {
-      point: 'Suitability for continuing the services of the appraisee',
-      recommendation: '',
-      accepted: '',
-      actionTaken: '',
-    },
-    {
-      point:
-        'Suitability of the appraisee for higher responsibilities (if applicable)',
-      recommendation: '',
-      accepted: '',
-      actionTaken: '',
-    },
-    {
-      point: 'Suitability of the appraisee for higher pay',
-      recommendation: '',
-      accepted: '',
-      actionTaken: '',
-    },
-  ]);
-  
 
-  
+  const [tableData, setTableData] = useState([
+    { point: 'Suitability for continuing the services of the appraisee', accepted: '', actionTaken: '' },
+    { point: 'Suitability of the appraisee for higher responsibilities (if applicable)', accepted: '', actionTaken: '' },
+    { point: 'Suitability of the appraisee for higher pay', accepted: '', actionTaken: '' },
+  ]);
 
   const [id, setId] = useState('');
   const [recommendations, setRecommendations] = useState([]); // State to store recommendations
 
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
-  const nothr = role !== 'hr';
+  const nothr = role === 'reviewer';
+  const points = tableData.map((item) => item.point);
+
 
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
@@ -52,58 +36,43 @@ export default function Grading() {
     // Set the default Authorization header for Axios
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
-    fetchKnowledgeQuestions();
-  },[]);
-  const fetchKnowledgeQuestions = async () => {
-    try {
-      const response = await axios.get(`https://appbackend-rala.onrender.com/performanceappraisal/save-acceptance-and-action/${"64fd8e3b9a14a681cba43ad3"}`);
-      const questions = response.data.questions;
-  
-      // Map questions to tableData
-      const newTableData = questions.map((question) => ({
-        point: question.parameter,
-        recommendation: question.recommendation,
-        accepted: '',
-        actionTaken: '',
-      }));
-  
-      setTableData(newTableData);
-    } catch (error) {
-      console.error('Error fetching knowledge questions:', error);
-    }
-  };
-  
+
     // Fetch recommendations data based on appraiseeId
-    // if (nothr) {
-  //     axios
-  //       .get(`https://appbackend-rala.onrender.com/recommendations/get-recommendations/${"64fd8e3b9a14a681cba43ad3"}`) // Replace with your API endpoint
-  //       .then((response) => {
-  //         const data = response.data;
-  //         setRecommendations(data);
-  //         console.log('Recommendations:', data);
-  //         const recommendationsArray = [
-  //           {
-  //             point: 'Suitability for continuing the services of the appraisee',
-  //             details: data.continuingServices,
-  //           },
-  //           {
-  //             point: 'Suitability of the appraisee for higher responsibilities (if applicable)',
-  //             details: data.higherResponsibilities,
-  //           },
-  //           {
-  //             point: 'Suitability of the appraisee for higher pay',
-  //             details: data.higherPay,
-  //           },
-  //           // Add more entries for other points if needed
-  //         ];
+    if (nothr) {
+      axios
+        .get(`https://appbackend-rala.onrender.com/recommendations/get-recommendations/${"64fd8e3b9a14a681cba43ad3"}`) // Replace with your API endpoint
+        .then((response) => {
+          const data = response.data.recommendations;
+          setRecommendations(data);
+          console.log('Recommendations:', data);
+          
+        
+          
+          const recommendations = [
+            {
+              point: 'Suitability for continuing the services of the appraisee',
+              details: data.continuingServices,
+            },
+            {
+              point: 'Suitability of the appraisee for higher pay',
+              details: data.higherPay,
+            },
+            {
+              point: 'Suitability of the appraisee for higher responsibilities (if applicable)',
+              details: data.higherResponsibilities,
+            },
+          
+            // Add more entries for other points if needed
+          ];
   
-  //         setRecommendations(recommendationsArray);
-  //       })
-  //       .catch((error) => {
-  //         console.error('Error fetching recommendations:', error);
-  //       });
-  //   }
-  // }, [nothr, setId]);
+          setRecommendations(recommendations);
+          console.log("after",recommendations)
+        })
+        .catch((error) => {
+          console.error('Error fetching recommendations:', error);
+        });
+    }
+  }, [nothr, setId]);
 
   // Function to handle changes in HR's input for "Accepted/Not Accepted"
   const handleAcceptedChange = (index, value) => {
@@ -119,36 +88,39 @@ export default function Grading() {
     setTableData(updatedTableData);
   };
 
-  // const handleSubmit = async () => {
-  //   try {
-  //     if (nothr) {
-  //       // Show an alert if the user is not an HR
-  //       alert('Only HR can submit this form.');
-  //       return;
-  //     }
+  const handleSubmit = async () => {
+    try {
+      if (!nothr) {
+        // Show an alert if the user is not an HR
+        alert('Only HR can submit this form.');
+        return;
+      }
 
-  //     // Extract the relevant data (accepted and actionTaken) from tableData
-  //     const hrData = tableData.map((rowData) => ({
-  //       accepted: rowData.accepted,
-  //       actionTaken: rowData.actionTaken,
-  //     }));
+      // Extract the relevant data (accepted and actionTaken) from tableData
+      const data = tableData.map((rowData, index) => ({
+        pointToConsider: rowData.point,
+        recommendation: recommendations[index]?.details,
+        accepted: rowData.accepted,
+        actionIfNotAccepted: rowData.actionTaken,
+      }));
+      
+      console.log(data)
+      // Make a POST request to send the HR input data to the server
+      const response = await axios.post(
+        ` https://appbackend-rala.onrender.com/performanceappraisals/save-acceptance-and-action/${"64fd8e3b9a14a681cba43ad3"}`,
+        {
+          // appraiseeId: id, // You can include the appraiseeId if needed
+          data, // Send the HR input data
+        }
+      );
 
-  //     // Make a POST request to send the HR input data to the server
-  //     const response = await axios.post(
-  //       'http://localhost:3005/hrRouter/submit-hr-data',
-  //       {
-  //         appraiseeId: id, // You can include the appraiseeId if needed
-  //         hrData, // Send the HR input data
-  //       }
-  //     );
-
-  //     console.log('HR Input Saved');
-  //     // Handle success, e.g., show a success message to the user
-  //   } catch (error) {
-  //     console.error('Error saving HR input:', error);
-  //     // Handle errors, e.g., show an error message to the user
-  //   }
-  // };
+      console.log('HR Input Saved');
+      // Handle success, e.g., show a success message to the user
+    } catch (error) {
+      console.error('Error saving HR input:', error);
+      // Handle errors, e.g., show an error message to the user
+    }
+  };
 
   return (
     <div className="main-body">
@@ -187,23 +159,25 @@ export default function Grading() {
                 {tableData.map((rowData, index) => (
                   <tr key={index}>
                     <td className="smallbox">{rowData.point}</td>
+
                     <td className="smallboxn">{recommendations[index]?.details}</td>
                     <td className="smallbox">
                       <input
                         className="smallbox-input"
                         type="text"
                         value={rowData.accepted}
-                        disabled={nothr}
+                        // disabled={nothr}
                         onChange={(e) =>
                           handleAcceptedChange(index, e.target.value)
                         }
                       />
                     </td>
+                    
                     <td className="smallbox">
                       <input
                         className="smallbox-input"
                         type="text"
-                        disabled={nothr}
+                        // disabled={nothr}
                         value={rowData.actionTaken}
                         onChange={(e) =>
                           handleActionTakenChange(index, e.target.value)
@@ -220,7 +194,7 @@ export default function Grading() {
             </div>
 
             <div className="profile-section">
-              <button type="submit">Submit</button>
+              <button type="submit" onClick={handleSubmit}>Submit</button>
             </div>
           </div>
         </div>
@@ -228,5 +202,3 @@ export default function Grading() {
     </div>
   );
 }
-
-
