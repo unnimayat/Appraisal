@@ -12,6 +12,7 @@
   background-color: #212A3E;
   display: flex;
   flex-direction: column;
+  position: sticky;
 }
 
 .right {
@@ -26,6 +27,7 @@
   background-color: #394867;
   display: flex;
   justify-content: flex-end; /* Align content to the right */
+  position: sticky;
 }
 
 .profileimage {
@@ -34,12 +36,12 @@
   height: 70px;
   padding: 10px;
 }
-.logoimage { 
+.logoimage1 { 
   
   border-radius: 50%;
-  height: 15vh;
-  width: 13vw;
-  padding: 10px;
+  height: 12vh;
+  width: 100px;
+  padding: 50px;
 }
 
 .break {
@@ -144,14 +146,7 @@
   height: 10vh;
   background-color: #7989a2;
 }
-.ibox{
-width: 100px; 
-height: 6vh;
-border: 1px solid #394867; /* Border color for input fields */
-border-radius: 1px;
-outline: none;
-color: #212A3E;
-}
+
 .score-subdivision{
   display: flex;
   flex-direction: row;
@@ -220,3 +215,22 @@ border: 1px solid #ccc;
   font-size: 16px;
   line-height: 5px;
 }
+.new{
+  background-color: transparent; 
+  width: 500px;
+}
+.new1{ 
+  border: none !important;
+  background-color: transparent;
+  color: #F1F6F9;
+  text-decoration: none;
+}
+.ibox{
+  width: 100px; 
+  height: 6vh;
+  border: 1px solid #394867; /* Border color for input fields */
+  border-radius: 1px;
+  outline: none;
+  color: #212A3E;
+  background-color: white; 
+  }

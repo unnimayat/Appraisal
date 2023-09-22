@@ -12,6 +12,7 @@
   background-color: #212A3E;
   display: flex;
   flex-direction: column;
+  position: sticky;
 }
 
 .right {
@@ -26,6 +27,8 @@
   background-color: #394867;
   display: flex;
   justify-content: flex-end; /* Align content to the right */
+  
+  position: sticky;
 }
 
 .profileimage {

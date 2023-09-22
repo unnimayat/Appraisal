@@ -197,10 +197,10 @@ export default function Grading() {
                   
                 <thead>
                   <tr>
-                    <th className="box">Parameter</th>
+                    <th className="box" align='center'>Parameter</th>
                     <table  >
                       <tr style={{display:"flex",flexDirection:"column",backgroundColor:"none"}}>
-                        <th style={{justifyItems:"center",width:"100%",border:"none",backgroundColor:"transparent"}}>
+                        <th style={{justifyItems:"center",width:"100%",border:"none",backgroundColor:"transparent"}} align='center'>
                         Points Awarded
                         </th>
                       </tr>

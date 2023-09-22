@@ -16,6 +16,7 @@ function Login() {
         userId,
         password,
       });
+      console.log(userId);
       console.log("end");
       if (response.status === 200) {
         // Successful login, save the JWT token to local storage
