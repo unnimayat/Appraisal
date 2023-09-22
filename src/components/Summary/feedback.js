@@ -1,14 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import './feedback.css';
+import React, { useState,useEffect } from 'react';
+import './Recommendation.css';
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-export default function Feedback() {
-  const [strengths, setstrengths] = useState('');
-  const [improvements, setimprovements] = useState('');
-  const [Id,setId] = useState('');
+export default function Grading() {
+  const [tableData, setTableData] = useState([
+    { point: 'Areas of strength of the appraisee that need nurturing', feedback: '' },
+    { point: 'Areas where the appraisee needs to take action for improvements, and suggested steps', feedback: '' },
+   
+  ]);
+  
+  const [formSubmitted, setFormSubmitted] = useState(false); // State to track form submission
+
+  // Function to handle changes in the recommendation column
+  const handleFeedbackChange = (index, value) => {
+    const updatedTableData = [...tableData];
+    updatedTableData[index].feedback = value;
+    setTableData(updatedTableData);
+  };
+  const [id, setId] = useState('');
 
   const navigate = useNavigate();
 
@@ -16,17 +28,6 @@ export default function Feedback() {
   const role = localStorage.getItem('role');
   const isReviewer = role !== 'reviewer';
   
-  const handlenavigate= () => {
-   
-    
-    console.log('to reccomendtaion');
-    
-    // Navigate to the recommendation page
-    navigate('/recommendation');
-  };
- 
-
-
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
     const token = localStorage.getItem('token');
@@ -37,49 +38,44 @@ export default function Feedback() {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setId(ID);
   }, []);
-
-  const handleStrengthInputChange1 = (e) => {
-    setstrengths(e.target.value);
-  };
-
-  const handleStrengthInputChange2 = (e) => {
-    setimprovements(e.target.value);
-  };
-
-  const handleSave = () => {
-    // Make an HTTP POST request to send the feedback data to the backend
-   
-     
-    
-    axios
-      .post('https://appbackend-rala.onrender.com/feedbackRouter/submit-feedback', {
-        appraiseeId: "64fd8e3b9a14a681cba43ad3",
-        strengths: strengths,
-        improvements: improvements,
-      })
+  // Function to handle form submission
+  const handleSubmit = () => {
+    // Prepare the data to send to the server
+    const feedbackData = {
+      appraiseeId: "64fd8e3b9a14a681cba43ad3",
+      strengths: tableData[0].feedback,
+      improvements: tableData[1].feedback,
       
+    };
+    console.log('feedback Data:', feedbackData);
+    // Send a POST request to your server to save the recommendations
+    axios
+      .post('https://appbackend-rala.onrender.com/feedbackRouter/submit-feedback',feedbackData)
       .then((response) => {
-        console.log(improvements)
-        console.log('Feedback Saved');
-        // Navigate to the recommendation page after successful submission
+        console.log('server response:',response)
+        console.log('feedback Saved');
+        // Navigate to the next page (if needed)
         navigate('/recommendation');
       })
       .catch((error) => {
-        console.error('Error saving feedback:', error);
+        console.error('Error saving feedbacks:', error);
       });
   };
   
   const handlechange = () => {
-  
-
-    console.log('Feedback Saved');
-
+    // Handle saving the data here (you can send a request to your API)
+    // For example, you can send a POST request to your server to save the feedback.
+    // You can also include strengthInput1 and strengthInput2 in the request body.
+    
+    console.log('');
+    
     // Navigate to the recommendation page
     navigate('/recommendation');
   };
 
   return (
     <div className="main-body">
+      {/* ... (rest of your code) ... */}
       <div className="sidebar">
         {/* Sidebar content */}
         <img src={logoImage} alt="Example" className='logoimage' />
@@ -100,13 +96,13 @@ export default function Feedback() {
       <div className="right">
         <div className="top">
           {/* Display the image */}
-          <h1 className='name' style={{ marginRight: 600, marginTop: 30 }}>Feedback to Appraisee</h1>
+          <h1 className='name' style={{ marginRight: 600, marginTop: 30 }}>Recommendation</h1>
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginRight: '100px' }}>
             <img src={userImage} alt="Example" className='profileimage' />
 
             {/* Display the name and id */}
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <h3 className="name">{Id}</h3>
+           <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <h3 className="name">{id}</h3>
               <p className="name" style={{ fontWeight: 300, fontSize: 16, marginTop: -15 }}>
                 {role}
               </p>
@@ -120,58 +116,49 @@ export default function Feedback() {
             <table>
               <thead>
                 <tr>
-                  <th className='sbox2'>Areas of strength of the appraisee that need nurturing</th>
-                  <th className='sbox2'>
-                    <input
-                      type="text"
-                      disabled={isReviewer}
-                      className='sbox2'
-                      value={strengths}
-                      onChange={handleStrengthInputChange1}
-                      placeholder="Assessment of the reviewing authority to be recorded here (Row 1)"
-                    />
-                  </th>
-                </tr>
-                <tr>
-                  <th className='sbox2'>Areas where the appraisee needs to take action for improvements, and suggested steps</th>
-                  <th className='sbox2'>
-                    <input
-                      type="text"
-                      disabled={isReviewer}
-                      className='sbox2'
-                      value={improvements}
-                      onChange={handleStrengthInputChange2}
-                      placeholder="Assessment of the reviewing authority to be recorded here (Row 2)"
-                    />
-                  </th>
+                  <th className='sbox2'>Point to be considered</th>
+                  <th className='sbox2'>Feedback to the Performance Appraisal</th>
                 </tr>
               </thead>
-              {/* Add table content here */}
+              <tbody>
+                {tableData.map((rowData, index) => (
+                  <tr key={index} >
+                  <th className='sbox2'>
+                    <td>{rowData.point}</td></th>
+                    <td>
+                      <input className='sbox2'
+                        type="text"
+                        disabled={isReviewer}
+                        value={rowData.recommendation}
+                        onChange={(e) => handleFeedbackChange(index, e.target.value)}
+                        placeholder={
+          index === 0 ? 'Assessment of the reviewing authority to be recorded here' :
+          
+           'Assessment of the reviewing authority to be recorded here' 
+          
+        }
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
 
             <div>
               {/* Your other content */}
             </div>
-
-            <div className="profile-section">
-              <button
-                type="submit"
-                onClick={handleSave}
-                disabled={isReviewer} 
-                style={{ width: '10vw' }}// Disable the button for reviewers
-              >
-                Submit
-              </button>
-            
-          <button type="button" onClick={handlechange} className="next-button" style={{ width: '10vw' }}>
+      <div className="profile-section">
+      <button type="button" onClick={handleSubmit} className="submit-button" style={{ width: '10vw'}} disabled={isReviewer}>
+            Submit
+          </button>
+          <button type="button" onClick={handlechange} className="next-button"  style={{ width: '10vw' }}>
             Next
           </button>
-
-            </div>
-            
-          </div>
-        </div>
       </div>
+    </div>
+    </div>
+    </div>
+   
     </div>
   );
 }
