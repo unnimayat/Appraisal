@@ -3,6 +3,7 @@ import './Summary_qgrading.css';
 import logoImage from '../../assets/shg.png';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 export default function Grading() {
   const [tableData, setTableData] = useState({
@@ -10,20 +11,21 @@ export default function Grading() {
     professionalIntegrity: { maxScore: '', selfScore: '', evaluatorScore: '', reviewerScore: '', finalScore: '', comments: '' },
     responsibilityFulfillment: { maxScore: '', selfScore: '', evaluatorScore: '', reviewerScore: '', finalScore: '', comments: '' },
   });
+    const { uid } = useParams();
 
   useEffect(() => {
     // Retrieve the token and ID from local storage
     const token = localStorage.getItem('token');
     const ID = localStorage.getItem('ID');
     const role = localStorage.getItem('role');
-
+    
     // Set the default Authorization header for Axios
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
     // Fetch recommendations data based on appraiseeId
     if (role=== 'reviewer') {
       axios
-        .get(`https://appbackend-rala.onrender.com/summary/get-table-data/${"64fd8e3b9a14a681cba43ad3"}`)
+        .get(`https://appbackend-rala.onrender.com/summary/get-table-data/${uid}`)
         .then((response) => {
           const data = response.data;
 
@@ -43,12 +45,12 @@ export default function Grading() {
     }
   }, []);
   const navigate = useNavigate();
-
+  
   const handleSubmit = () => {
     // Implement your submission logic here
     // You can send the data to your backend or perform any other necessary actions
     console.log('Submit button clicked');
-    navigate("/feedback")
+    window.location.href = `/feedback/${uid}`
   };
 
   // Function to handle the "Next" button click
@@ -78,7 +80,7 @@ export default function Grading() {
         <div className="top">
           {/* Display the image */}
           <h1 className="name" style={{ marginRight: 600, marginTop: 30 }}>
-            Acceptance
+            Summary
           </h1>
           {/* ... (rest of your top section) ... */}
         </div>
@@ -94,7 +96,7 @@ export default function Grading() {
                   <th className="smallbox2">Evaluator Score</th>
                   <th className="smallbox2">Reviewer Score</th>
                   <th className="smallbox2">Final Score</th>
-                  <th className="smallbox2">Comments</th>
+                 
                 </tr>
               </thead>
               <tbody>
@@ -106,13 +108,7 @@ export default function Grading() {
                     <td className="smallbox">{tableData[category].evaluatorScore}</td>
                     <td className="smallbox">{tableData[category].reviewerScore}</td>
                     <td className="smallbox">{tableData[category].finalScore}</td>
-                    <td className="smallbox">
-                <input
-                  type="text"
-                  value={tableData[category].comments}
-                  onChange={(e) => handleCommentsChange(category, e.target.value)}
-                />
-              </td>
+                    
                   </tr>
                 ))}
               </tbody>

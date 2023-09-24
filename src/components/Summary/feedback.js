@@ -4,6 +4,7 @@ import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 export default function Grading() {
   const [tableData, setTableData] = useState([
@@ -21,7 +22,7 @@ export default function Grading() {
     setTableData(updatedTableData);
   };
   const [id, setId] = useState('');
-
+  const { uid } = useParams();
   const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
@@ -42,7 +43,7 @@ export default function Grading() {
   const handleSubmit = () => {
     // Prepare the data to send to the server
     const feedbackData = {
-      appraiseeId: "64fd8e3b9a14a681cba43ad3",
+      appraiseeId: uid,
       strengths: tableData[0].feedback,
       improvements: tableData[1].feedback,
       
@@ -55,7 +56,7 @@ export default function Grading() {
         console.log('server response:',response)
         console.log('feedback Saved');
         // Navigate to the next page (if needed)
-        navigate('/recommendation');
+        window.location.href = `/recommendation/${uid}`;
       })
       .catch((error) => {
         console.error('Error saving feedbacks:', error);
@@ -69,8 +70,7 @@ export default function Grading() {
     
     console.log('');
     
-    // Navigate to the recommendation page
-    navigate('/recommendation');
+    window.location.href = `/recommendation/${uid}`;
   };
 
   return (
@@ -113,21 +113,23 @@ export default function Grading() {
         <div className="bottom">
           <div className="profile-page">
             {/* Insert the table here */}
-            <table>
+            <table className='table1' st>
               <thead>
                 <tr>
-                  <th className='sbox2'>Point to be considered</th>
-                  <th className='sbox2'>Feedback to the Performance Appraisal</th>
+                  <th className='ssbox2' style={{backgroundColor:"#212A3E"}}>Point to be considered</th>
+                  <th className='ssbox2'style={{backgroundColor:"#212A3E",width:"50vw"}}>Feedback to the Performance Appraisal</th>
                 </tr>
               </thead>
               <tbody>
                 {tableData.map((rowData, index) => (
-                  <tr key={index} >
-                  <th className='sbox2'>
-                    <td>{rowData.point}</td></th>
-                    <td>
-                      <input className='sbox2'
+                  <tr style={{border:"none"}} key={index} >
+                  <th className='ssbox2' style={{backgroundColor:"#212A3E"}}>
+                    <td style={{border:"none",backgroundColor:"#212A3E"}}>{rowData.point}</td>
+                  </th>
+                    <td style={{backgroundColor:"#212A3E"}}>
+                      <input className='ssbox2'
                         type="text"
+                        style={{backgroundColor:"white",width:"45vw"}}
                         disabled={isReviewer}
                         value={rowData.recommendation}
                         onChange={(e) => handleFeedbackChange(index, e.target.value)}

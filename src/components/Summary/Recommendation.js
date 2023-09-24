@@ -4,6 +4,7 @@ import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 export default function Grading() {
   const [tableData, setTableData] = useState([
@@ -21,7 +22,7 @@ export default function Grading() {
     setTableData(updatedTableData);
   };
   const [id, setId] = useState('');
-
+  const {uid}=useParams(); 
   const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
@@ -42,7 +43,7 @@ export default function Grading() {
   const handleSubmit = () => {
     // Prepare the data to send to the server
     const recommendationData = {
-      appraiseeId: "64fd8e3b9a14a681cba43ad3",
+      appraiseeId: uid,
       continuingServices: tableData[0].recommendation,
       higherResponsibilities: tableData[1].recommendation,
       higherPay: tableData[2].recommendation,
@@ -53,24 +54,25 @@ export default function Grading() {
       .post('https://appbackend-rala.onrender.com/recommendations/submit-recommendation', recommendationData)
       .then((response) => {
         console.log('Recommendations Saved');
-        // Navigate to the next page (if needed)
-        navigate('/Acceptance');
+        // Navigate to the next page (if needed) 
+        
+    window.location.href = `/acceptance/${uid}`;
       })
       .catch((error) => {
         console.error('Error saving recommendations:', error);
       });
   };
   
-  const handlechange = () => {
-    // Handle saving the data here (you can send a request to your API)
-    // For example, you can send a POST request to your server to save the feedback.
-    // You can also include strengthInput1 and strengthInput2 in the request body.
+  // const handlechange = () => {
+  //   // Handle saving the data here (you can send a request to your API)
+  //   // For example, you can send a POST request to your server to save the feedback.
+  //   // You can also include strengthInput1 and strengthInput2 in the request body.
     
-    console.log('');
+  //   console.log('');
     
-    // Navigate to the recommendation page
-    navigate('/Acceptance');
-  };
+  //   // Navigate to the recommendation page
+  //   window.location.href = `/acceptance/${uid}`
+  // };
 
   return (
     <div className="main-body">
@@ -149,9 +151,7 @@ export default function Grading() {
       <button type="button" onClick={handleSubmit} className="submit-button" style={{ width: '10vw'}} disabled={isReviewer}>
             Submit
           </button>
-          <button type="button" onClick={handlechange} className="next-button"  style={{ width: '10vw' }}>
-            Next
-          </button>
+         
       </div>
     </div>
     </div>
@@ -160,6 +160,3 @@ export default function Grading() {
     </div>
   );
 }
-
-
-

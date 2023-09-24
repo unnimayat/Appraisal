@@ -32,15 +32,16 @@ export default function GradingR() {
         apprId: uid
       }) // Replace with your API endpoint
       .then((response) => {
+        console.log(response)
         const questions = response.data.professionalIntegrityQuestions;
         // Map the questions to table data
         const newTableData = questions.map((question) => ({
           parameter: question.questionText,
           selfScore: question.selfScore,
-          evalScore: question.evaluatorScore !== null ? question.evalScore : '',
+          evalScore: question.evaluatorScore !== null ? question.evaluatorScore : '',
           reviewScore: question.reviewerScore !== null ? question.reviewerScore : '',
         }));
-
+        
         setTableData(newTableData);
       })
       .catch((error) => {
@@ -72,7 +73,9 @@ export default function GradingR() {
       .post('https://appbackend-rala.onrender.com/reviewer/evaluate-professional-integrity-parameter', requestBody)
       .then((response) => {
         // Handle the response as needed (e.g., show a success message)
+        console.log(response)
         alert('Data saved successfully!');
+        window.location.href = `/knowledgereviewing/${uid}`; 
       })
       .catch((error) => {
         // Handle any errors (e.g., display an error message)
@@ -187,7 +190,7 @@ export default function GradingR() {
                 {(stage === 3) && (<tbody>
                   {tableData.map((row, index) => (
                     <tr key={index}>
-                      <td className='ibox'  ><input className='ibox' type="text" value={row.subject} /></td>
+                      <td className='ibox'  ><input className='ibox' type="text" value={row.parameter}  disabled={isReviewer } /></td>
                       <td className='ibox'>
                         <div className="score-subdivision">
                           <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.selfScore} disabled={isReviewer} />
@@ -203,7 +206,7 @@ export default function GradingR() {
                   (stage !== 3) && (<tbody>
                     {tableData.map((row, index) => (
                       <tr key={index}>
-                        <td className='ibox'  ><input className='ibox' type="text" value={row.subject} /></td>
+                        <td className='ibox'  ><input className='ibox' type="text" value={row.parameter} /></td>
                         <td className='ibox'>
                           <div className="score-subdivision">
                             <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.selfScore} disabled={true} />
@@ -224,7 +227,7 @@ export default function GradingR() {
                 type="submit"
                 onClick={() => {
                   handleSave(); // Call the handleSave function
-                  window.location.href = `/knowledgereviewing/${uid}`; // Redirect to the desired page
+                 // Redirect to the desired page
                 }}
               >
                 Save

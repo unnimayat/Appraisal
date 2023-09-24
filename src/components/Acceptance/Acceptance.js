@@ -3,6 +3,7 @@ import './Acceptance.css';
 import userImage from '../../assets/user_circle.png'; // Import the image
 import logoImage from '../../assets/shg.png';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 export default function Grading() {
   const [name, setName] = useState('');
@@ -11,6 +12,7 @@ export default function Grading() {
   const [period, setPeriod] = useState('');
   const [review, setReview] = useState('');
   const [evaluation, setEvaluation] = useState('');
+  const { uid } = useParams();
 
   const [tableData, setTableData] = useState([
     { point: 'Suitability for continuing the services of the appraisee', accepted: '', actionTaken: '' },
@@ -40,8 +42,9 @@ export default function Grading() {
     // Fetch recommendations data based on appraiseeId
     if (nothr) {
       axios
-        .get(`https://appbackend-rala.onrender.com/recommendations/get-recommendations/${"64fd8e3b9a14a681cba43ad3"}`) // Replace with your API endpoint
+        .get(`https://appbackend-rala.onrender.com/recommendations/get-recommendations/${uid}`) // Replace with your API endpoint
         .then((response) => {
+          console.log(response)
           const data = response.data.recommendations;
           setRecommendations(data);
           console.log('Recommendations:', data);
@@ -107,7 +110,7 @@ export default function Grading() {
       console.log(data)
       // Make a POST request to send the HR input data to the server
       const response = await axios.post(
-        ` https://appbackend-rala.onrender.com/performanceappraisals/save-acceptance-and-action/${"64fd8e3b9a14a681cba43ad3"}`,
+        ` https://appbackend-rala.onrender.com/performanceappraisals/save-acceptance-and-action/${uid}`,
         {
           // appraiseeId: id, // You can include the appraiseeId if needed
           data, // Send the HR input data
@@ -165,6 +168,7 @@ export default function Grading() {
                       <input
                         className="smallbox-input"
                         type="text"
+                        style={{color:"white"}}
                         value={rowData.accepted}
                         // disabled={nothr}
                         onChange={(e) =>
@@ -177,6 +181,7 @@ export default function Grading() {
                       <input
                         className="smallbox-input"
                         type="text"
+                        style={{color:"white"}}
                         // disabled={nothr}
                         value={rowData.actionTaken}
                         onChange={(e) =>

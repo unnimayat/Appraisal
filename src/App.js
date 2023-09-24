@@ -48,10 +48,10 @@ function App() {
       <Route path="/selfevaluation/:uid" element={<SelfE/>} />
       <Route path="/addquestions" element={<AddQ/>} />
       <Route path="/addrolequestions" element={<AddRoleQ/>} />
-      <Route path="/summary_qgrading" element={<Summary_qgrading/>} />
-      <Route path="/feedback" element={<Feedback/>} />
-      <Route path="/recommendation" element={<Recommendation/>} />
-      <Route path="/acceptance" element={<Acceptance/>} />
+      <Route path="/summary_qgrading/:uid" element={<Summary_qgrading/>} />
+      <Route path="/feedback/:uid" element={<Feedback/>} />
+      <Route path="/recommendation/:uid" element={<Recommendation/>} />
+      <Route path="/acceptance/:uid" element={<Acceptance/>} />
     </Routes>
   </BrowserRouter>
   );

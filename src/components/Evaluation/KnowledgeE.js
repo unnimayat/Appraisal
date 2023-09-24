@@ -67,7 +67,7 @@ export default function KnowledgeE() {
     const requestBody = {
       userId: uid,
       responses: tableData.map((row) => ({
-        question: row.parameter,
+        text: row.parameter,
         score: row.evalScore,
       })),
     };
@@ -78,6 +78,7 @@ export default function KnowledgeE() {
       .then((response) => {
         // Handle the response as needed (e.g., show a success message)
         alert('Data saved successfully!');
+        window.location.href = `/responsibilityevaluation/${uid}`;
       })
       .catch((error) => {
         // Handle any errors (e.g., display an error message)
@@ -215,14 +216,28 @@ export default function KnowledgeE() {
             </div>
 
 
-            <div className="profile-section">
+            {/* <div className="profile-section">
               <button type="submit" onClick={() => {
                 handleSave(); // Call the handleSave function
                 window.location.href = `/responsibilityevaluation/${uid}`; // Redirect to the desired page
               }}>
                 Next
               </button>
-            </div>
+            </div> */}
+            {(stage === 1) && (<div className="profile-section">
+              <button
+                type="submit"
+                onClick={() => {
+                  handleSave(); // Call the handleSave function
+                   // Redirect to the desired page
+                }}
+              >
+                Save
+              </button>
+            </div>)}
+            {
+              (stage !== 1) && (<div className="profile-section"><button type="submit" onClick={() => { window.location.href = `/responsibilityevaluation/${uid}`; }}>Next</button></div>)
+            } 
           </div>
         </div>
       </div>

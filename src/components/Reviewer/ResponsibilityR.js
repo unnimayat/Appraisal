@@ -77,12 +77,13 @@ export default function ResponsibilityR() {
       .then((response) => {
         // Handle the response as needed (e.g., show a success message)
         alert('Data saved successfully!');
+        window.location.href = `/summary_qgrading/${uid}`;
       })
       .catch((error) => {
         // Handle any errors (e.g., display an error message)
         console.error('Failed to save data:', error);
       });
-      window.location.href = '/summary_qgrading';
+      
   };
   // Function to add a new row
   //   const addRow = () => {
@@ -190,7 +191,7 @@ export default function ResponsibilityR() {
                   {(stage === 3) && (<tbody>
                     {tableData.map((row, index) => (
                       <tr key={index}>
-                        <td className='ibox'  ><input className='ibox' type="text" value={row.subject} /></td>
+                        <td className='ibox'  ><input className='ibox' type="text" value={row.parameter} /></td>
                         <td className='ibox'>
                           <div className="score-subdivision">
                             <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.selfScore} disabled={isReviewer} />
@@ -206,7 +207,7 @@ export default function ResponsibilityR() {
                     (stage !== 3) && (<tbody>
                       {tableData.map((row, index) => (
                         <tr key={index}>
-                          <td className='ibox'  ><input className='ibox' type="text" value={row.subject} /></td>
+                          <td className='ibox'  ><input className='ibox' type="text" value={row.parameter} /></td>
                           <td className='ibox'>
                             <div className="score-subdivision">
                               <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.selfScore} disabled={true} />
@@ -239,7 +240,7 @@ export default function ResponsibilityR() {
                 </button>
               </div>)}
               {
-                (stage !== 3) && (<div className="profile-section"><button type="submit" onClick={() => { window.location.href = '/summary_qgrading'; }}>Next</button></div>)
+                (stage !== 3) && (<div className="profile-section"><button type="submit" onClick={() => { window.location.href = '/summary_qgrading/${uid}'; }}>Next</button></div>)
               } 
             </div>
           </div>

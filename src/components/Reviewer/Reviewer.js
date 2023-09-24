@@ -162,9 +162,9 @@ export default function Reviewer() {
                   onChange={(e) => setDate(e.target.value)}
                 />
               </div> */}
-            <div>
-              <label htmlFor="anyotherposition">
-                Any other position occupied during the review period:
+            <div className="profile-section">
+              <label htmlFor="anyotherposition" className='labels'>
+                Any other position occupied during the review period
               </label>
               <select
                 id="anyotherposition"
@@ -182,7 +182,7 @@ export default function Reviewer() {
             {anyotherposition === 'Yes' && (
               <div>
                 <div>
-                  <label htmlFor="otherPosition">What position:</label>
+                  <label htmlFor="otherPosition">What position</label>
                   <input
                     type="text"
                     id="otherPosition"
@@ -205,27 +205,7 @@ export default function Reviewer() {
           />
         </div> */}
               </div>)}
-
-
-            <div className="profile-section">
-              <label className='labels'>Evalution Authority</label>
-              <input
-                type="text"
-                value={evaluation}
-                // onChange={(e) => setEvaluation(e.target.value)}
-                disabled={isReviewer}
-              />
-            </div>
-
-            <div className="profile-section">
-              <label className='labels'>Review Authority</label>
-              <input
-                type="text"
-                value={review}
-                // onChange={(e) => setReview(e.target.value)}
-                disabled={isReviewer}
-              />
-            </div>
+ 
 
             <div className="profile-section">
               <button type="submit" className='save' onClick={handleNext} >

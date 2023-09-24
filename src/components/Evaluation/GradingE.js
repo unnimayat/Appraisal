@@ -74,6 +74,7 @@ export default function GradingE() {
       .then((response) => {
         // Handle the response as needed (e.g., show a success message)
         alert('Data saved successfully!');
+        window.location.href = `/knowledgeevaluation/${uid}`;
       })
       .catch((error) => {
         // Handle any errors (e.g., display an error message)
@@ -207,7 +208,7 @@ export default function GradingE() {
             </div>
 
 
-            <div className="profile-section">
+            {/* <div className="profile-section">
               <button
                 type="submit"
                 onClick={() => {
@@ -219,7 +220,21 @@ export default function GradingE() {
               </button>
 
 
-            </div>
+            </div> */}
+            {(stage === 1) && (<div className="profile-section">
+              <button
+                type="submit"
+                onClick={() => {
+                  handleSave(); // Call the handleSave function
+                  // Redirect to the desired page
+                }}
+              >
+                Save
+              </button>
+            </div>)}
+            {
+              (stage !== 1) && (<div className="profile-section"><button type="submit" onClick={() => { window.location.href = `/knowledgeevaluation/${uid}`; }}>Next</button></div>)
+            } 
           </div>
         </div>
       </div>

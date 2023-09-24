@@ -152,7 +152,7 @@
   outline: none;
   color: #212A3E;
 }
-.sbox2-input {
+.ssbox2-input {
   width: 50vw;
   box-sizing: border-box; /* Include padding and border in the width */
   border: none;
@@ -192,7 +192,7 @@
     font-size: 16px;
     line-height: 25px;
 }
-.sbox2{
+.ssbox2{
     width: 50vw;
     height: 15vh;
     background-color:  #212A3E;
@@ -204,7 +204,7 @@
     font-size: 16px;
     line-height: 25px;
 }
-.sbox2-input {
+.ssbox2-input {
   width: 50vw;
   box-sizing: border-box; /* Include padding and border in the width */
   border: none;
@@ -255,4 +255,8 @@
 .tbox{
     background-color: #212A3E;
     width: 100px;
+}
+.table1{
+  background-color: #213e3c;
+
 }

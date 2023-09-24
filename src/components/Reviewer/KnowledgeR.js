@@ -87,6 +87,7 @@ const [name, setName] = useState('');
       .then((response) => {
         // Handle the response as needed (e.g., show a success message)
         alert('Data saved successfully!');
+        window.location.href = `/responsibilityreviewing/${uid}`;
       })
       .catch((error) => {
         // Handle any errors (e.g., display an error message)
@@ -197,7 +198,7 @@ const [name, setName] = useState('');
                   {(stage === 3) && (<tbody>
                     {tableData.map((row, index) => (
                       <tr key={index}>
-                        <td className='ibox'  ><input className='ibox' type="text" value={row.subject} /></td>
+                        <td className='ibox'  ><input className='ibox' type="text" value={row.parameter} /></td>
                         <td className='ibox'>
                           <div className="score-subdivision">
                             <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.selfScore} disabled={isReviewer} />
@@ -213,7 +214,7 @@ const [name, setName] = useState('');
                     (stage !== 3) && (<tbody>
                       {tableData.map((row, index) => (
                         <tr key={index}>
-                          <td className='ibox'  ><input className='ibox' type="text" value={row.subject} /></td>
+                          <td className='ibox'  ><input className='ibox' type="text" value={row.parameter} /></td>
                           <td className='ibox'>
                             <div className="score-subdivision">
                               <input className='ibox' style={{ backgroundColor: "white" }} type="text" value={row.selfScore} disabled={true} />
@@ -242,9 +243,9 @@ const [name, setName] = useState('');
               {(stage === 3) && (<div className="profile-section">
                 <button type="submit" onClick={() => {
                   handleSave(); // Call the handleSave function
-                  window.location.href = `/responsibilityreviewing/${uid}`; // Redirect to the desired page
+                  // Redirect to the desired page
                 }}>
-                  Next
+                  Save
                 </button>
               </div>)}
               {
