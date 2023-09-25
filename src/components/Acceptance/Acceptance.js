@@ -110,7 +110,7 @@ export default function Grading() {
       console.log(data)
       // Make a POST request to send the HR input data to the server
       const response = await axios.post(
-        `http://localhost:3005/performanceappraisal/save-acceptance-and-action/${uid}`,
+        `https://appbackend-rala.onrender.com/performanceappraisal/save-acceptance-and-action/${uid}`,
         {
           // appraiseeId: id, // You can include the appraiseeId if needed
           data, // Send the HR input data
