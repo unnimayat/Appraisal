@@ -103,14 +103,14 @@ export default function Grading() {
       const data = tableData.map((rowData, index) => ({
         pointToConsider: rowData.point,
         recommendation: recommendations[index]?.details,
-        accepted: rowData.accepted,
+        accepted: rowData.accepted, //true boolean
         actionIfNotAccepted: rowData.actionTaken,
       }));
       
       console.log(data)
       // Make a POST request to send the HR input data to the server
       const response = await axios.post(
-        ` https://appbackend-rala.onrender.com/performanceappraisals/save-acceptance-and-action/${uid}`,
+        `https://appbackend-rala.onrender.com/performanceappraisal/save-acceptance-and-action/${uid}`,
         {
           // appraiseeId: id, // You can include the appraiseeId if needed
           data, // Send the HR input data
