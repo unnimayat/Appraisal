@@ -62,6 +62,7 @@ export default function Grading() {
         console.error('Error saving recommendations:', error);
       });
   };
+
   
   // const handlechange = () => {
   //   // Handle saving the data here (you can send a request to your API)
@@ -117,26 +118,23 @@ export default function Grading() {
             <table>
               <thead>
                 <tr>
-                  <th className='sbox2'>Point to be considered</th>
-                  <th className='sbox2'>Recommendation of the Performance Appraisal</th>
+                  <th style={{backgroundColor:"#212A3E"}}>Point to be considered</th>
+                  <th style={{backgroundColor:"#212A3E"}}>Recommendation of the Performance Appraisal</th>
                 </tr>
               </thead>
               <tbody>
                 {tableData.map((rowData, index) => (
                   <tr key={index} >
                   <th className='sbox2'>
-                    <td>{rowData.point}</td></th>
-                    <td>
+                    <td style={{backgroundColor:"#212A3E",width:"50vw",border:"Transparent"}}>{rowData.point}</td></th>
+                    <td style={{backgroundColor:"#212A3E"}}>
                       <input className='sbox2'
                         type="text"
+                        style={{backgroundColor:"#212A3E",width:"45vw",color:"white"}}
                         disabled={isReviewer}
                         value={rowData.recommendation}
                         onChange={(e) => handleRecommendationChange(index, e.target.value)}
-                        placeholder={
-          index === 0 ? 'Recommendation of the reviewing authority to be recorded here' :
-          index === 1 ? 'Recommendation of the reviewing authority  (if appraisee is being considered for a higher role)' :
-          'Recommendation of the reviewing authority  (if provision is available for increment/increased pay)'
-        }
+                       
                       />
                     </td>
                   </tr>

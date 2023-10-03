@@ -127,23 +127,44 @@ export default function Grading() {
 
   return (
     <div className="main-body">
-      <div className="sidebar">
-        {/* Sidebar content */}
-        <img src={logoImage} alt="Example" className="logoimage" />
-        {/* ... (rest of your sidebar) ... */}
+    <div className="sidebar">
+      {/* Sidebar content */}
+      <img src={logoImage} alt="Example" className='logoimage' />
+      <div className="sidebar-item" style={{ marginTop: 50 }}>
+        <i className="material-icons"></i>
+        <span>Dashboard</span>
       </div>
+      <div className="sidebar-item">
+        <i className="material-icons"></i>
+        <span>Self Appraisal</span>
+      </div>
+      <div className="sidebar-item">
+        <i className="material-icons"></i>
+        <span>Team</span>
+      </div>
+    </div>
 
-      <div className="right">
-        <div className="top">
-          {/* Display the image */}
-          <h1 className="name" style={{ marginRight: 600, marginTop: 30 }}>
-            Acceptance
-          </h1>
-          {/* ... (rest of your top section) ... */}
+    <div className="right">
+      <div className="top">
+        {/* Display the image */}
+        <h1 className='name' style={{ marginRight: 600, marginTop: 30 }}>Acceptance</h1>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginRight: '100px' }}>
+          <img src={userImage} alt="Example" className='profileimage' />
+
+          {/* Display the name and id */}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <h3 className='name'>{id}</h3>
+            <p className='name' style={{ fontWeight: 300, fontSize: 16, marginTop: -15 }}>{role}</p>
+          </div>
         </div>
-        <div className="break"></div>
-        <div className="bottom">
-          <div className="profile-page">
+
+      </div>
+      <div className="break"></div>
+      <div className="bottom">
+
+
+        <div className="profile-page">
+      
             {/* Insert the table here */}
             <table>
               <thead>
