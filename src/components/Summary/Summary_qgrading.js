@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Summary_qgrading.css';
 import logoImage from '../../assets/shg.png';
+import userImage from '../../assets/user_circle.png'; 
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
@@ -72,7 +73,7 @@ export default function Grading() {
     <div className="main-body">
       <div className="sidebar">
         {/* Sidebar content */}
-        <img src={logoImage} alt="Example" className="logoimage" />
+        <img src={logoImage} alt="Example" className="logoimage" style={{width:"7.5vw"}}/>
         {/* ... (rest of your sidebar) ... */}
       </div>
 

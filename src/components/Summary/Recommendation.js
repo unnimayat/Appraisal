@@ -80,7 +80,7 @@ export default function Grading() {
       {/* ... (rest of your code) ... */}
       <div className="sidebar">
         {/* Sidebar content */}
-        <img src={logoImage} alt="Example" className='logoimage' />
+        <img src={logoImage} alt="Example" className='logoimage' style={{width:"7.5vw"}}/>
         <div className="sidebar-item" style={{ marginTop: 50 }}>
           <i className="material-icons"></i>
           <span>Dashboard</span>

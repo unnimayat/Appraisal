@@ -73,7 +73,7 @@ export default function Evaluation() {
     <div className="main-body">
       <div className="sidebar">
         {/* Sidebar content */}
-        <img src={logoImage} alt="Example" className='logoimage' />
+        <img src={logoImage} alt="Example" className='logoimage' style={{width:"7.5vw"}}/>
         <div className="sidebar-item" style={{ marginTop: 50 }}>
           <i className="material-icons"></i>
           <span>Dashboard</span>
@@ -200,27 +200,8 @@ export default function Evaluation() {
                 </div> */}
               </div>)}
 
-
-            <div className="profile-section">
-              <label className='labels'>Evalution Authority</label>
-              <input
-                type="text"
-                value={evaluation}
-                // onChange={(e) => setEvaluation(e.target.value)}
-                disabled={isEvaluator || !(stage===1)}
-              />
-            </div>
-
-            <div className="profile-section">
-              <label className='labels'>Review Authority</label>
-              <input
-                type="text"
-                value={review}
-                // onChange={(e) => setReview(e.target.value)}
-                disabled={isEvaluator || !(stage===1)}
-              />
-            </div>
-
+ 
+ 
             <div className="profile-section">
               {/* Next to be handled */}
               <button type="submit" className='save' onClick={handleNext}>

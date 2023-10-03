@@ -78,7 +78,7 @@ export default function Grading() {
       {/* ... (rest of your code) ... */}
       <div className="sidebar">
         {/* Sidebar content */}
-        <img src={logoImage} alt="Example" className='logoimage' />
+        <img src={logoImage} alt="Example" className='logoimage' style={{width:"7.5vw"}}/>
         <div className="sidebar-item" style={{ marginTop: 50 }}>
           <i className="material-icons"></i>
           <span>Dashboard</span>
@@ -96,7 +96,7 @@ export default function Grading() {
       <div className="right">
         <div className="top">
           {/* Display the image */}
-          <h1 className='name' style={{ marginRight: 600, marginTop: 30 }}>Recommendation</h1>
+          <h1 className='name' style={{ marginRight: 600, marginTop: 30 }}>Feedback</h1>
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginRight: '100px' }}>
             <img src={userImage} alt="Example" className='profileimage' />
 

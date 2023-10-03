@@ -63,7 +63,7 @@ const handleSubmit = async (e) => {
       <div className="main-body">
         <div className="sidebar">
           {/* Sidebar content */}
-            <img src={logoImage} alt="Example" className='logoimage' />
+            <img src={logoImage} alt="Example" className='logoimage' style={{width:"7.5vw"}}/>
             <div className="sidebar-item" style={{marginTop:50}}>
                 <i className="material-icons"></i>
                 <Link to="/hr"><span>Add Users</span></Link>
