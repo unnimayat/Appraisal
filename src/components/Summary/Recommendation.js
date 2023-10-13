@@ -56,7 +56,7 @@ export default function Grading() {
         console.log('Recommendations Saved');
         // Navigate to the next page (if needed) 
         
-    window.location.href = `/acceptance/${uid}`;
+    alert("data saved succesfully")
       })
       .catch((error) => {
         console.error('Error saving recommendations:', error);
@@ -147,7 +147,7 @@ export default function Grading() {
             </div>
       <div className="profile-section">
       <button type="button" onClick={handleSubmit} className="submit-button" style={{ width: '10vw'}} disabled={isReviewer}>
-            Submit
+            Final Submit
           </button>
          
       </div>

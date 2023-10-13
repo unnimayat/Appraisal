@@ -13,6 +13,7 @@ export default function Grading() {
   const [review, setReview] = useState('');
   const [evaluation, setEvaluation] = useState('');
   const { uid } = useParams();
+  const [selectedOption, setSelectedOption] = useState(false);
 
   const [tableData, setTableData] = useState([
     { point: 'Suitability for continuing the services of the appraisee', accepted: '', actionTaken: '' },
@@ -98,12 +99,21 @@ export default function Grading() {
         alert('Only HR can submit this form.');
         return;
       }
-
+  
+      // Check if the 3rd column is true and the 4th column is empty for any row
+      const isMandatoryFieldEmpty = tableData.some((rowData) => rowData.accepted && !rowData.actionTaken);
+  
+      if (isMandatoryFieldEmpty) {
+        // Show an alert if the 4th column is not filled when the 3rd column is true
+        alert('Please fill in the 4th column for rows where the 3rd column is true.');
+        return;
+      }
+  
       // Extract the relevant data (accepted and actionTaken) from tableData
       const data = tableData.map((rowData, index) => ({
         pointToConsider: rowData.point,
         recommendation: recommendations[index]?.details,
-        accepted: rowData.accepted, //true boolean
+        accepted: rowData.accepted,
         actionIfNotAccepted: rowData.actionTaken,
       }));
       
@@ -112,11 +122,10 @@ export default function Grading() {
       const response = await axios.post(
         `https://appbackend-rala.onrender.com/performanceappraisal/save-acceptance-and-action/${uid}`,
         {
-          // appraiseeId: id, // You can include the appraiseeId if needed
           data, // Send the HR input data
         }
       );
-
+  
       console.log('HR Input Saved');
       // Handle success, e.g., show a success message to the user
     } catch (error) {
@@ -124,7 +133,7 @@ export default function Grading() {
       // Handle errors, e.g., show an error message to the user
     }
   };
-
+  
   return (
     <div className="main-body">
     <div className="sidebar">
@@ -186,7 +195,7 @@ export default function Grading() {
 
                     <td className="smallboxn">{recommendations[index]?.details}</td>
                     <td className="smallbox">
-                      <input
+                      {/* <input
                         className="smallbox-input"
                         type="text"
                         style={{color:"white"}}
@@ -195,7 +204,14 @@ export default function Grading() {
                         onChange={(e) =>
                           handleAcceptedChange(index, e.target.value)
                         }
-                      />
+                        
+                      /> */}
+                       <select value={rowData.accepted}   onChange={(e) =>
+                          handleAcceptedChange(index, e.target.value)
+                        } className="smallbox-input" style={{color:"white"}}>
+        <option value="true" style={{color:"black"}}>true</option>
+        <option value="false" style={{color:"black"}}>false</option>
+      </select>
                     </td>
                     
                     <td className="smallbox">

@@ -263,7 +263,7 @@ export default function Knowledge() {
                 <button type="submit" onClick={() => {
                   handleSave(); // Call the handleSave function
                   // Redirect to the desired page
-                }} >
+                }}  style={{width:"10rem"}}>
                   Save to Next
                 </button>
               </div>)}
