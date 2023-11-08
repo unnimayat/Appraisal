@@ -11,12 +11,13 @@ export default function KnowledgeR() {
 //   const [period,setPeriod]=useState('');
 //   const [review,setReview]=useState('');
 //   const [evaluation,setEvaluation]=useState('');
-const [name, setName] = useState('');
+const [newname, setNewName] = useState('');
   const [id,setId]=useState('');
   const {uid}=useParams(); 
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
   const isReviewer = role === 'reviewer';
+  const [user,setUser]=useState('')
   useEffect(() => {
     // Retrieve the token, ID, and role from local storage
     const token = localStorage.getItem('token');
@@ -48,6 +49,22 @@ const [name, setName] = useState('');
 //   };
 
   useEffect(() => {
+    const userId = uid; // Replace with the actual user ID you want to fetch
+    const apiUrl = `https://appbackend-rala.onrender.com/getuname/${userId}`;
+    
+    axios.get(apiUrl)
+      .then(response => {
+        // Handle the successful response here
+        console.log('hi');
+        console.log('User Name:', response.data[0].Name);
+        setNewName(response.data[0].Name)
+        
+        console.log('hii');
+      })
+      .catch(error => {
+        // Handle errors here
+        console.error('Error fetching user name:', error);
+      });
     // Make a GET request to fetch questions and self-scores
     axios
       .post('https://appbackend-rala.onrender.com/reviewer/get-knowledge-based', {
@@ -131,7 +148,10 @@ const [name, setName] = useState('');
         <div className="right">
           <div className="top">
             {/* Display the image */}
-            <h1 className='name' style={{marginRight:600,marginTop:30}}>3. Grading against performance parameters</h1>
+            <button type="submit" className='save' style={{ marginRight: 400, marginTop: 30,width:150,height:40,padding:5 ,backgroundColor:"rgb(125, 140, 172)",color:"#212A3E"}}  >
+          {newname}
+          </button> 
+            <h1 className='name' style={{marginRight:300,marginTop:30}}>3. Grading against performance parameters</h1>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginRight: '100px' }}>
                 <img src={userImage} alt="Example" className='profileimage' />
 

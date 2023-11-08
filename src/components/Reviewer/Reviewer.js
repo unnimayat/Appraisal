@@ -73,6 +73,13 @@ export default function Reviewer() {
     window.location.href = `/gradingreviewing/${uid}`;
   }
 
+  const isoDate = formData.dateOccupiedPosition;
+const date = new Date(isoDate);
+const formattedDate = date.toLocaleDateString(); // Format as "MM/DD/YYYY" or "DD/MM/YYYY" based on browser's locale
+const formattedTime = date.toLocaleTimeString(); // Format as "HH:MM:SS AM/PM" based on browser's locale
+
+console.log("Formatted Date: " + formattedDate);
+console.log("Formatted Time: " + formattedTime);
 
 
   return (
@@ -95,8 +102,12 @@ export default function Reviewer() {
       </div>
       <div className="right">
         <div className="top">
-          {/* Display the image */}
-          <h1 className='name' style={{ marginRight: 800, marginTop: 30 }}>Basic information</h1>
+          {/* Display the image */} 
+           
+          <button type="submit" className='save' style={{ marginRight: 400, marginTop: 30,width:150,height:40,padding:5 ,backgroundColor:"rgb(125, 140, 172)",color:"#212A3E"}}  >
+          {formData.Name}
+          </button> 
+          <h1 className='name' style={{ marginRight: 300, marginTop: 30 }}>Basic information</h1>
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginRight: '100px' }}>
             <img src={userImage} alt="Example" className='profileimage' />
 
@@ -148,7 +159,7 @@ export default function Reviewer() {
               <label className='labels'>Date from which position occupied</label>
               <input
                 type="text"
-                value={formData.dateOccupiedPosition}
+                value={formattedDate}
                 // onChange={(e) => setDate(e.target.value)}
                 disabled={isReviewer}
               />

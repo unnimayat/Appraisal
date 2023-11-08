@@ -65,7 +65,7 @@ export default function Home() {
             </div>
             <div className="sidebar-item">
                 <i className="material-icons"></i>
-                <Link to="/addquestions"><span>Add Questions</span></Link>
+                <Link to="/addquestions"><span>Assign Valuators</span></Link>
             </div>
             <div className="sidebar-item">
                 <i className="material-icons"></i>

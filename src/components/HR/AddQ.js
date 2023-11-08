@@ -26,14 +26,19 @@ export default function AddQ() {
 //   const [password, setPassword] = useState('');
   
 const [questions,setQuestions]=useState('')
+const [revid,setRevid]=useState('');
+const [evaid,setEvaid]=useState('');
+const [userid,setUserid]=useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try { 
-      await axios.post('https://appbackend-rala.onrender.com/hr/add-predefined-question', questions);
-      setQuestions('');
-      alert('Question added to the database.');
+      await axios.post('https://appbackend-rala.onrender.com/hr/assignto', {'userId':userid,'reviewerId':revid,'evaluatorId':evaid});
+      setRevid('');
+      setUserid('');
+      setEvaid('');
+      alert('data added to the database.');
     } catch (error) {
       console.error('Error adding user:', error);
     }
@@ -62,7 +67,7 @@ const [questions,setQuestions]=useState('')
             </div>
             <div className="sidebar-item">
                 <i className="material-icons"></i>
-                <Link to="/hr"><span>Add Questions</span></Link>
+                <Link to="/hr"><span>Assign Valuators</span></Link>
             </div>
             <div className="sidebar-item">
                 <i className="material-icons"></i>
@@ -91,14 +96,27 @@ const [questions,setQuestions]=useState('')
                     <div className='row'>       
                         <input
                         type="text"
-                        placeholder="Enter question"
-                        value={questions}
-                        onChange={(e) => setQuestions(e.target.value)}
+                        placeholder="Enter id"
+                        value={userid}
+                        onChange={(e) => setUserid(e.target.value)}
+                        required
+                        /> 
+                        <input
+                        type="text"
+                        placeholder="Enter evaluator id"
+                        value={evaid}
+                        onChange={(e) => setEvaid(e.target.value)}
+                        required
+                        /> 
+                        <input
+                        type="text"
+                        placeholder="Enter reviewer id"
+                        value={revid}
+                        onChange={(e) => setRevid(e.target.value)}
                         required
                         /> 
                         <button type="submit">Add</button>
-                    </div>
-                   
+                    </div>                 
                 </form>   
               </div>
             </div>

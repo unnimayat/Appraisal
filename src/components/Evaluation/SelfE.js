@@ -5,8 +5,8 @@ import logoImage from '../../assets/shg.png';
 import axios from 'axios';
 import { Params, useParams } from 'react-router-dom';
 
-export default function SelfE() {
-  const [name, setName] = useState('');
+export default function SelfE(props) {
+  const [newname, setNewName] = useState('');
   const [role1, setRole1] = useState('');
   const [id, setId] = useState('');
   const [position, setPosition] = useState('');
@@ -39,6 +39,22 @@ export default function SelfE() {
         console.log(response.data);
         setStage(response.data.stage);
       })
+      const userId = uid; // Replace with the actual user ID you want to fetch
+      const apiUrl = `https://appbackend-rala.onrender.com/getuname/${userId}`;
+      
+      axios.get(apiUrl)
+        .then(response => {
+          // Handle the successful response here
+          console.log('hi');
+          console.log('User Name:', response.data[0].Name);
+          setNewName(response.data[0].Name)
+          
+          console.log('hii');
+        })
+        .catch(error => {
+          // Handle errors here
+          console.error('Error fetching user name:', error);
+        });
   }, []);
   useEffect(() => {
     axios.get(`https://appbackend-rala.onrender.com/evaluator/responsibilities/${uid}`)
@@ -98,7 +114,10 @@ export default function SelfE() {
       <div className="right">
         <div className="top">
           {/* Display the image */}
-          <h1 className="name" style={{ marginRight: 800, marginTop: 30 }}>
+          <button type="submit" className='save' style={{ marginRight: 400, marginTop: 30,width:150,height:40,padding:5 ,backgroundColor:"rgb(125, 140, 172)",color:"#212A3E"}}  >
+          {newname}
+          </button>
+          <h1 className="name" style={{ marginRight: 300, marginTop: 30 }}>
             Descriptive Assessment
           </h1>
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginRight: '100px' }}>
@@ -171,9 +190,8 @@ export default function SelfE() {
                               setResponsibilitiesData(updatedData);
                             }}
                           />
-                          <input
+                          <select
                             className="ibox"
-                            type="text"
                             value={row.evaluate}
                             onChange={(e) => {
                               const updatedData = [...responsibilitiesData];
@@ -181,7 +199,11 @@ export default function SelfE() {
                               setResponsibilitiesData(updatedData);
                             }}
                             disabled={!(stage === 1)}
-                          />
+                          >
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                          </select>
+
                           <input
                             className="ibox"
                             type="text"

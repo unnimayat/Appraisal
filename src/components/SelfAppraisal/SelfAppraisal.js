@@ -16,7 +16,7 @@ export default function SelfAppraisal() {
   const role = localStorage.getItem('role');
   const isEvaluator = role === 'evaluator';
   const isSelf = role === 'self';
-  const [stage,setStage]=useState(0);
+  const [stage, setStage] = useState(0);
   const [responsibilitiesData, setResponsibilitiesData] = useState([
     { responsibility: '', self: '', evaluate: '', comments: '' },
   ]);
@@ -26,6 +26,13 @@ export default function SelfAppraisal() {
       ...responsibilitiesData,
       { responsibility: '', self: '', evaluate: '', comments: '' },
     ]);
+  };
+  const deleteRow = (index) => {
+    setResponsibilitiesData((prevData) => {
+      // Create a new array without the row at the specified index
+      const updatedData = prevData.filter((_, i) => i !== index);
+      return updatedData;
+    });
   };
 
   useEffect(() => {
@@ -39,10 +46,10 @@ export default function SelfAppraisal() {
     setId(ID);
     setRole1(role);
     axios.get('https://appbackend-rala.onrender.com/finalsubmit/stage')
-    .then(response=>{
-      console.log(response.data);
+      .then(response => {
+        console.log(response.data);
         setStage(response.data.stage);
-    })
+      })
     axios.get(`https://appbackend-rala.onrender.com/self/responsibilities`)
       .then(response => {
         console.log(response.data); // Check the response data in the console
@@ -90,7 +97,7 @@ export default function SelfAppraisal() {
     <div className="main-body">
       <div className="sidebar">
         {/* Sidebar content */}
-        <img src={logoImage} alt="Example" className="logoimage" style={{width:"7.5vw"}}/>
+        <img src={logoImage} alt="Example" className="logoimage" style={{ width: "7.5vw" }} />
         <div className="sidebar-item" style={{ marginTop: 50 }}>
           <i className="material-icons"></i>
           <span>Dashboard</span>
@@ -136,19 +143,18 @@ export default function SelfAppraisal() {
                   <tr>
                     <th className="box">Deliverables as per approved JD</th>
                     <table>
-                      <tr style={{display:"flex",flexDirection:"column",backgroundColor:"none"}}>
-                        <th style={{justifyItems:"center",width:"100%",border:"none",backgroundColor:"transparent"}}>
-                        Qualitative Assessment
+                      <tr style={{ display: "flex", flexDirection: "column", backgroundColor: "none" }}>
+                        <th style={{ justifyItems: "center", width: "100%", border: "none", backgroundColor: "transparent" }}>
+                          Qualitative Assessment
                         </th>
                       </tr>
-                    <tr>
-                       <th className="ibox" >Self Appraisal</th>
-                      <th className="ibox">Evaluation</th>
-                      <th className="ibox">Comments</th>
-                    </tr>
-                    
+                      <tr>
+                        <th className="ibox">Self Appraisal</th>
+                        <th className="ibox">Evaluation</th>
+                        <th className="ibox">Comments</th>
+                        <th className="ibox">Actions</th>
+                      </tr>
                     </table>
-                    
                   </tr>
                 </thead>
 
@@ -165,18 +171,18 @@ export default function SelfAppraisal() {
                             updatedData[index].responsibility = e.target.value;
                             setResponsibilitiesData(updatedData);
                           }}
-                          placeholder="responisbility"
-                          disabled={isEvaluator || !(stage===0)} 
+                          placeholder="responsibility"
+                          disabled={isEvaluator || !(stage === 0)}
                         />
                       </td>
                       <td className="ibox" >
                         <div className="score-subdivision">
                           <input
                             className="ibox"
-                            style={{backgroundColor:"white"}}
+                            style={{ backgroundColor: "white" }}
                             type="text"
                             value={row.self}
-                            disabled={isEvaluator || !(stage===0)}
+                            disabled={isEvaluator || !(stage === 0)}
                             onChange={(e) => {
                               const updatedData = [...responsibilitiesData];
                               updatedData[index].self = e.target.value;
@@ -185,7 +191,7 @@ export default function SelfAppraisal() {
                           />
                           <input
                             className="ibox"
-                            style={{backgroundColor:"white"}}
+                            style={{ backgroundColor: "white" }}
                             type="text"
                             value={row.evaluate}
                             onChange={(e) => {
@@ -193,11 +199,11 @@ export default function SelfAppraisal() {
                               updatedData[index].evaluate = e.target.value;
                               setResponsibilitiesData(updatedData);
                             }}
-                            disabled={isSelf }
+                            disabled={isSelf}
                           />
                           <input
                             className="ibox"
-                            style={{backgroundColor:"white"}}
+                            style={{ backgroundColor: "white" }}
                             type="text"
                             value={row.comments}
                             onChange={(e) => {
@@ -207,20 +213,30 @@ export default function SelfAppraisal() {
                             }}
                             disabled={isSelf}
                           />
+                          
                         </div>
+                        <button onClick={() => deleteRow(index)} disabled={!(stage === 0)} style={{color:"white",width:70,padding:10,}}>
+                            Delete
+                        </button>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-              {(stage === 0) && (<div className="profile-section">
-                <button type="submit" onClick={handleSave}>
-                  Save to Next
-                </button>
-                <button onClick={addRow} disabled={!(stage === 0)}>Add Row</button>
-              </div>)}
+              {(stage === 0) && (
+                <div className="profile-section">
+                  <button type="submit" onClick={handleSave}>
+                    Save to Next
+                  </button>
+                  <button onClick={addRow} disabled={!(stage === 0)}>Add Row</button>
+                </div>
+              )}
               {
-                (stage !== 0) && (<div className="profile-section"><button type="submit" onClick={() => { window.location.href = '/grading';; }}>Next</button></div>)
+                (stage !== 0) && (
+                  <div className="profile-section">
+                    <button type="submit" onClick={() => { window.location.href = '/grading'; }}>Next</button>
+                  </div>
+                )
               }
             </div>
           </div>
@@ -229,3 +245,4 @@ export default function SelfAppraisal() {
     </div>
   );
 }
+

@@ -70,7 +70,8 @@ export default function ListEval() {
         <div className="right">
           <div className="top">
             {/* Display the image */}
-            <h1 className='name' style={{marginRight:800,marginTop:30}}>Basic information</h1>
+            
+            <h1 className='name' style={{marginRight:800,marginTop:30}}>Evaluating List</h1>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginRight: '100px' }}>
                 <img src={userImage} alt="Example" className='profileimage' />
 
