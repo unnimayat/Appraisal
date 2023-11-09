@@ -60,7 +60,7 @@ export default function Grading() {
 
   if (!isReviewer) {
     axios
-      .get(`https://appbackend-rala.onrender.com/feedback/getfeedback/${uid}`)
+      .get(`https://appbackend-rala.onrender.com/feedbackRouter/getfeedback/${uid}`)
       .then((response) => {
           const feedbackData = response.data;
 
